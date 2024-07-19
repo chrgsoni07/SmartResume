@@ -16,6 +16,7 @@ import Typography from '@mui/material/Typography';
 import { Eye as EyeIcon } from '@phosphor-icons/react/dist/ssr/Eye';
 import { EyeSlash as EyeSlashIcon } from '@phosphor-icons/react/dist/ssr/EyeSlash';
 import { Controller, useForm } from 'react-hook-form';
+import { GoogleLoginButton, LinkedInLoginButton } from 'react-social-login-buttons';
 import { z as zod } from 'zod';
 
 import { paths } from '@/paths';
@@ -29,7 +30,9 @@ const schema = zod.object({
 
 type Values = zod.infer<typeof schema>;
 
-const defaultValues = { email: 'sofia@devias.io', password: 'Secret1' } satisfies Values;
+//const defaultValues = { email: 'sofia@devias.io', password: 'Secret1' } satisfies Values;
+
+const defaultValues = { email: 'chrgsoni07@gmail.com', password: 'Secret1' } satisfies Values;
 
 export function SignInForm(): React.JSX.Element {
   const router = useRouter();
@@ -39,6 +42,20 @@ export function SignInForm(): React.JSX.Element {
   const [showPassword, setShowPassword] = React.useState<boolean>();
 
   const [isPending, setIsPending] = React.useState<boolean>(false);
+
+  const styles = {
+    centerText: {
+      width: '100%',
+      //textAlign : "center",
+      borderBottom: '1px solid #000',
+      lineHeight: '0.1em',
+      margin: '10px 0 20px',
+    },
+    borderLine: {
+      background: '#fff',
+      padding: '0 10px',
+    },
+  };
 
   const {
     control,
@@ -136,9 +153,18 @@ export function SignInForm(): React.JSX.Element {
           <Button disabled={isPending} type="submit" variant="contained">
             Sign in
           </Button>
+          <center style={styles.centerText}>
+            <span style={styles.borderLine}>Or</span>
+          </center>
+          <GoogleLoginButton onClick={() => alert('Google login')}>
+            <span>Sign up using Google</span>
+          </GoogleLoginButton>
+          <LinkedInLoginButton onClick={() => alert('Linkedin login')} >
+          <span>Sign up using LinkedIn</span>
+          </LinkedInLoginButton>
         </Stack>
       </form>
-      <Alert color="warning">
+      {/*    <Alert color="warning">
         Use{' '}
         <Typography component="span" sx={{ fontWeight: 700 }} variant="inherit">
           sofia@devias.io
@@ -148,6 +174,8 @@ export function SignInForm(): React.JSX.Element {
           Secret1
         </Typography>
       </Alert>
+    
+          */}
     </Stack>
   );
 }

@@ -9,12 +9,11 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
 const user = {
-  name: 'Sofia Rivers',
+  name: 'Chirag Soni',
   avatar: '/assets/avatar.png',
-  jobTitle: 'Senior Developer',
-  country: 'USA',
-  city: 'Los Angeles',
-  timezone: 'GTM-7',
+  jobTitle: 'Developer',
+  country: 'India',
+  city: 'Indore',
 } as const;
 
 export function AccountInfo(): React.JSX.Element {
@@ -31,7 +30,7 @@ export function AccountInfo(): React.JSX.Element {
               {user.city} {user.country}
             </Typography>
             <Typography color="text.secondary" variant="body2">
-              {user.timezone}
+              {user.jobTitle}
             </Typography>
           </Stack>
         </Stack>

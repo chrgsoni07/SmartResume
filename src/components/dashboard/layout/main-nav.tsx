@@ -40,6 +40,7 @@ export function MainNav(): React.JSX.Element {
           sx={{ alignItems: 'center', justifyContent: 'space-between', minHeight: '64px', px: 2 }}
         >
           <Stack sx={{ alignItems: 'center' }} direction="row" spacing={2}>
+         {/*
             <IconButton
               onClick={(): void => {
                 setOpenNav(true);
@@ -53,7 +54,9 @@ export function MainNav(): React.JSX.Element {
                 <MagnifyingGlassIcon />
               </IconButton>
             </Tooltip>
+            */}
           </Stack>
+          
           <Stack sx={{ alignItems: 'center' }} direction="row" spacing={2}>
             <Tooltip title="Contacts">
               <IconButton>

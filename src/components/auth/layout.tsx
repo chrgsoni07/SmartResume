@@ -17,20 +17,22 @@ export function Layout({ children }: LayoutProps): React.JSX.Element {
       sx={{
         display: { xs: 'flex', lg: 'grid' },
         flexDirection: 'column',
-        gridTemplateColumns: '1fr 1fr',
         minHeight: '100%',
       }}
     >
       <Box sx={{ display: 'flex', flex: '1 1 auto', flexDirection: 'column' }}>
         <Box sx={{ p: 3 }}>
           <Box component={RouterLink} href={paths.home} sx={{ display: 'inline-block', fontSize: 0 }}>
-            <DynamicLogo colorDark="light" colorLight="dark" height={32} width={122} />
+            <DynamicLogo colorDark="light" colorLight="dark" height={132} width={122} />
           </Box>
         </Box>
-        <Box sx={{ alignItems: 'center', display: 'flex', flex: '1 1 auto', justifyContent: 'center', p: 3 }}>
+        
+        <Box sx={{ alignItems: 'center', display: 'flex', flex: '1 1 auto', justifyContent: 'center', p: 3}}>
           <Box sx={{ maxWidth: '450px', width: '100%' }}>{children}</Box>
         </Box>
       </Box>
+     
+     {/* 
       <Box
         sx={{
           alignItems: 'center',
@@ -63,6 +65,7 @@ export function Layout({ children }: LayoutProps): React.JSX.Element {
           </Box>
         </Stack>
       </Box>
+      */}
     </Box>
   );
 }

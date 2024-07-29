@@ -136,21 +136,28 @@ const FileUpload: React.FC<FileUploadProps> = () => {
   return (
     <form onSubmit={handleSubmit}>
       <Grid container spacing={2} alignItems="center">
-        <Grid item xs={8}>
+        <Grid item xs={12} container alignItems="center">
           <input id="file-upload" type="file" onChange={handleFileChange} style={{ display: 'none' }} />
           <label htmlFor="file-upload">
-            <Button variant="contained" component="span" color="primary" sx={{ textTransform: 'none' }}>
-              Select File
-            </Button>
+            <TextField
+              variant="outlined"
+              fullWidth
+              InputProps={{
+                readOnly: true,
+                startAdornment: (
+                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <Button variant="contained" component="span" color="primary">
+                      Browse
+                    </Button>
+                  </Box>
+                ),
+              }}
+              value={selectedFile ? selectedFile.name : ''}
+              placeholder="No file selected"
+              sx={{ marginRight: 2 }}
+            />
           </label>
-          {selectedFile && (
-            <Typography variant="body1" component="span" sx={{ marginLeft: 2 }}>
-              {selectedFile.name}
-            </Typography>
-          )}
-        </Grid>
-        <Grid item xs={4}>
-          <Box display="flex" alignItems="center" justifyContent="flex-end">
+
             <Button
               variant="contained"
               color="secondary"
@@ -161,8 +168,8 @@ const FileUpload: React.FC<FileUploadProps> = () => {
             >
               {isUploading ? 'Uploading...' : 'Upload'}
             </Button>
-          </Box>
-        </Grid>
+          
+          </Grid>
 
         <Grid item xs={12}>
           <Typography variant="subtitle1" gutterBottom>

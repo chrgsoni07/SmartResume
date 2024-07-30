@@ -18,7 +18,7 @@ import {
 import axios from 'axios';
 import { MuiChipsInput } from 'mui-chips-input';
 
-import { Resume, Suggestion, WorkExperience } from './Resume';
+import { Resume, Suggestion } from './Resume';
 
 interface FileUploadProps {
   // onUploadSuccess: (fileName: string) => void;
@@ -28,8 +28,6 @@ const FileUpload: React.FC<FileUploadProps> = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [resumeData, setResumeData] = useState<Resume>(new Resume());
-
-  const [updatedWorkExperience, setUpdatedWorkExperience] = useState<WorkExperience[]>(resumeData.workExperience);
   const [suggestionArray, setSuggestionArray] = useState<Suggestion[]>(resumeData.suggestion);
   const [hoveredSuggestion, setHoveredSuggestion] = useState<Suggestion | null>(null);
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
@@ -40,20 +38,14 @@ const FileUpload: React.FC<FileUploadProps> = () => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleWorkExperienceChange = (newValue: string, expIndex: number, respIndex: number) => {
-    const updatedExperience = [...updatedWorkExperience];
-    updatedExperience[expIndex].responsibilities[respIndex] = newValue;
-    setUpdatedWorkExperience(updatedExperience);
-  };
-
   const handleApplySuggestion = () => {
     if (hoveredSuggestion) {
       const { originalText, suggestedText } = hoveredSuggestion;
-      const updatedExperience = updatedWorkExperience.map((exp) => ({
+      const updatedExperience = resumeData.workExperience.map((exp) => ({
         ...exp,
         responsibilities: exp.responsibilities.map((resp) => (resp === originalText ? suggestedText : resp)),
       }));
-      setUpdatedWorkExperience(updatedExperience);
+      setResumeData({ ...resumeData, workExperience: updatedExperience });
       setHoveredSuggestion(null);
       setAnchorEl(null);
     }
@@ -63,10 +55,6 @@ const FileUpload: React.FC<FileUploadProps> = () => {
     if (event.target.files && event.target.files.length > 0) {
       setSelectedFile(event.target.files[0]);
     }
-  };
-
-  const joinString = (obj: string[]) => {
-    return obj.join(' ,');
   };
 
   const joinStringNewLine = (lines: string[]) => {
@@ -89,7 +77,6 @@ const FileUpload: React.FC<FileUploadProps> = () => {
 
       setResumeData(response.data);
       setSuggestionArray(response.data.suggestions);
-      setUpdatedWorkExperience(response.data.workExperience);
 
       if (response.data.success) {
         console.log('file uploded succssfully');
@@ -110,23 +97,25 @@ const FileUpload: React.FC<FileUploadProps> = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     // Handle form submission logic
-    console.log('workexperience previous', updatedWorkExperience);
+    //  console.log('workexperience previous', updatedWorkExperience);
 
-    setResumeData({ ...resumeData, workExperience: updatedWorkExperience });
+    //  setResumeData({ ...resumeData, workExperience: updatedWorkExperience });
     //  const newResumeData =  Object.assign({},resumeData, {WorkExperience : updatedWorkExperience});
     // setResumeData(newResumeData);
 
     console.log('Form data to be submit', resumeData);
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>, field: string) => {
-    setResumeData({ ...resumeData, [field]: e.target.value });
-  };
-
   const handleArrayChange = (index: number, field: string, value: string, type: 'education' | 'workExperience') => {
     const updatedArray = [...resumeData[type]];
     updatedArray[index] = { ...updatedArray[index], [field]: value };
     setResumeData({ ...resumeData, [type]: updatedArray });
+  };
+
+  const handleWorkExperienceChange = (newValue: string, expIndex: number, respIndex: number) => {
+    const copyWorkExperience = [...resumeData.workExperience];
+    copyWorkExperience[expIndex].responsibilities[respIndex] = newValue;
+    setResumeData({ ...resumeData, workExperience: copyWorkExperience });
   };
 
   const handelSkillChange = (e: any) => {
@@ -158,18 +147,17 @@ const FileUpload: React.FC<FileUploadProps> = () => {
             />
           </label>
 
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={handleUpload}
-              disabled={!selectedFile || isUploading}
-              startIcon={isUploading ? <CircularProgress size={24} color="inherit" /> : null}
-              sx={{ textTransform: 'none' }}
-            >
-              {isUploading ? 'Uploading...' : 'Upload'}
-            </Button>
-          
-          </Grid>
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={handleUpload}
+            disabled={!selectedFile || isUploading}
+            startIcon={isUploading ? <CircularProgress size={24} color="inherit" /> : null}
+            sx={{ textTransform: 'none' }}
+          >
+            {isUploading ? 'Uploading...' : 'Upload'}
+          </Button>
+        </Grid>
 
         <Grid item xs={12}>
           <Typography variant="subtitle1" gutterBottom>
@@ -239,32 +227,36 @@ const FileUpload: React.FC<FileUploadProps> = () => {
             {resumeData.education.map((edu, index) => (
               <div key={index}>
                 <TextField
-                  id={`degree#${index + 1}`}
+                  id={`degree${index + 1}`}
                   label={`Degree`}
                   value={edu.degree}
                   InputLabelProps={{ shrink: true }}
                   margin="normal"
+                  onChange={(e) => handleArrayChange(index, 'degree', e.target.value, 'education')}
                 />
                 <TextField
-                  id={`university#${index + 1}`}
+                  id={`university${index + 1}`}
                   label={`University`}
                   value={edu.university}
                   InputLabelProps={{ shrink: true }}
                   margin="normal"
+                  onChange={(e) => handleArrayChange(index, 'university', e.target.value, 'education')}
                 />
                 <TextField
-                  id={`duration#${index + 1}`}
+                  id={`duration${index + 1}`}
                   label={`Duration`}
                   value={edu.duration}
                   InputLabelProps={{ shrink: true }}
                   margin="normal"
+                  onChange={(e) => handleArrayChange(index, 'duration', e.target.value, 'education')}
                 />
                 <TextField
                   id={`location${index + 1}`}
-                  label={`location`}
+                  label={`Location`}
                   value={edu.location}
                   InputLabelProps={{ shrink: true }}
                   margin="normal"
+                  onChange={(e) => handleArrayChange(index, 'location', e.target.value, 'education')}
                 />
               </div>
             ))}
@@ -274,37 +266,41 @@ const FileUpload: React.FC<FileUploadProps> = () => {
             <Typography variant="subtitle1" gutterBottom>
               Work Experience
             </Typography>
-            {updatedWorkExperience.map((exp, index) => (
+            {resumeData.workExperience.map((exp, index) => (
               <div key={index} className="experience">
                 <TextField
-                  id={`exp#${index + 1}`}
+                  id={`jobPosition${index + 1}`}
                   label="Job Position"
                   value={exp.jobPosition}
                   InputLabelProps={{ shrink: true }}
                   margin="normal"
+                  onChange={(e) => handleArrayChange(index, 'jobPosition', e.target.value, 'workExperience')}
                 />
                 <TextField
-                  id={`exp#${index + 1}`}
+                  id={`company${index + 1}`}
                   label="Company"
                   value={exp.company}
                   InputLabelProps={{ shrink: true }}
                   margin="normal"
+                  onChange={(e) => handleArrayChange(index, 'company', e.target.value, 'workExperience')}
                 />
 
                 <TextField
-                  id={`exp#${index + 1}`}
+                  id={`location${index + 1}`}
                   label="Location"
                   value={exp.location}
                   InputLabelProps={{ shrink: true }}
                   margin="normal"
+                  onChange={(e) => handleArrayChange(index, 'location', e.target.value, 'workExperience')}
                 />
 
                 <TextField
-                  id={`exp#${index + 1}`}
+                  id={`duration${index + 1}`}
                   label="Duration"
                   value={exp.duration}
                   InputLabelProps={{ shrink: true }}
                   margin="normal"
+                  onChange={(e) => handleArrayChange(index, 'duration', e.target.value, 'workExperience')}
                 />
                 <Typography variant="subtitle1" gutterBottom>
                   Responsiblities

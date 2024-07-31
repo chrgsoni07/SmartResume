@@ -2,13 +2,13 @@
 'use client';
 
 import { useState } from 'react';
+import DeleteIcon from '@mui/icons-material/Delete';
 import {
   Box,
   Button,
-  Chip,
   CircularProgress,
   Grid,
-  makeStyles,
+  IconButton,
   Popover,
   styled,
   TextareaAutosize,
@@ -106,21 +106,54 @@ const FileUpload: React.FC<FileUploadProps> = () => {
     console.log('Form data to be submit', resumeData);
   };
 
-  const handleArrayChange = (index: number, field: string, value: string, type: 'education' | 'workExperience') => {
+  const handelWorkExperienceChange = (
+    index: number,
+    field: string,
+    value: string,
+    type: 'education' | 'workExperience'
+  ) => {
     const updatedArray = [...resumeData[type]];
     updatedArray[index] = { ...updatedArray[index], [field]: value };
     setResumeData({ ...resumeData, [type]: updatedArray });
   };
 
-  const handleWorkExperienceChange = (newValue: string, expIndex: number, respIndex: number) => {
+  const handelWorkExOnResponsiblity = (newValue: string, expIndex: number, respIndex: number) => {
     const copyWorkExperience = [...resumeData.workExperience];
     copyWorkExperience[expIndex].responsibilities[respIndex] = newValue;
+    setResumeData({ ...resumeData, workExperience: copyWorkExperience });
+  };
+
+  const handelWorkExOnAchievements = (newValue: string, expIndex: number, achIndex: number) => {
+    const copyWorkExperience = [...resumeData.workExperience];
+    copyWorkExperience[expIndex].achievements[achIndex] = newValue;
     setResumeData({ ...resumeData, workExperience: copyWorkExperience });
   };
 
   const handelSkillChange = (e: any) => {
     setResumeData({ ...resumeData, skills: e });
   };
+
+  function removeResponsibility(expIndex: number, respIndex: number): void {
+    const filteredRespon = resumeData.workExperience[expIndex].responsibilities.filter((_, i) => i !== respIndex);
+    const updateResumeData = { ...resumeData };
+    updateResumeData.workExperience[expIndex].responsibilities = filteredRespon;
+    setResumeData(updateResumeData);
+  }
+
+  function addResponsibility(expIndex: number): void {
+    handelWorkExOnResponsiblity('', expIndex, resumeData.workExperience[expIndex].responsibilities.length);
+  }
+
+  function addAchievements(expIndex: number): void {
+    handelWorkExOnAchievements('', expIndex, resumeData.workExperience[expIndex].achievements.length);
+  }
+
+  function removeAchivements(index: number, achIndex: number): void {
+    const filterdAch = resumeData.workExperience[index].achievements.filter((_, i) => i !== achIndex);
+    const updateResumeData = { ...resumeData };
+    updateResumeData.workExperience[index].achievements = filterdAch;
+    setResumeData(updateResumeData);
+  }
 
   return (
     <form onSubmit={handleSubmit}>
@@ -232,7 +265,7 @@ const FileUpload: React.FC<FileUploadProps> = () => {
                   value={edu.degree}
                   InputLabelProps={{ shrink: true }}
                   margin="normal"
-                  onChange={(e) => handleArrayChange(index, 'degree', e.target.value, 'education')}
+                  onChange={(e) => handelWorkExperienceChange(index, 'degree', e.target.value, 'education')}
                 />
                 <TextField
                   id={`university${index + 1}`}
@@ -240,7 +273,7 @@ const FileUpload: React.FC<FileUploadProps> = () => {
                   value={edu.university}
                   InputLabelProps={{ shrink: true }}
                   margin="normal"
-                  onChange={(e) => handleArrayChange(index, 'university', e.target.value, 'education')}
+                  onChange={(e) => handelWorkExperienceChange(index, 'university', e.target.value, 'education')}
                 />
                 <TextField
                   id={`duration${index + 1}`}
@@ -248,7 +281,7 @@ const FileUpload: React.FC<FileUploadProps> = () => {
                   value={edu.duration}
                   InputLabelProps={{ shrink: true }}
                   margin="normal"
-                  onChange={(e) => handleArrayChange(index, 'duration', e.target.value, 'education')}
+                  onChange={(e) => handelWorkExperienceChange(index, 'duration', e.target.value, 'education')}
                 />
                 <TextField
                   id={`location${index + 1}`}
@@ -256,7 +289,7 @@ const FileUpload: React.FC<FileUploadProps> = () => {
                   value={edu.location}
                   InputLabelProps={{ shrink: true }}
                   margin="normal"
-                  onChange={(e) => handleArrayChange(index, 'location', e.target.value, 'education')}
+                  onChange={(e) => handelWorkExperienceChange(index, 'location', e.target.value, 'education')}
                 />
               </div>
             ))}
@@ -274,7 +307,7 @@ const FileUpload: React.FC<FileUploadProps> = () => {
                   value={exp.jobPosition}
                   InputLabelProps={{ shrink: true }}
                   margin="normal"
-                  onChange={(e) => handleArrayChange(index, 'jobPosition', e.target.value, 'workExperience')}
+                  onChange={(e) => handelWorkExperienceChange(index, 'jobPosition', e.target.value, 'workExperience')}
                 />
                 <TextField
                   id={`company${index + 1}`}
@@ -282,7 +315,7 @@ const FileUpload: React.FC<FileUploadProps> = () => {
                   value={exp.company}
                   InputLabelProps={{ shrink: true }}
                   margin="normal"
-                  onChange={(e) => handleArrayChange(index, 'company', e.target.value, 'workExperience')}
+                  onChange={(e) => handelWorkExperienceChange(index, 'company', e.target.value, 'workExperience')}
                 />
 
                 <TextField
@@ -291,7 +324,7 @@ const FileUpload: React.FC<FileUploadProps> = () => {
                   value={exp.location}
                   InputLabelProps={{ shrink: true }}
                   margin="normal"
-                  onChange={(e) => handleArrayChange(index, 'location', e.target.value, 'workExperience')}
+                  onChange={(e) => handelWorkExperienceChange(index, 'location', e.target.value, 'workExperience')}
                 />
 
                 <TextField
@@ -300,19 +333,27 @@ const FileUpload: React.FC<FileUploadProps> = () => {
                   value={exp.duration}
                   InputLabelProps={{ shrink: true }}
                   margin="normal"
-                  onChange={(e) => handleArrayChange(index, 'duration', e.target.value, 'workExperience')}
+                  onChange={(e) => handelWorkExperienceChange(index, 'duration', e.target.value, 'workExperience')}
                 />
-                <Typography variant="subtitle1" gutterBottom>
-                  Responsiblities
-                </Typography>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <Typography variant="subtitle1" gutterBottom>
+                    Responsiblities
+                  </Typography>
+                  <IconButton onClick={() => addResponsibility(index)} aria-label="add" color="primary">
+                    +
+                  </IconButton>
+                </div>
                 {exp.responsibilities.map((resp, respIndex) => (
-                  <div key={respIndex}>
+                  <div key={respIndex} style={{ display: 'flex', alignContent: 'center' }}>
                     <StyledTextareaAutosize
                       value={resp}
-                      onChange={(e) => handleWorkExperienceChange(e.target.value, index, respIndex)}
+                      onChange={(e) => handelWorkExOnResponsiblity(e.target.value, index, respIndex)}
                       onMouseEnter={(e) => handleResponsibilityHover(resp, e)}
                       customColor={isMatchingSuggestion(resp) ? 'orange' : ''}
                     />
+                    <IconButton onClick={() => removeResponsibility(index, respIndex)} aria-label="delete">
+                      <DeleteIcon />
+                    </IconButton>
                   </div>
                 ))}
 
@@ -336,16 +377,22 @@ const FileUpload: React.FC<FileUploadProps> = () => {
                   </PopoverContent>
                 </Popover>
 
-                <TextField
-                  id={`exp#${index + 1}`}
-                  label="Achievements"
-                  value={joinStringNewLine(exp.achievements)}
-                  InputLabelProps={{ shrink: true }}
-                  fullWidth
-                  multiline
-                  rows={4}
-                  margin="normal"
-                />
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <Typography variant="subtitle1" gutterBottom>
+                    Achievements
+                  </Typography>
+                  <IconButton onClick={() => addAchievements(index)} aria-label="add" color="primary">
+                    +
+                  </IconButton>
+                </div>
+                {exp.achievements.map((ach, achIndex) => (
+                  <div key={ach} style={{ display: 'flex', alignContent: 'center' }}>
+                    <StyledTextareaAutosize value={ach} />
+                    <IconButton onClick={() => removeAchivements(index, achIndex)} aria-label="delete">
+                      <DeleteIcon />
+                    </IconButton>
+                  </div>
+                ))}
               </div>
             ))}
           </div>
@@ -377,7 +424,7 @@ const StyledTextareaAutosize2 = styled(TextareaAutosize)({
 
 const StyledTextareaAutosize = styled(TextareaAutosize)<{ customColor?: string }>`
   color: ${(props) => props.customColor};
-  width: 100%;
+  width: 97%;
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;

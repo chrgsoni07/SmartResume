@@ -1,0 +1,55 @@
+// src/Skills.tsx
+import React from 'react';
+import { StyleSheet, Text, View } from '@react-pdf/renderer';
+
+import List, { Item } from './List';
+import Title from './Title';
+
+// Define the types for SkillEntry props
+interface SkillEntryProps {
+  name: string;
+  skills: string[];
+}
+
+// Define the styles
+const styles = StyleSheet.create({
+  title: {
+    fontFamily: 'Lato Bold',
+    fontSize: 11,
+    marginBottom: 10,
+  },
+  skills: {
+    fontFamily: 'Lato',
+    fontSize: 10,
+    marginBottom: 10,
+  },
+});
+
+// SkillEntry component
+const SkillEntry: React.FC<SkillEntryProps> = ({ name, skills }) => (
+  <View>
+    <Text style={styles.title}>{name}</Text>
+    <List>
+      {skills.map((skill) => (
+        <Item key={skill}>{skill}</Item>
+      ))}
+    </List>
+  </View>
+);
+
+// Skills component
+const Skills: React.FC = () => (
+  <View>
+    <Title>Skills</Title>
+    <SkillEntry
+      name="Combat Abilities"
+      skills={[
+        'Completed Jedi Master training and built a lightsaber from scratch in order to do battle against the Empire',
+        'Defeated the Rancor and rescued Princess Leia from Jabba the Hutt',
+        'Competent fighter pilot as well as an excellent shot with nearly any weapon',
+      ]}
+    />
+  </View>
+);
+
+export default Skills;

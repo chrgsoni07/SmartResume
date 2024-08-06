@@ -18,13 +18,10 @@ import {
 import axios from 'axios';
 import { MuiChipsInput } from 'mui-chips-input';
 
+import { fetchData, saveData } from '../service/api';
 import { Resume, Suggestion } from './Resume';
 
-interface FileUploadProps {
-  // onUploadSuccess: (fileName: string) => void;
-}
-
-const FileUpload: React.FC<FileUploadProps> = () => {
+const FileUpload: React.FC = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [resumeData, setResumeData] = useState<Resume>(new Resume());
@@ -55,10 +52,6 @@ const FileUpload: React.FC<FileUploadProps> = () => {
     if (event.target.files && event.target.files.length > 0) {
       setSelectedFile(event.target.files[0]);
     }
-  };
-
-  const joinStringNewLine = (lines: string[]) => {
-    return lines.join('\n');
   };
 
   const handleUpload = async () => {
@@ -96,14 +89,8 @@ const FileUpload: React.FC<FileUploadProps> = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // Handle form submission logic
-    //  console.log('workexperience previous', updatedWorkExperience);
-
-    //  setResumeData({ ...resumeData, workExperience: updatedWorkExperience });
-    //  const newResumeData =  Object.assign({},resumeData, {WorkExperience : updatedWorkExperience});
-    // setResumeData(newResumeData);
-
     console.log('Form data to be submit', resumeData);
+    saveData(resumeData);
   };
 
   const handelWorkExperienceChange = (
@@ -153,6 +140,11 @@ const FileUpload: React.FC<FileUploadProps> = () => {
     const updateResumeData = { ...resumeData };
     updateResumeData.workExperience[index].achievements = filterdAch;
     setResumeData(updateResumeData);
+  }
+
+  function handelFatchData(): void {
+    const fatchedPromise = fetchData('66ae2394ffb9b0287bdd5809');
+    console.log('fetchedData => ', fatchedPromise);
   }
 
   return (
@@ -397,11 +389,13 @@ const FileUpload: React.FC<FileUploadProps> = () => {
             ))}
           </div>
         </Grid>
-
         <Grid item xs={12}>
           <Button type="submit" variant="contained" color="primary">
             Submit
           </Button>
+          {/* <Button type="reset" onClick={() => handelFatchData()}>
+            Fatch Data
+          </Button> */}
         </Grid>
       </Grid>
     </form>

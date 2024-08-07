@@ -1,3 +1,5 @@
+import toast from 'react-hot-toast';
+
 const BASE_URL = 'http://localhost:8080/mongo/';
 
 export const fetchData = async (id: string): Promise<any> => {
@@ -11,13 +13,29 @@ export const fetchData = async (id: string): Promise<any> => {
 
 export const saveData = async (data: any): Promise<any> => {
   const saveDataURL = BASE_URL + 'uid112233';
-  const response = await fetch(saveDataURL, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data),
-  });
+  try {
+    const response = await fetch(saveDataURL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    const result = await response.json();
+    toast.success('Resume data saved successfully!');
+    return result;
+  } catch (error) {
+    toast.error(`Error: ${error}`);
+    throw error;
+  }
+};
+
+export const getAllResume = async (): Promise<any> => {
+  const fatchAllResume = BASE_URL + 'all';
+  const response = await fetch(fatchAllResume);
   if (!response.ok) {
     throw new Error('Network response was not ok');
   }

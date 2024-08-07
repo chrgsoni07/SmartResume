@@ -6,7 +6,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import {
   Box,
   Button,
+  Chip,
   CircularProgress,
+  Divider,
   Grid,
   IconButton,
   Popover,
@@ -18,7 +20,7 @@ import {
 import axios from 'axios';
 import { MuiChipsInput } from 'mui-chips-input';
 
-import { fetchData, saveData } from '../service/api';
+import { saveData } from '../service/api';
 import { Resume, Suggestion } from './Resume';
 
 const FileUpload: React.FC = () => {
@@ -142,11 +144,6 @@ const FileUpload: React.FC = () => {
     setResumeData(updateResumeData);
   }
 
-  function handelFatchData(): void {
-    const fatchedPromise = fetchData('66ae2394ffb9b0287bdd5809');
-    console.log('fetchedData => ', fatchedPromise);
-  }
-
   return (
     <form onSubmit={handleSubmit}>
       <Grid container spacing={2} alignItems="center">
@@ -185,7 +182,7 @@ const FileUpload: React.FC = () => {
         </Grid>
 
         <Grid item xs={12}>
-          <Typography variant="subtitle1" gutterBottom>
+          <Typography style={{ color: '#635BFF' }} variant="subtitle1" gutterBottom>
             Details
           </Typography>
           <div className="section">
@@ -246,7 +243,7 @@ const FileUpload: React.FC = () => {
           </div>
 
           <div className="section">
-            <Typography variant="subtitle1" gutterBottom>
+            <Typography style={{ color: '#635BFF' }} variant="subtitle1" gutterBottom>
               Education
             </Typography>
             {resumeData.education.map((edu, index) => (
@@ -288,11 +285,15 @@ const FileUpload: React.FC = () => {
           </div>
 
           <div className="section">
-            <Typography variant="subtitle1" gutterBottom>
+            <Typography style={{ color: '#635BFF' }} variant="subtitle1" gutterBottom>
               Work Experience
             </Typography>
             {resumeData.workExperience.map((exp, index) => (
               <div key={index} className="experience">
+                <Divider>
+                  <Chip label={`${exp.company} | ${exp.jobPosition}`} size="small" />
+                </Divider>
+
                 <TextField
                   id={`jobPosition${index + 1}`}
                   label="Job Position"
@@ -328,7 +329,7 @@ const FileUpload: React.FC = () => {
                   onChange={(e) => handelWorkExperienceChange(index, 'duration', e.target.value, 'workExperience')}
                 />
                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                  <Typography variant="subtitle1" gutterBottom>
+                  <Typography style={{ color: '#635BFF' }} variant="subtitle1" gutterBottom>
                     Responsiblities
                   </Typography>
                   <IconButton onClick={() => addResponsibility(index)} aria-label="add" color="primary">
@@ -369,22 +370,26 @@ const FileUpload: React.FC = () => {
                   </PopoverContent>
                 </Popover>
 
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                  <Typography variant="subtitle1" gutterBottom>
-                    Achievements
-                  </Typography>
-                  <IconButton onClick={() => addAchievements(index)} aria-label="add" color="primary">
-                    +
-                  </IconButton>
-                </div>
-                {exp.achievements.map((ach, achIndex) => (
-                  <div key={ach} style={{ display: 'flex', alignContent: 'center' }}>
-                    <StyledTextareaAutosize value={ach} />
-                    <IconButton onClick={() => removeAchivements(index, achIndex)} aria-label="delete">
-                      <DeleteIcon />
-                    </IconButton>
+                {exp.achievements && exp.achievements.length > 0 && (
+                  <div>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                      <Typography style={{ color: '#635BFF' }} variant="subtitle1" gutterBottom>
+                        Achievements
+                      </Typography>
+                      <IconButton onClick={() => addAchievements(index)} aria-label="add" color="primary">
+                        +
+                      </IconButton>
+                    </div>
+                    {exp.achievements.map((ach, achIndex) => (
+                      <div key={achIndex} style={{ display: 'flex', alignContent: 'center' }}>
+                        <StyledTextareaAutosize value={ach} />
+                        <IconButton onClick={() => removeAchivements(index, achIndex)} aria-label="delete">
+                          <DeleteIcon />
+                        </IconButton>
+                      </div>
+                    ))}
                   </div>
-                ))}
+                )}
               </div>
             ))}
           </div>
@@ -393,9 +398,6 @@ const FileUpload: React.FC = () => {
           <Button type="submit" variant="contained" color="primary">
             Submit
           </Button>
-          {/* <Button type="reset" onClick={() => handelFatchData()}>
-            Fatch Data
-          </Button> */}
         </Grid>
       </Grid>
     </form>

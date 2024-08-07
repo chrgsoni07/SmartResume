@@ -1,7 +1,10 @@
 // src/Resume.tsx
 import React from 'react';
+import { Button } from '@mui/material';
 import { Document, Font, Image, Page, PageProps, StyleSheet, Text, View } from '@react-pdf/renderer';
 
+import { Resume } from '../resume/Resume';
+import { fetchData } from '../service/api';
 import Education from './Education';
 import Experience from './Experience';
 import Header from './Header';
@@ -75,36 +78,41 @@ Font.register({
 interface ResumeProps extends Omit<PageProps, 'size'> {
   size?: PageProps['size'];
   orientation?: 'portrait' | 'landscape';
+  udata?: Resume;
 }
 
 // Resume component
-const Resume: React.FC<ResumeProps> = (props) => (
+const ResumePDF: React.FC<ResumeProps> = (props) => (
   <Page {...props} style={styles.page}>
-    <Header />
+    <Header
+      uname={props.udata?.name as string}
+      jobTitle={props.udata?.jobTitle as string}
+      email={props.udata?.email as string}
+    />
     <View style={styles.container}>
       <View style={styles.leftColumn}>
-        <Image src="https://react-pdf.org/static/images/luke.jpg" style={styles.image} />
-        <Education />
-        <Skills />
+        <Education education={props.udata?.education} />
+        <Skills skills={props.udata?.skills} />
       </View>
-      <Experience />
+      <Experience workExperience={props.udata?.workExperience} />
     </View>
-    <Text style={styles.footer}>This IS the candidate you are looking for</Text>
   </Page>
 );
 
 // App component
-const App: React.FC = () => (
-  <Document
-    author="Luke Skywalker"
-    keywords="awesome, resume, star wars"
-    subject="The resume of Luke Skywalker"
-    title="Resume"
-  >
-    <Resume size="A4" />
-    <Resume orientation="landscape" size="A4" />
-    <Resume size={[380, 1250]} />
-  </Document>
-);
-
+function App({ resumeData }: { resumeData: Resume }) {
+  return (
+    <Document
+      author="Luke Skywalker"
+      keywords="awesome, resume, star wars"
+      subject="The resume of Chirag Soni"
+      title="Resume"
+    >
+      {/*  <ResumePDF size="A4" />
+      <ResumePDF orientation="landscape" size="A4" />
+      <ResumePDF size={[380, 1250]} />*/}
+      <ResumePDF size="A4" udata={resumeData} />
+    </Document>
+  );
+}
 export default App;

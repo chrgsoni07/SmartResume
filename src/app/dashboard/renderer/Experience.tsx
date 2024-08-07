@@ -1,8 +1,9 @@
 import React from 'react';
-import { Text, View, StyleSheet } from '@react-pdf/renderer';
+import { StyleSheet, Text, View } from '@react-pdf/renderer';
 
-import Title from './Title';
+import { WorkExperience } from '../resume/Resume';
 import List, { Item } from './List';
+import Title from './Title';
 
 const styles = StyleSheet.create({
   container: {
@@ -64,15 +65,17 @@ interface ExperienceEntryProps {
   details: string[];
   position: string;
   date: string;
+  location: string;
 }
 
-const ExperienceEntry: React.FC<ExperienceEntryProps> = ({ company, details, position, date }) => {
+const ExperienceEntry: React.FC<ExperienceEntryProps> = ({ company, details, position, date, location }) => {
   const title = `${company} | ${position}`;
   return (
     <View style={styles.entryContainer}>
       <View style={styles.headerContainer}>
         <View style={styles.leftColumn}>
           <Text style={styles.title}>{title}</Text>
+          <Text style={styles.title}>{location}</Text>
         </View>
         <View style={styles.rightColumn}>
           <Text style={styles.date}>{date}</Text>
@@ -137,20 +140,36 @@ const experienceData: ExperienceData[] = [
   },
 ];
 
-const Experience: React.FC = () => (
-  <View style={styles.container}>
-    <Title>Experience</Title>
-    {experienceData.map(({ company, date, details, position }) => (
-      <ExperienceEntry
-        company={company}
-        date={date}
-        details={details}
-        key={company + position}
-        position={position}
-      />
-    ))}
-  </View>
-);
+function Experience({ workExperience }: { workExperience?: WorkExperience[] }) {
+  if (!workExperience) {
+    return <p></p>;
+  }
+  return (
+    <View style={styles.container}>
+      <Title>Experience</Title>
+      {workExperience.map(({ company, duration, responsibilities, jobPosition, location }) => (
+        <ExperienceEntry
+          company={company}
+          date={duration}
+          details={responsibilities}
+          key={company + jobPosition}
+          position={jobPosition}
+          location={location}
+        />
+      ))}
+    </View>
+  );
+}
+
+// function Experience({ workExperience }: { workExperience?: WorkExperience[] }) {
+//   return (
+//     <View style={styles.container}>
+//       <Title>Experience</Title>
+//       {experienceData.map(({ company, date, details, position }) => (
+//         <ExperienceEntry company={company} date={date} details={details} key={company + position} position={position} />
+//       ))}
+//     </View>
+//   );
+// }
 
 export default Experience;
-

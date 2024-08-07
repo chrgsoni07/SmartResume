@@ -5,6 +5,7 @@ import type { Metadata } from 'next';
 import dynamic from 'next/dynamic';
 import Stack from '@mui/material/Stack';
 import { PDFDownloadLink } from '@react-pdf/renderer';
+import { Toaster } from 'react-hot-toast';
 
 //import { useState } from "react";
 import { config } from '@/config';
@@ -18,6 +19,7 @@ import ResumeTemplate from './ResumeTemplate';
 export default function Page(): React.JSX.Element {
   return (
     <Stack spacing={3}>
+      <Toaster />
       <Stack direction="row" spacing={3}>
         <FileUpload></FileUpload>
       </Stack>

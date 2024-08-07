@@ -39,18 +39,20 @@ const styles = StyleSheet.create({
   },
 });
 
-const Header: React.FC = () => (
-  <View style={styles.container}>
-    <View style={styles.detailColumn}>
-      <Text style={styles.name}>Luke Skywalker</Text>
-      <Text style={styles.subtitle}>Jedi Master</Text>
+function Header({ uname, jobTitle, email }: { uname: string; jobTitle: string; email: string }) {
+  return (
+    <View style={styles.container}>
+      <View style={styles.detailColumn}>
+        <Text style={styles.name}>{uname}</Text>
+        <Text style={styles.subtitle}>{jobTitle}</Text>
+      </View>
+      <View style={styles.linkColumn}>
+        <Link href={`mailto:${email}`} style={styles.link}>
+          {email}
+        </Link>
+      </View>
     </View>
-    <View style={styles.linkColumn}>
-      <Link href="mailto:luke@theforce.com" style={styles.link}>
-        luke@theforce.com
-      </Link>
-    </View>
-  </View>
-);
+  );
+}
 
 export default Header;

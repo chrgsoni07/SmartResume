@@ -29,6 +29,12 @@ const styles = StyleSheet.create({
     justifySelf: 'flex-end',
     fontFamily: 'Lato',
   },
+  mobile: {
+    fontSize: 10,
+    justifySelf: 'flex-end',
+    fontFamily: 'Lato',
+    alignSelf: 'flex-end',
+  },
   link: {
     fontFamily: 'Lato',
     fontSize: 10,
@@ -39,7 +45,17 @@ const styles = StyleSheet.create({
   },
 });
 
-function Header({ uname, jobTitle, email }: { uname: string; jobTitle: string; email: string }) {
+function Header({
+  uname,
+  jobTitle,
+  email,
+  phoneNo,
+}: {
+  uname: string;
+  jobTitle: string;
+  email: string;
+  phoneNo: string;
+}) {
   return (
     <View style={styles.container}>
       <View style={styles.detailColumn}>
@@ -50,6 +66,7 @@ function Header({ uname, jobTitle, email }: { uname: string; jobTitle: string; e
         <Link href={`mailto:${email}`} style={styles.link}>
           {email}
         </Link>
+        <Text style={styles.mobile}>{phoneNo}</Text>
       </View>
     </View>
   );

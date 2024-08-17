@@ -3,15 +3,20 @@
 import React, { useState } from 'react';
 import { Button } from '@mui/material';
 import Stack from '@mui/material/Stack';
-import { PDFViewer } from '@react-pdf/renderer';
+import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer';
 
 import App from '.';
 import { Resume } from '../resume/Resume';
+import ResumeTemplate from '../resume/ResumeTemplate';
 import { fetchData } from '../service/api';
 import BasicResumeApp from './BasicResume';
 import CustomResumeApp from './CustomResume';
+import ResumeTemplateGPT from './ResumeTemplateGPT';
+import ResumeTemplateGPT2 from './ResumeTemplateGPT2';
 import ResumeWithSidebarApp from './ResumeWithSidebar';
 import ShowAllResume from './ShowAllResume';
+import RRApp from './test/Calling';
+import ResumePDF from './test/ReactPDF';
 
 export default function Page(): React.JSX.Element {
   const [resumeData, setResumeData] = React.useState<Resume>(new Resume());
@@ -33,15 +38,19 @@ export default function Page(): React.JSX.Element {
     <div>
       {/* <Button type="button" onClick={() => handelFatchData()}>
         Fatch Data
-      </Button> */}
+      </Button> 
 
+  <RRApp />
+      <PDFDownloadLink document={<ResumePDF />} fileName="resume.pdf">
+        {({ loading }) => (loading ? 'Generating PDF...' : 'Download Resume')}
+      </PDFDownloadLink> */}
       <Stack>
         <Stack spacing={3}>
           <ShowAllResume onRowSelect={handleRowSelection} />
         </Stack>
 
         <PDFViewer width="100%" height="600">
-          <App resumeData={resumeData} />
+          {<App resumeData={resumeData} />}
         </PDFViewer>
       </Stack>
     </div>

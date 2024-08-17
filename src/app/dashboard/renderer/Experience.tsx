@@ -8,8 +8,8 @@ import Title from './Title';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 30,
-    paddingLeft: 15,
+    paddingTop: 10,
+    paddingLeft: 5,
     '@media max-width: 400': {
       paddingTop: 10,
       paddingLeft: 0,
@@ -17,6 +17,7 @@ const styles = StyleSheet.create({
   },
   entryContainer: {
     marginBottom: 10,
+    textAlign: 'justify',
   },
   date: {
     fontSize: 11,

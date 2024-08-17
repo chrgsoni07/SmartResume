@@ -7,7 +7,7 @@ export class Resume {
   education: Education[] = [];
   skills: string[] = [];
   jobTitle: string;
-  projects: projects[] = [];
+  projects: Projects[] = [];
   workExperience: WorkExperience[] = [];
   suggestion: Suggestion[] = [];
 }
@@ -28,7 +28,7 @@ export class WorkExperience {
   achievements: string[] = [];
 }
 
-export class projects {
+export class Projects {
   name: string;
   description: string;
   technologies: string[] = [];

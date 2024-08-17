@@ -5,9 +5,11 @@ import { Document, Font, Image, Page, PageProps, StyleSheet, Text, View } from '
 
 import { Resume } from '../resume/Resume';
 import { fetchData } from '../service/api';
+import CareerObjective from './CareerObjective';
 import Education from './Education';
 import Experience from './Experience';
 import Header from './Header';
+import ResumeTemplateGPT2 from './ResumeTemplateGPT2';
 import Skills from './Skills';
 
 // Define the styles
@@ -28,7 +30,7 @@ const styles = StyleSheet.create({
   leftColumn: {
     flexDirection: 'column',
     width: 170,
-    paddingTop: 30,
+    paddingTop: 10,
     paddingRight: 15,
     '@media max-width: 400': {
       width: '100%',
@@ -88,7 +90,9 @@ const ResumePDF: React.FC<ResumeProps> = (props) => (
       uname={props.udata?.name as string}
       jobTitle={props.udata?.jobTitle as string}
       email={props.udata?.email as string}
+      phoneNo={props.udata?.phone as string}
     />
+    <CareerObjective careerObjective={props.udata?.careerObjective} />
     <View style={styles.container}>
       <View style={styles.leftColumn}>
         <Education education={props.udata?.education} />
@@ -103,8 +107,8 @@ const ResumePDF: React.FC<ResumeProps> = (props) => (
 function App({ resumeData }: { resumeData: Resume }) {
   return (
     <Document
-      author="Luke Skywalker"
-      keywords="awesome, resume, star wars"
+      author="Chirag Soni"
+      keywords="resume, milpitas communications"
       subject="The resume of Chirag Soni"
       title="Resume"
     >
@@ -112,6 +116,7 @@ function App({ resumeData }: { resumeData: Resume }) {
       <ResumePDF orientation="landscape" size="A4" />
       <ResumePDF size={[380, 1250]} />*/}
       <ResumePDF size="A4" udata={resumeData} />
+      <ResumeTemplateGPT2 resume={resumeData} />
     </Document>
   );
 }

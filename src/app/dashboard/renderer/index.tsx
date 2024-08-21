@@ -9,7 +9,7 @@ import CareerObjective from './CareerObjective';
 import Education from './Education';
 import Experience from './Experience';
 import Header from './Header';
-import ResumeTemplateGPT2 from './ResumeTemplateGPT2';
+import ResumeTemplate2 from './ResumeTemplate2';
 import Skills from './Skills';
 
 // Define the styles
@@ -116,7 +116,7 @@ function App({ resumeData }: { resumeData: Resume }) {
       <ResumePDF orientation="landscape" size="A4" />
       <ResumePDF size={[380, 1250]} />*/}
       <ResumePDF size="A4" udata={resumeData} />
-      <ResumeTemplateGPT2 resume={resumeData} />
+      <ResumeTemplate2 resume={resumeData} />
     </Document>
   );
 }

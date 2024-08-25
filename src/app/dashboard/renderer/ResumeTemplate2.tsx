@@ -11,7 +11,7 @@ Font.register({
   src: `https://fonts.gstatic.com/s/lato/v16/S6uyw4BMUTPHjx4wWw.ttf`,
 });
 
-const ResumeTemplateGPT2 = ({ resume }: { resume: Resume }) => (
+const ResumeTemplate2 = ({ resume }: { resume: Resume }) => (
   <Document>
     <Page size="A4" style={styles.page}>
       {/* Header Section */}
@@ -137,4 +137,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ResumeTemplateGPT2;
+export default ResumeTemplate2;

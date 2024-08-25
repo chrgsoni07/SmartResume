@@ -10,6 +10,7 @@ export const paths = {
     settings: '/dashboard/settings',
     resume: '/dashboard/resume',
     renderer: '/dashboard/renderer',
+    template: '/dashboard/template',
   },
   errors: { notFound: '/errors/not-found' },
 } as const;

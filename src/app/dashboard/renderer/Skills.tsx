@@ -1,5 +1,6 @@
 // src/Skills.tsx
 import React from 'react';
+import { textAlign } from '@mui/system';
 import { StyleSheet, Text, View } from '@react-pdf/renderer';
 
 import List, { Item } from './List';
@@ -22,6 +23,18 @@ const styles = StyleSheet.create({
     fontFamily: 'Lato',
     fontSize: 10,
     marginBottom: 10,
+    textAlign: 'justify',
+  },
+  skills_comma: {
+    fontFamily: 'Lato',
+    fontSize: 10,
+    marginBottom: 10,
+    textAlign: 'justify',
+    hyphens: 'none',
+    WebkitHyphens: 'none',
+    msHyphens: 'none',
+    overflowWrap: 'break-word',
+    wordBreak: 'break-word',
   },
 });
 
@@ -41,17 +54,24 @@ const SkillEntry: React.FC<SkillEntryProps> = ({ name, skills }) => (
 function Skills({ skills }: { skills?: String[] }) {
   if (!skills) {
     return <p></p>;
-  }
-  return (
-    <View>
-      <Title>Skills</Title>
-      <List>
-        {skills.map((skill, index) => (
-          <Item key={index}>{skill}</Item>
-        ))}
-      </List>
-    </View>
-  );
+  } else if (skills.length > 12) {
+    return (
+      <View>
+        <Title>Skills</Title>
+        <Text style={styles.skills}>{skills.join(', ')}</Text>;
+      </View>
+    );
+  } else
+    return (
+      <View>
+        <Title>Skills</Title>
+        <List>
+          {skills.map((skill, index) => (
+            <Item key={index}>{skill}</Item>
+          ))}
+        </List>
+      </View>
+    );
 }
 
 // // Skills component

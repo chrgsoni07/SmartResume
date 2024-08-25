@@ -7,6 +7,7 @@ export const navItems = [
   { key: 'customers', title: 'Applied resume', href: paths.dashboard.customers, icon: 'chart-pie' },
   { key: 'resume', title: 'Resume upload', href: paths.dashboard.resume, icon: 'file-arrow-up' },
   { key: 'resumeShow', title: 'Resume renderer', href: paths.dashboard.renderer, icon: 'eye' },
+  { key: 'resumeTemplate', title: 'Resume Template', href: paths.dashboard.template, icon: 'eye' },
   { key: 'integrations', title: 'Integrations', href: paths.dashboard.integrations, icon: 'plugs-connected' },
   { key: 'settings', title: 'Settings', href: paths.dashboard.settings, icon: 'gear-six' },
   { key: 'account', title: 'Account', href: paths.dashboard.account, icon: 'user' },

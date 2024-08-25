@@ -1,15 +1,14 @@
 // src/Resume.tsx
 import React from 'react';
-import { Button } from '@mui/material';
-import { Document, Font, Image, Page, PageProps, StyleSheet, Text, View } from '@react-pdf/renderer';
+import { Document, Font, Page, PageProps, StyleSheet, View } from '@react-pdf/renderer';
 
 import { Resume } from '../resume/Resume';
-import { fetchData } from '../service/api';
 import CareerObjective from './CareerObjective';
 import Education from './Education';
 import Experience from './Experience';
 import Header from './Header';
 import ResumeTemplate2 from './ResumeTemplate2';
+import ResumeTemplateTest from './ResumeTemplateTest';
 import Skills from './Skills';
 
 // Define the styles
@@ -117,6 +116,7 @@ function App({ resumeData }: { resumeData: Resume }) {
       <ResumePDF size={[380, 1250]} />*/}
       <ResumePDF size="A4" udata={resumeData} />
       <ResumeTemplate2 resume={resumeData} />
+      <ResumeTemplateTest resume={resumeData} />
     </Document>
   );
 }

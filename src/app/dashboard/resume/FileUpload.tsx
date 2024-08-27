@@ -119,7 +119,7 @@ const FileUpload: React.FC = () => {
   };
 
   const handelSkillChange = (e: any) => {
-    setResumeData({ ...resumeData, skills: e });
+    setResumeData({ ...resumeData, skillsList: e });
   };
 
   function removeResponsibility(expIndex: number, respIndex: number): void {
@@ -239,7 +239,7 @@ const FileUpload: React.FC = () => {
           </div>
 
           <div className="section">
-            <MuiChipsInput value={resumeData.skills} onChange={handelSkillChange} label="Skills" margin="normal" />
+            <MuiChipsInput value={resumeData.skillsList} onChange={handelSkillChange} label="Skills" margin="normal" />
           </div>
 
           <div className="section">

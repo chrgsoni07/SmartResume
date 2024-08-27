@@ -1,53 +1,41 @@
 // TemplateDetailsPage.tsx
 import React from 'react';
 import { Button, Card, CardContent, CardMedia, Container, Typography } from '@mui/material';
+import { Document, Font, Page, PageProps, StyleSheet, View } from '@react-pdf/renderer';
 import { useParams } from 'react-router-dom';
 
-// Define the TemplateDetails type
-interface TemplateDetails {
-  image: string;
-  description: string;
-}
-
-// Simulated data
-const templates: Record<string, TemplateDetails> = {
-  '1': {
-    image: 'src/app/dashboard/template/templateImg/template1.jpg',
-    description: 'This is a detailed description of Template 1.',
-  },
-  '2': {
-    image: 'template/templateImg/template2.jpg',
-    description: 'This is a detailed description of Template 2.',
-  },
-  // Add more templates as needed
-};
+import ResumeTemplate2 from '../renderer/ResumeTemplate2';
+import ResumeTemplateTest from '../renderer/ResumeTemplateTest';
+import { Resume } from '../resume/Resume';
+import { fetchData } from '../service/api';
 
 const TemplateDetailsPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+  const [resumeData, setResumeData] = React.useState<Resume>(new Resume());
 
+  async function handelFatchData(): Promise<void> {
+    const fatchedPromise = fetchData('66ae2394ffb9b0287bdd5809');
+    console.log('fetchedData => ', fatchedPromise);
+    setResumeData(await fatchedPromise);
+  }
   // Use a type guard to safely access the template details
-  const templateDetails = id && templates[id] ? templates[id] : { image: '', description: 'No details available' };
-
   return (
-    <Container>
-      <Typography variant="h4" gutterBottom>
-        Template Details
-      </Typography>
-      <Card>
-        <CardMedia component="img" height="300" image={templateDetails.image} alt="Template Full" />
-        <CardContent>
-          <Typography variant="h6" gutterBottom>
-            Description
-          </Typography>
-          <Typography variant="body1" paragraph>
-            {templateDetails.description}
-          </Typography>
-          <Button variant="contained" color="primary" onClick={() => window.history.back()}>
-            Back to Selection
-          </Button>
-        </CardContent>
-      </Card>
-    </Container>
+    // <Container>
+    //   <Button variant="contained" color="primary" onClick={() => window.history.back()}>
+    //     Back to Selection
+    //   </Button>
+    //   <p>selected template {id}</p>
+    // </Container>
+
+    <Document
+      author="Chirag Soni"
+      keywords="resume, milpitas communications"
+      subject="The resume of Chirag Soni"
+      title="Resume"
+    >
+      if(id ==1 ) {<ResumeTemplate2 resume={resumeData} />}
+      else {<ResumeTemplateTest resume={resumeData} />}
+    </Document>
   );
 };
 

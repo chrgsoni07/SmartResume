@@ -115,7 +115,7 @@ const ResumeTemplate = () => {
         <section className="resume-section">
           <h2>Skills</h2>
           <ul>
-            {resumeData.skills.map((skill, index) => (
+            {resumeData.skillsList.map((skill, index) => (
               <li key={index}>{skill}</li>
             ))}
           </ul>

@@ -5,11 +5,16 @@ export class Resume {
   location: string;
   careerObjective: string;
   education: Education[] = [];
-  skills: string[] = [];
+  skillsList: string[] = [];
+  skillsCategory: SkillsCategory;
   jobTitle: string;
   projects: Projects[] = [];
   workExperience: WorkExperience[] = [];
   suggestion: Suggestion[] = [];
+}
+
+interface SkillsCategory {
+  [key: string]: string[];
 }
 
 export class Education {

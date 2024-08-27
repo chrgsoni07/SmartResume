@@ -95,7 +95,7 @@ const ResumePDF: React.FC<ResumeProps> = (props) => (
     <View style={styles.container}>
       <View style={styles.leftColumn}>
         <Education education={props.udata?.education} />
-        <Skills skills={props.udata?.skills} />
+        <Skills skills={props.udata?.skillsList} />
       </View>
       <Experience workExperience={props.udata?.workExperience} />
     </View>

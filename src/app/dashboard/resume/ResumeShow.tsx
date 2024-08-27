@@ -68,7 +68,7 @@ const ResumeShow = () => {
         <section className="resume-skills">
           <h2>Skills</h2>
           <ul>
-            {resumeData.skills.map((skill, index) => (
+            {resumeData.skillsList.map((skill, index) => (
               <li key={index} className="resume-skill">
                 {skill}
               </li>

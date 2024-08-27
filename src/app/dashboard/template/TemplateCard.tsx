@@ -33,7 +33,7 @@ const TemplateCard: React.FC<TemplateCardProps> = ({ id, image }) => {
   const handleClose = () => setOpen(false);
 
   const handleSelect = () => {
-    navigate(`dashboard/template/${id}`); // Navigate to the details page with template id
+    navigate(`/dashboard/template/${id}`); // Navigate to the details page with template id
   };
 
   return (

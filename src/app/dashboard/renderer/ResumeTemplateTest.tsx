@@ -67,7 +67,7 @@ const ResumeTemplateTest = ({ resume }: { resume: Resume }) => (
           {/* Skills Section */}
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Skills</Text>
-            <Text style={styles.skills}>{resume.skills.join(', ')}</Text>
+            <Text style={styles.skills}>{resume.skillsList.join(', ')}</Text>
           </View>
         </View>
       </View>

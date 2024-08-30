@@ -1,7 +1,7 @@
 // TemplateSelectionPage.tsx
 import React, { useState } from 'react';
 import { Button, Card, CardMedia, Container, Dialog, DialogContent, Grid } from '@mui/material';
-import { Document, Font, Page, PDFViewer, StyleSheet, Text, View } from '@react-pdf/renderer';
+import { Font } from '@react-pdf/renderer';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import ResumeTemplate1 from '../renderer/ResumeTempate1';

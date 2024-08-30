@@ -15,20 +15,21 @@ export default function EditablePreview({
 }) {
   const [hoveredSuggestion, setHoveredSuggestion] = useState<Suggestion>();
   const [anchorEl, setAnchorEl] = useState<HTMLElement>();
-  const handleApplySuggestion = () => {
-    if (hoveredSuggestion && resumeData.workExperience) {
-      const { originalText, suggestedText } = hoveredSuggestion;
-      const updatedExperience = resumeData.workExperience.map((exp) => ({
-        ...exp,
-        responsibilities: exp.responsibilities.map((resp) => (resp === originalText ? suggestedText : resp)),
-      }));
-      setResumeData({ ...resumeData, workExperience: updatedExperience });
-      setHoveredSuggestion(undefined);
-      setAnchorEl(undefined);
-    }
-  };
-
   const suggestionArray = resumeData.suggestions;
+
+  const handleApplySuggestion = () => {
+    if (!(hoveredSuggestion && resumeData.workExperience)) {
+      return;
+    }
+    const { originalText, suggestedText } = hoveredSuggestion;
+    const updatedExperience = resumeData.workExperience.map((exp) => ({
+      ...exp,
+      responsibilities: exp.responsibilities.map((resp) => (resp === originalText ? suggestedText : resp)),
+    }));
+    setResumeData({ ...resumeData, workExperience: updatedExperience });
+    setHoveredSuggestion(undefined);
+    setAnchorEl(undefined);
+  };
 
   const handleResponsibilityHover = (originalText: string, event: React.MouseEvent<HTMLTextAreaElement>) => {
     const suggestion = suggestionArray.find((suggestion) => suggestion.originalText === originalText);
@@ -85,8 +86,7 @@ export default function EditablePreview({
     setResumeData(updateResumeData);
   }
   const isMatchingSuggestion = (responsibility: string) => {
-    const matchedSuggestion = suggestionArray.find((suggestion) => suggestion.originalText === responsibility);
-    return matchedSuggestion;
+    return suggestionArray.find((suggestion) => suggestion.originalText === responsibility);
   };
 
   return (
@@ -100,7 +100,8 @@ export default function EditablePreview({
       >
         Details
       </Typography>
-      <div className="section">
+
+      <div>
         <TextField
           id="name"
           label="Name"
@@ -147,7 +148,7 @@ export default function EditablePreview({
         />
       </div>
 
-      <div className="section">
+      <div>
         <TextField
           id="careerObjective"
           label="Carrer Objective"
@@ -164,19 +165,17 @@ export default function EditablePreview({
       </div>
 
       {resumeData.skills ? (
-        <div className="section">
-          <MuiChipsInput value={resumeData.skills} onChange={handelSkillChange} label="Skills" margin="normal" />
-        </div>
+        <MuiChipsInput value={resumeData.skills} onChange={handelSkillChange} label="Skills" margin="normal" />
       ) : (
-        <div className="section">
+        <>
           {resumeData.skillsCategory &&
             Object.entries(resumeData.skillsCategory).map(([category, skillList], index, array) => (
               <MuiChipsInput value={skillList} onChange={handelSkillChange} label={category} margin="normal" />
             ))}
-        </div>
+        </>
       )}
 
-      <div className="section">
+      <div>
         <Typography
           style={{
             color: '#635BFF',
@@ -232,7 +231,7 @@ export default function EditablePreview({
         ))}
       </div>
 
-      <div className="section">
+      <div>
         <Typography
           style={{
             color: '#635BFF',

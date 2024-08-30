@@ -11,7 +11,7 @@ export type Resume = {
   jobTitle: string;
   projects: Projects[];
   workExperience: WorkExperience[];
-  suggestion: Suggestion[];
+  suggestions: Suggestion[];
 };
 
 interface SkillsCategory {

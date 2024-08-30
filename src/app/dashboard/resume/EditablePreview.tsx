@@ -1,18 +1,17 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Chip, Divider, Grid, IconButton, Popover, TextareaAutosize, TextField, Typography } from '@mui/material';
 import { MuiChipsInput } from 'mui-chips-input';
 
-import { Resume, Suggestion } from './Resume';
+import { type Resume, type Suggestion } from './Resume';
 
-export default function EditablePreview({
-  resumeData,
-  setResumeData,
-}: {
+type PropTypes = {
   resumeData: Resume;
   setResumeData: (data: Resume) => void;
-}) {
+};
+
+const EditablePreview: React.FC<PropTypes> = ({ resumeData, setResumeData }) => {
   const [hoveredSuggestion, setHoveredSuggestion] = useState<Suggestion>();
   const [anchorEl, setAnchorEl] = useState<HTMLElement>();
   const suggestionArray = resumeData.suggestions;
@@ -76,11 +75,14 @@ export default function EditablePreview({
   }
 
   function addAchievements(expIndex: number): void {
+    if (!resumeData.workExperience[expIndex].achievements) {
+      return;
+    }
     handelWorkExOnAchievements('', expIndex, resumeData.workExperience[expIndex].achievements.length);
   }
 
   function removeAchivements(index: number, achIndex: number): void {
-    const filterdAch = resumeData.workExperience[index].achievements.filter((_, i) => i !== achIndex);
+    const filterdAch = resumeData.workExperience[index].achievements?.filter((_, i) => i !== achIndex);
     const updateResumeData = { ...resumeData };
     updateResumeData.workExperience[index].achievements = filterdAch;
     setResumeData(updateResumeData);
@@ -169,8 +171,14 @@ export default function EditablePreview({
       ) : (
         <>
           {resumeData.skillsCategory &&
-            Object.entries(resumeData.skillsCategory).map(([category, skillList], index, array) => (
-              <MuiChipsInput value={skillList} onChange={handelSkillChange} label={category} margin="normal" />
+            Object.entries(resumeData.skillsCategory).map(([category, skillList]) => (
+              <MuiChipsInput
+                key={category}
+                value={skillList}
+                onChange={handelSkillChange}
+                label={category}
+                margin="normal"
+              />
             ))}
         </>
       )}
@@ -186,10 +194,10 @@ export default function EditablePreview({
           Education
         </Typography>
         {resumeData.education.map((edu, index) => (
-          <div key={index}>
+          <div key={edu.degree}>
             <TextField
               id={`degree${index + 1}`}
-              label={`Degree`}
+              label="Degree"
               value={edu.degree}
               InputLabelProps={{
                 shrink: true,
@@ -199,7 +207,7 @@ export default function EditablePreview({
             />
             <TextField
               id={`university${index + 1}`}
-              label={`University`}
+              label="University"
               value={edu.university}
               InputLabelProps={{
                 shrink: true,
@@ -209,7 +217,7 @@ export default function EditablePreview({
             />
             <TextField
               id={`duration${index + 1}`}
-              label={`Duration`}
+              label="Duration"
               value={edu.duration}
               InputLabelProps={{
                 shrink: true,
@@ -219,7 +227,7 @@ export default function EditablePreview({
             />
             <TextField
               id={`location${index + 1}`}
-              label={`Location`}
+              label="Location"
               value={edu.location}
               InputLabelProps={{
                 shrink: true,
@@ -329,7 +337,7 @@ export default function EditablePreview({
             ))}
 
             <Popover
-              open={!!hoveredSuggestion}
+              open={Boolean(hoveredSuggestion)}
               anchorEl={anchorEl}
               onClose={() => setHoveredSuggestion(undefined)}
               anchorOrigin={{
@@ -390,7 +398,7 @@ export default function EditablePreview({
       </div>
     </Grid>
   );
-}
+};
 
 const StyledTextareaAutosize = styled(TextareaAutosize)<{ customColor?: string }>`
   color: ${(props) => props.customColor};
@@ -417,3 +425,5 @@ const StyledTextareaAutosize = styled(TextareaAutosize)<{ customColor?: string }
 const PopoverContent = styled('div')({
   padding: '8px',
 });
+
+export default EditablePreview;

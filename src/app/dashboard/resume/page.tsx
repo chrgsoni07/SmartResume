@@ -14,7 +14,7 @@ export default function Page(): React.JSX.Element {
   return (
     <Stack spacing={3}>
       <Toaster />
-      {/* <Typography variant="body1" gutterBottom>
+      {/*      <Typography variant="body1" gutterBottom>
         Upload your existing resume to receive tailored suggestions for improving your chances of getting noticed by
         Applicant Tracking Systems (ATS) and other benefits. Our ChatGPT-powered tool analyzes your resume and provides
         actionable insights to enhance its effectiveness, helping you stand out in the job market.

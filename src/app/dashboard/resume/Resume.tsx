@@ -6,17 +6,15 @@ export type Resume = {
   location: string;
   careerObjective: string;
   education: Education[];
-  skills: string[];
-  skillsCategory: SkillsCategory;
+  skills?: string[];
+  skillsCategory?: SkillsCategory;
   jobTitle: string;
   projects: Projects[];
   workExperience: WorkExperience[];
   suggestions: Suggestion[];
 };
 
-interface SkillsCategory {
-  [key: string]: string[];
-}
+type SkillsCategory = Record<string, string[]>;
 
 export type Education = {
   degree: string;

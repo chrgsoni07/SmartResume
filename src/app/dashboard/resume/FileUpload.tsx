@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { saveData } from '../service/api';
 import EditablePreview from './EditablePreview';
-import { Resume } from './Resume';
+import { type Resume } from './Resume';
 
 const FileUpload: React.FC = () => {
   const [selectedFile, setSelectedFile] = useState<File>();

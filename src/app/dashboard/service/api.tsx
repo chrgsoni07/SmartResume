@@ -13,7 +13,7 @@ export const fetchData = async (id: string): Promise<any> => {
   return response.json();
 };
 
-export const saveData = async (data: Resume): Promise<Resume> => {
+export const saveData = async (data?: Resume): Promise<Resume> => {
   const saveDataURL = BASE_URL + 'uid112233';
   try {
     const response = await fetch(saveDataURL, {

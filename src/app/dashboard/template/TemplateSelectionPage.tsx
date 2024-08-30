@@ -23,7 +23,7 @@ Font.register({
 });
 
 const TemplateSelectionPage: React.FC = () => {
-  const [resumeData, setResumeData] = useState<Resume>(new Resume());
+  const [resumeData, setResumeData] = useState<Resume | undefined>();
   const [open, setOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState('');
   const location = useLocation();
@@ -86,8 +86,7 @@ const TemplateSelectionPage: React.FC = () => {
           </Grid>
         ))}
       </Grid>
-
-      <TemplateRenderer resumeData={resumeData} templateType={templateType} />
+      {resumeData && <TemplateRenderer resumeData={resumeData} templateType={templateType} />}
     </Container>
   );
 };

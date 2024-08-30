@@ -25,16 +25,16 @@ import { saveData } from '../service/api';
 import { Resume, Suggestion } from './Resume';
 
 const FileUpload: React.FC = () => {
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [selectedFile, setSelectedFile] = useState<File>();
   const [isUploading, setIsUploading] = useState(false);
-  const [resumeData, setResumeData] = useState<Resume>(new Resume());
+  const [resumeData, setResumeData] = useState<Resume | undefined>();
   const [suggestionArray, setSuggestionArray] = useState<Suggestion[]>([]);
-  const [hoveredSuggestion, setHoveredSuggestion] = useState<Suggestion | null>(null);
-  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+  const [hoveredSuggestion, setHoveredSuggestion] = useState<Suggestion>();
+  const [anchorEl, setAnchorEl] = useState<HTMLElement>();
   const navigate = useNavigate();
 
   const handleResponsibilityHover = (originalText: string, event: React.MouseEvent<HTMLTextAreaElement>) => {
-    const suggestion = suggestionArray.find((suggestion) => suggestion.originalText === originalText) || null;
+    const suggestion = suggestionArray.find((suggestion) => suggestion.originalText === originalText);
     setHoveredSuggestion(suggestion);
     setAnchorEl(event.currentTarget);
   };
@@ -47,8 +47,8 @@ const FileUpload: React.FC = () => {
         responsibilities: exp.responsibilities.map((resp) => (resp === originalText ? suggestedText : resp)),
       }));
       setResumeData({ ...resumeData, workExperience: updatedExperience });
-      setHoveredSuggestion(null);
-      setAnchorEl(null);
+      setHoveredSuggestion(undefined);
+      setAnchorEl(undefined);
     }
   };
 
@@ -104,28 +104,43 @@ const FileUpload: React.FC = () => {
     value: string,
     type: 'education' | 'workExperience'
   ) => {
+    if (!resumeData) {
+      return;
+    }
     const updatedArray = [...resumeData[type]];
     updatedArray[index] = { ...updatedArray[index], [field]: value };
     setResumeData({ ...resumeData, [type]: updatedArray });
   };
 
   const handelWorkExOnResponsiblity = (newValue: string, expIndex: number, respIndex: number) => {
+    if (!resumeData) {
+      return;
+    }
     const copyWorkExperience = [...resumeData.workExperience];
     copyWorkExperience[expIndex].responsibilities[respIndex] = newValue;
     setResumeData({ ...resumeData, workExperience: copyWorkExperience });
   };
 
   const handelWorkExOnAchievements = (newValue: string, expIndex: number, achIndex: number) => {
+    if (!resumeData) {
+      return;
+    }
     const copyWorkExperience = [...resumeData.workExperience];
     copyWorkExperience[expIndex].achievements[achIndex] = newValue;
     setResumeData({ ...resumeData, workExperience: copyWorkExperience });
   };
 
   const handelSkillChange = (e: any) => {
+    if (!resumeData) {
+      return;
+    }
     setResumeData({ ...resumeData, skills: e });
   };
 
   function removeResponsibility(expIndex: number, respIndex: number): void {
+    if (!resumeData) {
+      return;
+    }
     const filteredRespon = resumeData.workExperience[expIndex].responsibilities.filter((_, i) => i !== respIndex);
     const updateResumeData = { ...resumeData };
     updateResumeData.workExperience[expIndex].responsibilities = filteredRespon;
@@ -133,14 +148,23 @@ const FileUpload: React.FC = () => {
   }
 
   function addResponsibility(expIndex: number): void {
+    if (!resumeData) {
+      return;
+    }
     handelWorkExOnResponsiblity('', expIndex, resumeData.workExperience[expIndex].responsibilities.length);
   }
 
   function addAchievements(expIndex: number): void {
+    if (!resumeData) {
+      return;
+    }
     handelWorkExOnAchievements('', expIndex, resumeData.workExperience[expIndex].achievements.length);
   }
 
   function removeAchivements(index: number, achIndex: number): void {
+    if (!resumeData) {
+      return;
+    }
     const filterdAch = resumeData.workExperience[index].achievements.filter((_, i) => i !== achIndex);
     const updateResumeData = { ...resumeData };
     updateResumeData.workExperience[index].achievements = filterdAch;
@@ -184,7 +208,7 @@ const FileUpload: React.FC = () => {
           </Button>
         </Grid>
         {/* start here */}
-        {resumeData.name != null ? (
+        {resumeData && (
           <Grid item xs={12}>
             <Typography style={{ color: '#635BFF' }} variant="subtitle1" gutterBottom>
               Details
@@ -366,7 +390,7 @@ const FileUpload: React.FC = () => {
                   <Popover
                     open={!!hoveredSuggestion}
                     anchorEl={anchorEl}
-                    onClose={() => setHoveredSuggestion(null)}
+                    onClose={() => setHoveredSuggestion(undefined)}
                     anchorOrigin={{
                       vertical: 'bottom',
                       horizontal: 'left',
@@ -407,8 +431,6 @@ const FileUpload: React.FC = () => {
               ))}
             </div>
           </Grid>
-        ) : (
-          <div></div>
         )}
         {/* end here */}
         <Grid item xs={12}>

@@ -1,45 +1,45 @@
-export class Resume {
+export type Resume = {
   id: string;
   name: string;
   email: string;
   phone: string;
   location: string;
   careerObjective: string;
-  education: Education[] = [];
-  skills: string[] = [];
+  education: Education[];
+  skills: string[];
   skillsCategory: SkillsCategory;
   jobTitle: string;
   projects: Projects[];
-  workExperience: WorkExperience[] = [];
-  suggestion: Suggestion[] = [];
-}
+  workExperience: WorkExperience[];
+  suggestion: Suggestion[];
+};
 
 interface SkillsCategory {
   [key: string]: string[];
 }
 
-export class Education {
+export type Education = {
   degree: string;
   university: string;
   duration: string;
   location: string;
-}
+};
 
-export class WorkExperience {
+export type WorkExperience = {
   company: string;
   jobPosition: string;
   duration: string;
   location: string;
   responsibilities: string[];
   achievements: string[];
-}
+};
 
-export class Projects {
+export type Projects = {
   name: string;
   description: string;
   technologies: string[];
-}
-export class Suggestion {
+};
+export type Suggestion = {
   originalText: string;
   suggestedText: string;
-}
+};

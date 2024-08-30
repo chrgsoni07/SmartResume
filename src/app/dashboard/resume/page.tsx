@@ -1,27 +1,31 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import type { Metadata } from 'next';
-import dynamic from 'next/dynamic';
+import { Typography } from '@mui/material';
 import Stack from '@mui/material/Stack';
-import { PDFDownloadLink } from '@react-pdf/renderer';
 import { Toaster } from 'react-hot-toast';
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 
+import TemplateSelectionPage from '../template/TemplateSelectionPage';
 //import { useState } from "react";
-import { config } from '@/config';
 
-import App from '../renderer';
 import FileUpload from './FileUpload';
-import ResumePDF from './ResumePDF';
-import ResumeShow from './ResumeShow';
-import ResumeTemplate from './ResumeTemplate';
 
 export default function Page(): React.JSX.Element {
   return (
     <Stack spacing={3}>
       <Toaster />
+      {/* <Typography variant="body1" gutterBottom>
+        Upload your existing resume to receive tailored suggestions for improving your chances of getting noticed by
+        Applicant Tracking Systems (ATS) and other benefits. Our ChatGPT-powered tool analyzes your resume and provides
+        actionable insights to enhance its effectiveness, helping you stand out in the job market.
+      </Typography> */}
       <Stack direction="row" spacing={3}>
-        <FileUpload></FileUpload>
+        <Router>
+          <Routes>
+            <Route path="/dashboard/resume" element={<FileUpload />} />
+            <Route path="/dashboard/template" element={<TemplateSelectionPage />} />
+          </Routes>
+        </Router>
       </Stack>
 
       <Stack direction="row" spacing={3}>

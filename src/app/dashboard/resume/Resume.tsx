@@ -1,5 +1,6 @@
 export class Resume {
-  name: string = '';
+  id: string;
+  name: string;
   email: string;
   phone: string;
   location: string;
@@ -8,7 +9,7 @@ export class Resume {
   skillsList: string[] = [];
   skillsCategory: SkillsCategory;
   jobTitle: string;
-  projects: Projects[] = [];
+  projects: Projects[];
   workExperience: WorkExperience[] = [];
   suggestion: Suggestion[] = [];
 }
@@ -29,16 +30,15 @@ export class WorkExperience {
   jobPosition: string;
   duration: string;
   location: string;
-  responsibilities: string[] = [];
-  achievements: string[] = [];
+  responsibilities: string[];
+  achievements: string[];
 }
 
 export class Projects {
   name: string;
   description: string;
-  technologies: string[] = [];
+  technologies: string[];
 }
-
 export class Suggestion {
   originalText: string;
   suggestedText: string;

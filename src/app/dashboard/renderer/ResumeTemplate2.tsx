@@ -12,57 +12,53 @@ Font.register({
 });
 
 const ResumeTemplate2 = ({ resume }: { resume: Resume }) => (
-  <Document>
-    <Page size="A4" style={styles.page}>
-      {/* Header Section */}
-      <View style={styles.header}>
-        <Text style={styles.name}>{resume.name}</Text>
-        <Text style={styles.contact}>{` ${resume.jobTitle} | ${resume.email} | ${resume.phone} `}</Text>
-        {/* <Text style={styles.address}>{resume.location}</Text> */}
-      </View>
+  <Page size="A4" style={styles.page}>
+    {/* Header Section */}
+    <View style={styles.header}>
+      <Text style={styles.name}>{resume.name}</Text>
+      <Text style={styles.contact}>{` ${resume.jobTitle} | ${resume.email} | ${resume.phone} `}</Text>
+      {/* <Text style={styles.address}>{resume.location}</Text> */}
+    </View>
 
-      {/* Professional Summary Section */}
-      {resume.careerObjective !== null && resume.careerObjective !== undefined ? (
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Summary</Text>
-          <Text style={styles.text}>{resume.careerObjective}</Text>
+    {/* Professional Summary Section */}
+    {resume.careerObjective !== null && resume.careerObjective !== undefined ? (
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Summary</Text>
+        <Text style={styles.text}>{resume.careerObjective}</Text>
+      </View>
+    ) : (
+      <></>
+    )}
+
+    {/* Experience Section */}
+    <View style={styles.section}>
+      <Text style={styles.sectionTitle}>Experience</Text>
+      {resume.workExperience.map((exp) => (
+        <View style={styles.job}>
+          <Text style={styles.jobTitle}>{`${exp.company} | ${exp.jobPosition}`}</Text>
+          <Text style={styles.jobDates}>{exp.duration}</Text>
+          <List>
+            {exp.responsibilities.map((resp, index) => (
+              <Item key={index}>{resp}</Item>
+            ))}
+          </List>
         </View>
-      ) : (
-        <></>
-      )}
+      ))}
+    </View>
 
-      {/* Experience Section */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Experience</Text>
-        {resume.workExperience.map((exp) => (
-          <View style={styles.job}>
-            <Text style={styles.jobTitle}>{`${exp.company} | ${exp.jobPosition}`}</Text>
-            <Text style={styles.jobDates}>{exp.duration}</Text>
-            <List>
-              {exp.responsibilities.map((resp, index) => (
-                <Item key={index}>{resp}</Item>
-              ))}
-            </List>
-          </View>
-        ))}
-      </View>
-
-      {/* Education Section */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Education</Text>
-        {resume.education.map((edu) => (
-          <Text
-            style={styles.education}
-          >{`${edu.degree} from ${edu.university} ${edu.location} | ${edu.duration}`}</Text>
-        ))}
-      </View>
-      {/* Skills Section */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Skills</Text>
-        <Text style={styles.skills}>{resume.skillsList.join(' , ')}</Text>
-      </View>
-    </Page>
-  </Document>
+    {/* Education Section */}
+    <View style={styles.section}>
+      <Text style={styles.sectionTitle}>Education</Text>
+      {resume.education.map((edu) => (
+        <Text style={styles.education}>{`${edu.degree} from ${edu.university} ${edu.location} | ${edu.duration}`}</Text>
+      ))}
+    </View>
+    {/* Skills Section */}
+    <View style={styles.section}>
+      <Text style={styles.sectionTitle}>Skills</Text>
+      <Text style={styles.skills}>{resume.skillsList.join(' , ')}</Text>
+    </View>
+  </Page>
 );
 const styles = StyleSheet.create({
   page: {

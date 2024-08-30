@@ -1,5 +1,7 @@
 import toast from 'react-hot-toast';
 
+import { Resume } from '../resume/Resume';
+
 const BASE_URL = 'http://localhost:8080/mongo/';
 
 export const fetchData = async (id: string): Promise<any> => {
@@ -11,7 +13,7 @@ export const fetchData = async (id: string): Promise<any> => {
   return response.json();
 };
 
-export const saveData = async (data: any): Promise<any> => {
+export const saveData = async (data: Resume): Promise<Resume> => {
   const saveDataURL = BASE_URL + 'uid112233';
   try {
     const response = await fetch(saveDataURL, {

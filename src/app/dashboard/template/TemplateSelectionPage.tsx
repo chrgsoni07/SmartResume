@@ -27,7 +27,7 @@ const TemplateSelectionPage: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState('');
   const location = useLocation();
-  const [templateType, setTemplateType] = useState(1);
+  const [templateType, setTemplateType] = useState(0);
   const navigate = useNavigate();
 
   const handleSelect = async (templateId: number) => {
@@ -98,35 +98,24 @@ interface TemplateRendererProps {
 }
 
 const TemplateRenderer: React.FC<TemplateRendererProps> = ({ resumeData, templateType }) => {
-  if (!resumeData) {
-    return <div>Loading...</div>;
+  if (!resumeData && templateType == 0) {
+    return <div>Please select template to preview resume...</div>;
   }
 
   const renderTemplate = () => {
     switch (templateType) {
       case 1:
-        return <ResumeTemplate1 udata={resumeData} orientation="portrait" />;
+        return <ResumeTemplate1 resume={resumeData} orientation="portrait" />;
       case 2:
         return <ResumeTemplate2 resume={resumeData} />;
       case 3:
         return <ResumeTemplate3 resume={resumeData} />;
       default:
-        return <div>Template not found</div>;
+        return <div>Please select template to preview resume...</div>;
     }
   };
 
-  return (
-    <PDFViewer width="100%" height="600">
-      <Document
-        author="Chirag Soni"
-        keywords="resume, milpitas communications"
-        subject="The resume of Chirag Soni"
-        title="Resume"
-      >
-        {renderTemplate()}
-      </Document>
-    </PDFViewer>
-  );
+  return renderTemplate();
 };
 
 export default TemplateSelectionPage;

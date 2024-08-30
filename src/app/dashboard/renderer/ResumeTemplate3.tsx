@@ -1,5 +1,5 @@
 import React from 'react';
-import { Document, Font, Page, StyleSheet, Text, View } from '@react-pdf/renderer';
+import { Document, Font, Page, PDFViewer, StyleSheet, Text, View } from '@react-pdf/renderer';
 
 import { Resume } from '../resume/Resume';
 import List, { Item } from './List';
@@ -11,66 +11,70 @@ Font.register({
 });
 
 const ResumeTemplate3 = ({ resume }: { resume: Resume }) => (
-  <Page size="A4" style={styles.page}>
-    {/* Header Section */}
-    <View style={styles.header}>
-      <Text style={styles.name}>{resume.name}</Text>
-      <Text style={styles.contact}>
-        {resume.jobTitle} | {resume.email} | {resume.phone}
-      </Text>
-      {/* <Text style={styles.address}>{resume.location}</Text> */}
-    </View>
+  <PDFViewer width="100%" height="600">
+    <Document keywords="resume, ATS, multinational componay" title="Resume">
+      <Page size="A4" style={styles.page}>
+        {/* Header Section */}
+        <View style={styles.header}>
+          <Text style={styles.name}>{resume.name}</Text>
+          <Text style={styles.contact}>
+            {resume.jobTitle} | {resume.email} | {resume.phone}
+          </Text>
+          {/* <Text style={styles.address}>{resume.location}</Text> */}
+        </View>
 
-    <View style={styles.content}>
-      {/* Left Side */}
-      <View style={styles.leftColumn}>
-        {/* Professional Summary Section */}
-        {resume.careerObjective && (
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Summary</Text>
-            <Text style={styles.text}>{resume.careerObjective}</Text>
-          </View>
-        )}
+        <View style={styles.content}>
+          {/* Left Side */}
+          <View style={styles.leftColumn}>
+            {/* Professional Summary Section */}
+            {resume.careerObjective && (
+              <View style={styles.section}>
+                <Text style={styles.sectionTitle}>Summary</Text>
+                <Text style={styles.text}>{resume.careerObjective}</Text>
+              </View>
+            )}
 
-        {/* Experience Section */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Experience</Text>
-          {resume.workExperience.map((exp, index) => (
-            <View style={styles.job} key={index}>
-              <Text style={styles.jobTitle}>
-                {exp.company} | {exp.jobPosition}
-              </Text>
-              <Text style={styles.jobDates}>{exp.duration}</Text>
-              <List>
-                {exp.responsibilities.map((resp, idx) => (
-                  <Item key={idx}>{resp}</Item>
-                ))}
-              </List>
+            {/* Experience Section */}
+            <View style={styles.section}>
+              <Text style={styles.sectionTitle}>Experience</Text>
+              {resume.workExperience.map((exp, index) => (
+                <View style={styles.job} key={index}>
+                  <Text style={styles.jobTitle}>
+                    {exp.company} | {exp.jobPosition}
+                  </Text>
+                  <Text style={styles.jobDates}>{exp.duration}</Text>
+                  <List>
+                    {exp.responsibilities.map((resp, idx) => (
+                      <Item key={idx}>{resp}</Item>
+                    ))}
+                  </List>
+                </View>
+              ))}
             </View>
-          ))}
-        </View>
-      </View>
+          </View>
 
-      {/* Right Side */}
-      <View style={styles.rightColumn}>
-        {/* Education Section */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Education</Text>
-          {resume.education.map((edu, index) => (
-            <Text style={styles.education} key={index}>
-              {edu.degree} from {edu.university} {edu.location} | {edu.duration}
-            </Text>
-          ))}
-        </View>
+          {/* Right Side */}
+          <View style={styles.rightColumn}>
+            {/* Education Section */}
+            <View style={styles.section}>
+              <Text style={styles.sectionTitle}>Education</Text>
+              {resume.education.map((edu, index) => (
+                <Text style={styles.education} key={index}>
+                  {edu.degree} from {edu.university} {edu.location} | {edu.duration}
+                </Text>
+              ))}
+            </View>
 
-        {/* Skills Section */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Skills</Text>
-          <Text style={styles.skills}>{resume.skillsList.join(', ')}</Text>
+            {/* Skills Section */}
+            <View style={styles.section}>
+              <Text style={styles.sectionTitle}>Skills</Text>
+              <Text style={styles.skills}>{resume.skills.join(', ')}</Text>
+            </View>
+          </View>
         </View>
-      </View>
-    </View>
-  </Page>
+      </Page>
+    </Document>
+  </PDFViewer>
 );
 
 const styles = StyleSheet.create({

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Document, Font, Page, PageProps, StyleSheet, Text, View } from '@react-pdf/renderer';
+import { Document, Font, Page, PageProps, PDFViewer, StyleSheet, Text, View } from '@react-pdf/renderer';
 
 import { Resume } from '../resume/Resume';
 import CareerObjective from './CareerObjective';
@@ -11,7 +11,7 @@ import Skills from './Skills';
 interface ResumeProps extends Omit<PageProps, 'size'> {
   size?: PageProps['size'];
   orientation?: 'portrait' | 'landscape';
-  udata?: Resume;
+  resume?: Resume;
 }
 
 // Register fonts
@@ -80,22 +80,26 @@ const styles = StyleSheet.create({
 
 // Resume component
 const ResumeTemplate1: React.FC<ResumeProps> = (props) => (
-  <Page {...props} style={styles.page}>
-    <Header
-      uname={props.udata?.name as string}
-      jobTitle={props.udata?.jobTitle as string}
-      email={props.udata?.email as string}
-      phoneNo={props.udata?.phone as string}
-    />
-    <CareerObjective careerObjective={props.udata?.careerObjective} />
-    <View style={styles.container}>
-      <View style={styles.leftColumn}>
-        <Education education={props.udata?.education} />
-        <Skills skills={props.udata?.skillsList} />
-      </View>
-      <Experience workExperience={props.udata?.workExperience} />
-    </View>
-  </Page>
+  <PDFViewer width="100%" height="600">
+    <Document keywords="resume, ATS, multinational componay" title="Resume">
+      <Page {...props} style={styles.page}>
+        <Header
+          uname={props.resume?.name as string}
+          jobTitle={props.resume?.jobTitle as string}
+          email={props.resume?.email as string}
+          phoneNo={props.resume?.phone as string}
+        />
+        <CareerObjective careerObjective={props.resume?.careerObjective} />
+        <View style={styles.container}>
+          <View style={styles.leftColumn}>
+            <Education education={props.resume?.education} />
+            <Skills skills={props.resume?.skills} />
+          </View>
+          <Experience workExperience={props.resume?.workExperience} />
+        </View>
+      </Page>
+    </Document>
+  </PDFViewer>
 );
 
 export default ResumeTemplate1;

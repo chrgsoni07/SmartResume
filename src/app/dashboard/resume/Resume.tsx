@@ -6,7 +6,7 @@ export class Resume {
   location: string;
   careerObjective: string;
   education: Education[] = [];
-  skillsList: string[] = [];
+  skills: string[] = [];
   skillsCategory: SkillsCategory;
   jobTitle: string;
   projects: Projects[];

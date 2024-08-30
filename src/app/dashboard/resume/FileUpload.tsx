@@ -122,7 +122,7 @@ const FileUpload: React.FC = () => {
   };
 
   const handelSkillChange = (e: any) => {
-    setResumeData({ ...resumeData, skillsList: e });
+    setResumeData({ ...resumeData, skills: e });
   };
 
   function removeResponsibility(expIndex: number, respIndex: number): void {
@@ -242,20 +242,16 @@ const FileUpload: React.FC = () => {
               />
             </div>
 
-            {resumeData.skillsList == undefined ? (
+            {resumeData.skills ? (
               <div className="section">
-                <MuiChipsInput
-                  value={resumeData.skillsList}
-                  onChange={handelSkillChange}
-                  label="Skills"
-                  margin="normal"
-                />
+                <MuiChipsInput value={resumeData.skills} onChange={handelSkillChange} label="Skills" margin="normal" />
               </div>
             ) : (
               <div className="section">
-                {Object.entries(resumeData.skillsCategory).map(([category, skillList], index, array) => (
-                  <MuiChipsInput value={skillList} onChange={handelSkillChange} label={category} margin="normal" />
-                ))}
+                {resumeData.skillsCategory &&
+                  Object.entries(resumeData.skillsCategory).map(([category, skillList], index, array) => (
+                    <MuiChipsInput value={skillList} onChange={handelSkillChange} label={category} margin="normal" />
+                  ))}
               </div>
             )}
 

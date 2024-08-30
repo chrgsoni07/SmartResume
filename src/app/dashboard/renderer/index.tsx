@@ -19,7 +19,7 @@ function App({ resumeData }: { resumeData: Resume }) {
       {/*  <ResumePDF size="A4" />
       <ResumePDF orientation="landscape" size="A4" />
       <ResumePDF size={[380, 1250]} />*/}
-      <ResumeTemplate1 size="A4" udata={resumeData} />
+      <ResumeTemplate1 size="A4" resume={resumeData} />
       <ResumeTemplate2 resume={resumeData} />
       <ResumeTemplateTest resume={resumeData} />
     </Document>

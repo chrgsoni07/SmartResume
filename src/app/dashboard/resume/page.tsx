@@ -6,8 +6,6 @@ import { Toaster } from 'react-hot-toast';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 
 import TemplateSelectionPage from '../template/TemplateSelectionPage';
-//import { useState } from "react";
-
 import FileUpload from './FileUpload';
 
 export default function Page(): React.JSX.Element {
@@ -34,13 +32,3 @@ export default function Page(): React.JSX.Element {
     </Stack>
   );
 }
-
-// export default function Page2(): JSX.Element {
-//   const [isClient, setIsClient] = useState(false);
-//   useEffect(() => {
-//     setIsClient(true);
-//   }, []);
-
-//   return isClient ? <Page2 /> : <p>loading</p>;
-//   //return <p>loading link</p>;
-// }

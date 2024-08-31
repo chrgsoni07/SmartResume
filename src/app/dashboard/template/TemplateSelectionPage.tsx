@@ -7,7 +7,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import ResumeTemplate1 from '../renderer/ResumeTempate1';
 import ResumeTemplate2 from '../renderer/ResumeTemplate2';
 import ResumeTemplate3 from '../renderer/ResumeTemplate3';
-import { Resume } from '../resume/Resume';
+import { type Resume } from '../resume/Resume';
 import { fetchData } from '../service/api';
 
 const templates = [
@@ -32,19 +32,20 @@ const TemplateSelectionPage: React.FC = () => {
 
   const handleSelect = async (templateId: number) => {
     console.log('show the resume in template format ', templateId);
-
-    if (location.state != null && location.state.id != null) {
-      if (resumeData == null || resumeData.id == null) {
-        await updateResumeState();
-      }
-      setTemplateType(templateId);
-    } else {
+    if (!location.state.id) {
       navigate('/dashboard/resume');
+    }
+
+    setTemplateType(templateId);
+
+    if (!resumeData) {
+      const resumeId = location.state.id;
+      await updateResumeState(resumeId);
     }
   };
 
-  async function updateResumeState() {
-    const receivedResumeData = await fetchData(location.state.id);
+  async function updateResumeState(resumeId: string) {
+    const receivedResumeData = await fetchData(resumeId);
     console.log('Data from db ', receivedResumeData);
     setResumeData(receivedResumeData);
   }
@@ -97,7 +98,7 @@ interface TemplateRendererProps {
 }
 
 const TemplateRenderer: React.FC<TemplateRendererProps> = ({ resumeData, templateType }) => {
-  if (!resumeData && templateType == 0) {
+  if (templateType === 0) {
     return <div>Please select template to preview resume...</div>;
   }
 
@@ -110,7 +111,7 @@ const TemplateRenderer: React.FC<TemplateRendererProps> = ({ resumeData, templat
       case 3:
         return <ResumeTemplate3 resume={resumeData} />;
       default:
-        return <div>Please select template to preview resume...</div>;
+        return <div>Please select template to preview & download resume...</div>;
     }
   };
 

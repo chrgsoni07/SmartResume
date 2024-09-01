@@ -18,7 +18,7 @@ export interface LogoProps {
   width?: number;
 }
 
-export function Logo({ color = 'dark', emblem, height = HEIGHT, width = WIDTH }: LogoProps): React.JSX.Element {
+export const Logo = ({ color = 'dark', emblem, height = HEIGHT, width = WIDTH }: LogoProps): React.JSX.Element => {
   let url: string;
   if (emblem) {
     url = color === 'light' ? '/assets/logo-emblem.svg' : '/assets/milpitasLogo.svg';
@@ -37,13 +37,13 @@ export interface DynamicLogoProps {
   width?: number;
 }
 
-export function DynamicLogo({
+export const DynamicLogo = ({
   colorDark = 'light',
   colorLight = 'dark',
   height = HEIGHT,
   width = WIDTH,
   ...props
-}: DynamicLogoProps): React.JSX.Element {
+}: DynamicLogoProps): React.JSX.Element => {
   const { colorScheme } = useColorScheme();
   const color = colorScheme === 'dark' ? colorDark : colorLight;
 

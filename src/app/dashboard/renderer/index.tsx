@@ -2,13 +2,13 @@
 import React from 'react';
 import { Document } from '@react-pdf/renderer';
 
-import { Resume } from '../resume/Resume';
+import { type Resume } from '../resume/Resume';
 import ResumeTemplate1 from './ResumeTempate1';
 import ResumeTemplate2 from './ResumeTemplate2';
 import ResumeTemplateTest from './ResumeTemplate3';
 
 // App component
-function App({ resumeData }: { resumeData: Resume }) {
+const App = ({ resumeData }: { resumeData: Resume }) => {
   return (
     <Document
       author="Chirag Soni"

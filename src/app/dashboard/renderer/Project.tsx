@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from '@react-pdf/renderer';
 
-import { Projects } from '../resume/Resume';
+import { type Projects } from '../resume/Resume';
 import List, { Item } from './List';
 import Title from './Title';
 
@@ -61,13 +61,13 @@ const styles = StyleSheet.create({
   },
 });
 
-interface projectDataProps {
+interface ProjectDataProps {
   name: string;
   description: string;
   technologies: string[];
 }
-const ProjectEntry: React.FC<projectDataProps> = ({ name, description, technologies }) => {
-  const title = `${name}`;
+const ProjectEntry: React.FC<ProjectDataProps> = ({ name, description, technologies }) => {
+  const title = name;
   return (
     <View style={styles.entryContainer}>
       <View style={styles.headerContainer}>
@@ -85,18 +85,18 @@ const ProjectEntry: React.FC<projectDataProps> = ({ name, description, technolog
   );
 };
 
-function Project({ project }: { project?: Projects[] }) {
+const Project = ({ project }: { project?: Projects[] }) => {
   if (!project) {
-    return <p></p>;
+    return <p />;
   }
   return (
     <View style={styles.container}>
       <Title>Experience</Title>
       {project.map(({ name, description, technologies }) => (
-        <ProjectEntry name={name} description={description} technologies={technologies} />
+        <ProjectEntry name={name} description={description} technologies={technologies} key={name} />
       ))}
     </View>
   );
-}
+};
 
 export default Project;

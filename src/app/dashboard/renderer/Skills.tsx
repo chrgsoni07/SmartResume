@@ -51,9 +51,9 @@ const SkillEntry: React.FC<SkillEntryProps> = ({ name, skills }) => (
 );
 
 // Skills component
-function Skills({ skills }: { skills?: String[] }) {
+const Skills = ({ skills }: { skills?: string[] }) => {
   if (!skills) {
-    return <p></p>;
+    return <p />;
   } else if (skills.length > 12) {
     return (
       <View>
@@ -61,8 +61,7 @@ function Skills({ skills }: { skills?: String[] }) {
         <Text style={styles.skills}>{skills.join(', ')}</Text>;
       </View>
     );
-  } else
-    return (
+  } return (
       <View>
         <Title>Skills</Title>
         <List>

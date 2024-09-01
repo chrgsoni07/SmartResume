@@ -15,7 +15,7 @@ import Select from '@mui/material/Select';
 import Grid from '@mui/material/Unstable_Grid2';
 import { states } from './us-state';
 
-export function AccountDetailsForm(): React.JSX.Element {
+export const AccountDetailsForm = (): React.JSX.Element => {
   return (
     <form
       onSubmit={(event) => {

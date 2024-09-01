@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
   },
 });
 
-function Header({
+const Header = ({
   uname,
   jobTitle,
   email,
@@ -55,7 +55,7 @@ function Header({
   jobTitle: string;
   email: string;
   phoneNo: string;
-}) {
+}) => {
   return (
     <View style={styles.container}>
       <View style={styles.detailColumn}>

@@ -9,8 +9,8 @@ import { Resume } from '../resume/Resume';
 import { fetchData } from '../service/api';
 import ShowAllResume from './ShowAllResume';
 
-export default function Page(): React.JSX.Element {
-  const [resumeData, setResumeData] = React.useState<Resume>(new Resume());
+const Page(): React.JSX.Element {
+  const [resumeData, setResumeData] = React.useState<Resume | undefined>();
   const [selectedRow, setSelectedRow] = useState<Resume | null>(null);
 
   async function handelFatchData(): Promise<void> {
@@ -41,9 +41,11 @@ export default function Page(): React.JSX.Element {
         </Stack>
 
         <PDFViewer width="100%" height="600">
-          {<App resumeData={resumeData} />}
+          <App resumeData={resumeData} />
         </PDFViewer>
       </Stack>
     </div>
   );
 }
+
+export default Page;

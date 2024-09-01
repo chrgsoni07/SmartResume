@@ -2,7 +2,7 @@
 import React from 'react';
 import { Document, Font, Page, PDFViewer, StyleSheet, Text, View } from '@react-pdf/renderer';
 
-import { Resume } from '../resume/Resume';
+import { type Resume } from '../resume/Resume';
 import List, { Item } from './List';
 
 // Ensure Helvetica font is loaded for consistency
@@ -23,20 +23,18 @@ const ResumeTemplate2 = ({ resume }: { resume: Resume }) => (
         </View>
 
         {/* Professional Summary Section */}
-        {resume.careerObjective !== null && resume.careerObjective !== undefined ? (
+        {resume.careerObjective && (
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Summary</Text>
             <Text style={styles.text}>{resume.careerObjective}</Text>
           </View>
-        ) : (
-          <></>
         )}
 
         {/* Experience Section */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Experience</Text>
           {resume.workExperience.map((exp) => (
-            <View style={styles.job}>
+            <View style={styles.job} key={exp.company}>
               <Text style={styles.jobTitle}>{`${exp.company} | ${exp.jobPosition}`}</Text>
               <Text style={styles.jobDates}>{exp.duration}</Text>
               <List>
@@ -54,13 +52,14 @@ const ResumeTemplate2 = ({ resume }: { resume: Resume }) => (
           {resume.education.map((edu) => (
             <Text
               style={styles.education}
+              key={edu.university}
             >{`${edu.degree} from ${edu.university} ${edu.location} | ${edu.duration}`}</Text>
           ))}
         </View>
         {/* Skills Section */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Skills</Text>
-          <Text style={styles.skills}>{resume.skills.join(' , ')}</Text>
+          <Text style={styles.skills}>{resume.skills?.join(' , ')}</Text>
         </View>
       </Page>
     </Document>

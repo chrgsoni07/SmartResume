@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from '@react-pdf/renderer';
 
-import { Education } from '../resume/Resume';
+import { type Education } from '../resume/Resume';
 import Title from './Title';
 
 const styles = StyleSheet.create({
@@ -22,9 +22,9 @@ const styles = StyleSheet.create({
   },
 });
 
-function EducationDisplay({ education }: { education?: Education[] }) {
+const EducationDisplay = ({ education }: { education?: Education[] }) => {
   if (!education) {
-    return <p></p>;
+    return <p />;
   }
   return (
     <View style={styles.container}>

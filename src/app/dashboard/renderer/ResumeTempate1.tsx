@@ -1,7 +1,7 @@
 import React from 'react';
-import { Document, Font, Page, PageProps, PDFViewer, StyleSheet, Text, View } from '@react-pdf/renderer';
+import { Document, Font, Page, PDFViewer, StyleSheet, View, type PageProps } from '@react-pdf/renderer';
 
-import { Resume } from '../resume/Resume';
+import { type Resume } from '../resume/Resume';
 import CareerObjective from './CareerObjective';
 import Education from './Education';
 import Experience from './Experience';
@@ -84,10 +84,10 @@ const ResumeTemplate1: React.FC<ResumeProps> = (props) => (
     <Document keywords="resume, ATS, multinational componay" title="Resume">
       <Page {...props} style={styles.page}>
         <Header
-          uname={props.resume?.name as string}
-          jobTitle={props.resume?.jobTitle as string}
-          email={props.resume?.email as string}
-          phoneNo={props.resume?.phone as string}
+          uname={props.resume?.name!}
+          jobTitle={props.resume?.jobTitle!}
+          email={props.resume?.email!}
+          phoneNo={props.resume?.phone!}
         />
         <CareerObjective careerObjective={props.resume?.careerObjective} />
         <View style={styles.container}>

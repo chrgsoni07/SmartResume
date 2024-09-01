@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { Box, Button } from '@mui/material';
-import { DataGrid, GridRenderCellParams } from '@mui/x-data-grid';
+import { DataGrid, type GridRenderCellParams } from '@mui/x-data-grid';
 
-import { Resume } from '../resume/Resume';
+import { type Resume } from '../resume/Resume';
 import { getAllResume } from '../service/api';
 
-function ShowAllResume({ onRowSelect }) {
+const ShowAllResume = ({ onRowSelect }) => {
   const [allResume, setAllResume] = React.useState<Resume[]>([]);
 
   const [selectedRow, setSelectedRow] = useState<Resume | null>(null);
@@ -37,30 +37,28 @@ function ShowAllResume({ onRowSelect }) {
     },
   ];
 
-  async function handelFatchData(): Promise<void> {
+  async function handleFatchData(): Promise<void> {
     const fatchedPromise = getAllResume();
     console.log('fetchedData => ', fatchedPromise);
     setAllResume(await fatchedPromise);
   }
 
   return (
-    <>
-      <Box sx={{ height: 400, width: '100%' }}>
-        <Box sx={{ mb: 2 }}>
-          <Button variant="contained" color="primary" onClick={() => handelFatchData()}>
-            All Resume
-          </Button>
-        </Box>
-        <DataGrid rows={allResume} columns={columns} autoHeight />
-        {/* {selectedRow && (
+    <Box sx={{ height: 400, width: '100%' }}>
+      <Box sx={{ mb: 2 }}>
+        <Button variant="contained" color="primary" onClick={() => handleFatchData()}>
+          All Resume
+        </Button>
+      </Box>
+      <DataGrid rows={allResume} columns={columns} autoHeight />
+      {/* {selectedRow && (
           <div style={{ marginTop: '20px' }}>
             <h3>Selected Row Data:</h3>
            <pre>{JSON.stringify(selectedRow, null, 2)}</pre>
           </div>
         )} */}
-      </Box>
-    </>
+    </Box>
   );
-}
+};
 
 export default ShowAllResume;

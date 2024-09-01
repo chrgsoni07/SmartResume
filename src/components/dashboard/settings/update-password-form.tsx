@@ -12,7 +12,7 @@ import InputLabel from '@mui/material/InputLabel';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import Stack from '@mui/material/Stack';
 
-export function UpdatePasswordForm(): React.JSX.Element {
+export const UpdatePasswordForm = (): React.JSX.Element => {
   return (
     <form
       onSubmit={(event) => {

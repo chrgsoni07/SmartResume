@@ -1,7 +1,7 @@
 import React from 'react';
 import { Document, Font, Page, PDFViewer, StyleSheet, Text, View } from '@react-pdf/renderer';
 
-import { Resume } from '../resume/Resume';
+import { type Resume } from '../resume/Resume';
 import List, { Item } from './List';
 
 // Ensure Lato font is loaded for consistency

@@ -82,7 +82,7 @@ const EditablePreview: React.FC<PropTypes> = ({ resumeData, setResumeData }) => 
   }
 
   function removeAchivements(index: number, achIndex: number): void {
-    const filterdAch = resumeData.workExperience[index].achievements?.filter((_, i) => i !== achIndex);
+    const filterdAch = resumeData.workExperience[index].achievements.filter((_, i) => i !== achIndex);
     const updateResumeData = { ...resumeData };
     updateResumeData.workExperience[index].achievements = filterdAch;
     setResumeData(updateResumeData);

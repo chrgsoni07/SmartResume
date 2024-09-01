@@ -16,7 +16,7 @@ const user = {
   city: 'Indore',
 } as const;
 
-export function AccountInfo(): React.JSX.Element {
+export const AccountInfo = (): React.JSX.Element => {
   return (
     <Card>
       <CardContent>

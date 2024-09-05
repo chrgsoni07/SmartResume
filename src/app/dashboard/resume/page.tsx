@@ -1,6 +1,6 @@
 'use client';
 
-import { Typography } from '@mui/material';
+import { type FC } from 'react';
 import Stack from '@mui/material/Stack';
 import { Toaster } from 'react-hot-toast';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
@@ -8,7 +8,7 @@ import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import TemplateSelectionPage from '../template/TemplateSelectionPage';
 import FileUpload from './FileUpload';
 
-export default function Page(): React.JSX.Element {
+const Page: FC = () => {
   return (
     <Stack spacing={3}>
       <Toaster />
@@ -31,4 +31,6 @@ export default function Page(): React.JSX.Element {
       </Stack>
     </Stack>
   );
-}
+};
+
+export default Page;

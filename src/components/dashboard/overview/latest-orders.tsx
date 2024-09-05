@@ -34,7 +34,7 @@ export interface LatestOrdersProps {
   sx?: SxProps;
 }
 
-export function LatestOrders({ orders = [], sx }: LatestOrdersProps): React.JSX.Element {
+export const LatestOrders = ({ orders = [], sx }: LatestOrdersProps): React.JSX.Element => {
   return (
     <Card sx={sx}>
       <CardHeader title="Latest orders" />

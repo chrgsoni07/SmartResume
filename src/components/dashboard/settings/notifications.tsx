@@ -14,7 +14,7 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Unstable_Grid2';
 
-export function Notifications(): React.JSX.Element {
+export const Notifications = (): React.JSX.Element => {
   return (
     <form
       onSubmit={(event) => {

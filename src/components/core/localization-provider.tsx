@@ -8,6 +8,6 @@ export interface LocalizationProviderProps {
   children: React.ReactNode;
 }
 
-export function LocalizationProvider({ children }: LocalizationProviderProps): React.JSX.Element {
+export const LocalizationProvider = ({ children }: LocalizationProviderProps): React.JSX.Element => {
   return <Provider dateAdapter={AdapterDayjs}>{children}</Provider>;
 }

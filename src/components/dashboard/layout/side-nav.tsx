@@ -16,7 +16,7 @@ import { Logo } from '@/components/core/logo';
 import { navItems } from './config';
 import { navIcons } from './nav-icons';
 
-export function SideNav(): React.JSX.Element {
+export const SideNav = (): React.JSX.Element => {
   const pathname = usePathname();
 
   return (
@@ -106,7 +106,7 @@ interface NavItemProps extends Omit<NavItemConfig, 'items'> {
   pathname: string;
 }
 
-function NavItem({ disabled, external, href, icon, matcher, pathname, title }: NavItemProps): React.JSX.Element {
+const NavItem = ({ disabled, external, href, icon, matcher, pathname, title }: NavItemProps): React.JSX.Element => {
   const active = isNavItemActive({ disabled, external, href, matcher, pathname });
   const Icon = icon ? navIcons[icon] : null;
 

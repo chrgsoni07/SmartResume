@@ -23,7 +23,7 @@ export interface UserPopoverProps {
   open: boolean;
 }
 
-export function UserPopover({ anchorEl, onClose, open }: UserPopoverProps): React.JSX.Element {
+export const UserPopover = ({ anchorEl, onClose, open }: UserPopoverProps): React.JSX.Element => {
   const { checkSession } = useUser();
 
   const router = useRouter();

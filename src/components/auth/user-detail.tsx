@@ -32,7 +32,7 @@ const defaultValues = {
   country: '',
 } satisfies Values;
 
-export function UpdateUserDetails(): React.JSX.Element {
+export const UpdateUserDetails = (): React.JSX.Element => {
   const router = useRouter();
 
   const { checkSession } = useUser();
@@ -76,8 +76,7 @@ export function UpdateUserDetails(): React.JSX.Element {
 
   return (
     <Stack spacing={3}>
-      <form onSubmit={handleSubmit(onSubmit)}>        
-      </form>
+      <form onSubmit={handleSubmit(onSubmit)} />
     </Stack>
   );
 }

@@ -13,7 +13,7 @@ export interface TasksProgressProps {
   value: number;
 }
 
-export function TasksProgress({ value, sx }: TasksProgressProps): React.JSX.Element {
+export const TasksProgress = ({ value, sx }: TasksProgressProps): React.JSX.Element => {
   return (
     <Card sx={sx}>
       <CardContent>

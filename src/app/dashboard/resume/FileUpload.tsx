@@ -1,7 +1,7 @@
 // FileUpload.tsx
 'use client';
 
-import { useState } from 'react';
+import { useState, type ChangeEvent, type FC, type FormEvent } from 'react';
 import { Box, Button, CircularProgress, Grid, TextField } from '@mui/material';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -10,20 +10,20 @@ import { saveData } from '../service/api';
 import EditablePreview from './EditablePreview';
 import { type Resume } from './Resume';
 
-const FileUpload: React.FC = () => {
+const FileUpload: FC = () => {
   const [selectedFile, setSelectedFile] = useState<File>();
   const [isUploading, setIsUploading] = useState(false);
   const [resumeData, setResumeData] = useState<Resume>();
 
   const navigate = useNavigate();
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
       setSelectedFile(event.target.files[0]);
     }
   };
 
-  const handleUpload = async () => {
+  const handleUpload = async (): Promise<void> => {
     if (!selectedFile) return;
 
     setIsUploading(true);
@@ -49,7 +49,7 @@ const FileUpload: React.FC = () => {
     }
   };
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log('Form data to be submit', resumeData);
     const result = await saveData(resumeData);

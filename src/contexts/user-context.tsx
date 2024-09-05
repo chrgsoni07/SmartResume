@@ -19,7 +19,7 @@ export interface UserProviderProps {
   children: React.ReactNode;
 }
 
-export function UserProvider({ children }: UserProviderProps): React.JSX.Element {
+export const UserProvider = ({ children }: UserProviderProps): React.JSX.Element => {
   const [state, setState] = React.useState<{ user: User | null; error: string | null; isLoading: boolean }>({
     user: null,
     error: null,

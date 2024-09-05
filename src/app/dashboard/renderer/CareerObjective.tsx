@@ -20,9 +20,9 @@ const styles = StyleSheet.create({
   },
 });
 
-function CareerObjective({ careerObjective }: { careerObjective?: string }) {
+const CareerObjective = ({ careerObjective }: { careerObjective?: string }) => {
   if (!careerObjective) {
-    return <p></p>;
+    return <p />;
   }
   return (
     <View style={styles.container}>

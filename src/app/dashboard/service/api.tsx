@@ -1,20 +1,20 @@
 import toast from 'react-hot-toast';
 
-import { Resume } from '../resume/Resume';
+import { type Resume } from '../resume/Resume';
 
 const BASE_URL = 'http://localhost:8080/mongo/';
 
-export const fetchData = async (id: string): Promise<any> => {
-  const fetchDataURL = BASE_URL + 'resume/' + id;
+export const fetchData = async (id: string): Promise<Resume> => {
+  const fetchDataURL = `${BASE_URL}resume/${id}`;
   const response = await fetch(fetchDataURL);
   if (!response.ok) {
     throw new Error('Network response was not ok');
   }
-  return response.json();
+  return response.json() as Promise<Resume>;
 };
 
 export const saveData = async (data?: Resume): Promise<Resume> => {
-  const saveDataURL = BASE_URL + 'uid112233';
+  const saveDataURL = `${BASE_URL}uid112233`;
   try {
     const response = await fetch(saveDataURL, {
       method: 'POST',
@@ -26,20 +26,20 @@ export const saveData = async (data?: Resume): Promise<Resume> => {
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }
-    const result = await response.json();
+    const result = (await response.json()) as Resume;
     toast.success('Resume data saved successfully!');
     return result;
   } catch (error) {
-    toast.error(`Error: ${error}`);
+    toast.error(`Error: ${(error as Error).message}`);
     throw error;
   }
 };
 
-export const getAllResume = async (): Promise<any> => {
-  const fatchAllResume = BASE_URL + 'all';
+export const getAllResume = async (): Promise<Resume[]> => {
+  const fatchAllResume = `${BASE_URL}all`;
   const response = await fetch(fatchAllResume);
   if (!response.ok) {
     throw new Error('Network response was not ok');
   }
-  return response.json();
+  return response.json() as Promise<Resume[]>;
 };

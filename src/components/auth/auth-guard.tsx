@@ -12,7 +12,7 @@ export interface AuthGuardProps {
   children: React.ReactNode;
 }
 
-export function AuthGuard({ children }: AuthGuardProps): React.JSX.Element | null {
+export const AuthGuard = ({ children }: AuthGuardProps): React.JSX.Element | null => {
   const router = useRouter();
   const { user, error, isLoading } = useUser();
   const [isChecking, setIsChecking] = React.useState<boolean>(true);

@@ -24,7 +24,7 @@ export interface TrafficProps {
   sx?: SxProps;
 }
 
-export function Traffic({ chartSeries, labels, sx }: TrafficProps): React.JSX.Element {
+export const Traffic = ({ chartSeries, labels, sx }: TrafficProps): React.JSX.Element => {
   const chartOptions = useChartOptions(labels);
 
   return (

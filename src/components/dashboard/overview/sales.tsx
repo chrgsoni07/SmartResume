@@ -20,7 +20,7 @@ export interface SalesProps {
   sx?: SxProps;
 }
 
-export function Sales({ chartSeries, sx }: SalesProps): React.JSX.Element {
+export const Sales = ({ chartSeries, sx }: SalesProps): React.JSX.Element => {
   const chartOptions = useChartOptions();
 
   return (

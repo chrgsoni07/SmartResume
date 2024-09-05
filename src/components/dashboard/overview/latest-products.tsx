@@ -27,7 +27,7 @@ export interface LatestProductsProps {
   sx?: SxProps;
 }
 
-export function LatestProducts({ products = [], sx }: LatestProductsProps): React.JSX.Element {
+export const LatestProducts = ({ products = [], sx }: LatestProductsProps): React.JSX.Element => {
   return (
     <Card sx={sx}>
       <CardHeader title="Latest products" />

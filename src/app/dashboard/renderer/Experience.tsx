@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from '@react-pdf/renderer';
 
-import { WorkExperience } from '../resume/Resume';
+import { type WorkExperience } from '../resume/Resume';
 import List, { Item } from './List';
 import Title from './Title';
 
@@ -141,9 +141,9 @@ const experienceData: ExperienceData[] = [
   },
 ];
 
-function Experience({ workExperience }: { workExperience?: WorkExperience[] }) {
+const Experience = ({ workExperience }: { workExperience?: WorkExperience[] }) => {
   if (!workExperience) {
-    return <p></p>;
+    return <p />;
   }
   return (
     <View style={styles.container}>

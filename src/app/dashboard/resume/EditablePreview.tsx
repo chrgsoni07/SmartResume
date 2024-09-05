@@ -36,12 +36,7 @@ const EditablePreview: React.FC<PropTypes> = ({ resumeData, setResumeData }) => 
     setAnchorEl(event.currentTarget);
   };
 
-  const handelWorkExperienceChange = (
-    index: number,
-    field: string,
-    value: string,
-    type: 'education' | 'workExperience'
-  ) => {
+  const handelWorkExperienceChange = (index: number, field: string, value: string, type: 'education' | 'workExperience') => {
     const updatedArray = [...resumeData[type]];
     updatedArray[index] = { ...updatedArray[index], [field]: value };
     setResumeData({ ...resumeData, [type]: updatedArray });
@@ -93,13 +88,7 @@ const EditablePreview: React.FC<PropTypes> = ({ resumeData, setResumeData }) => 
 
   return (
     <Grid item xs={12}>
-      <Typography
-        style={{
-          color: '#635BFF',
-        }}
-        variant="subtitle1"
-        gutterBottom
-      >
+      <Typography style={{ color: '#635BFF' }} variant="subtitle1" gutterBottom>
         Details
       </Typography>
 
@@ -108,9 +97,7 @@ const EditablePreview: React.FC<PropTypes> = ({ resumeData, setResumeData }) => 
           id="name"
           label="Name"
           value={resumeData.name}
-          InputLabelProps={{
-            shrink: true,
-          }}
+          InputLabelProps={{ shrink: true }}
           onChange={(e) => setResumeData({ ...resumeData, name: e.target.value })}
           margin="normal"
         />
@@ -119,9 +106,7 @@ const EditablePreview: React.FC<PropTypes> = ({ resumeData, setResumeData }) => 
           id="email"
           label="Email"
           value={resumeData.email}
-          InputLabelProps={{
-            shrink: true,
-          }}
+          InputLabelProps={{ shrink: true }}
           type="email"
           onChange={(e) => setResumeData({ ...resumeData, email: e.target.value })}
           margin="normal"
@@ -131,9 +116,7 @@ const EditablePreview: React.FC<PropTypes> = ({ resumeData, setResumeData }) => 
           id="phone"
           label="Phone"
           value={resumeData.phone}
-          InputLabelProps={{
-            shrink: true,
-          }}
+          InputLabelProps={{ shrink: true }}
           onChange={(e) => setResumeData({ ...resumeData, phone: e.target.value })}
           margin="normal"
         />
@@ -142,10 +125,27 @@ const EditablePreview: React.FC<PropTypes> = ({ resumeData, setResumeData }) => 
           id="location"
           label="Location/Place"
           value={resumeData.location}
-          InputLabelProps={{
-            shrink: true,
-          }}
+          InputLabelProps={{ shrink: true }}
           onChange={(e) => setResumeData({ ...resumeData, location: e.target.value })}
+          margin="normal"
+        />
+      </div>
+      <div>
+        <TextField
+          id="linkedin"
+          label="Linkedin Profile"
+          value={resumeData.linkedIn}
+          InputLabelProps={{ shrink: true }}
+          onChange={(e) => setResumeData({ ...resumeData, linkedIn: e.target.value })}
+          margin="normal"
+        />
+
+        <TextField
+          id="github"
+          label="GitHub Profile"
+          value={resumeData.github}
+          InputLabelProps={{ shrink: true }}
+          onChange={(e) => setResumeData({ ...resumeData, github: e.target.value })}
           margin="normal"
         />
       </div>
@@ -155,9 +155,7 @@ const EditablePreview: React.FC<PropTypes> = ({ resumeData, setResumeData }) => 
           id="careerObjective"
           label="Carrer Objective"
           value={resumeData.careerObjective}
-          InputLabelProps={{
-            shrink: true,
-          }}
+          InputLabelProps={{ shrink: true }}
           multiline
           rows={4}
           fullWidth
@@ -172,25 +170,13 @@ const EditablePreview: React.FC<PropTypes> = ({ resumeData, setResumeData }) => 
         <>
           {resumeData.skillsCategory &&
             Object.entries(resumeData.skillsCategory).map(([category, skillList]) => (
-              <MuiChipsInput
-                key={category}
-                value={skillList}
-                onChange={handelSkillChange}
-                label={category}
-                margin="normal"
-              />
+              <MuiChipsInput key={category} value={skillList} onChange={handelSkillChange} label={category} margin="normal" />
             ))}
         </>
       )}
 
       <div>
-        <Typography
-          style={{
-            color: '#635BFF',
-          }}
-          variant="subtitle1"
-          gutterBottom
-        >
+        <Typography style={{ color: '#635BFF' }} variant="subtitle1" gutterBottom>
           Education
         </Typography>
         {resumeData.education.map((edu, index) => (
@@ -199,9 +185,7 @@ const EditablePreview: React.FC<PropTypes> = ({ resumeData, setResumeData }) => 
               id={`degree${index + 1}`}
               label="Degree"
               value={edu.degree}
-              InputLabelProps={{
-                shrink: true,
-              }}
+              InputLabelProps={{ shrink: true }}
               margin="normal"
               onChange={(e) => handelWorkExperienceChange(index, 'degree', e.target.value, 'education')}
             />
@@ -209,9 +193,7 @@ const EditablePreview: React.FC<PropTypes> = ({ resumeData, setResumeData }) => 
               id={`university${index + 1}`}
               label="University"
               value={edu.university}
-              InputLabelProps={{
-                shrink: true,
-              }}
+              InputLabelProps={{ shrink: true }}
               margin="normal"
               onChange={(e) => handelWorkExperienceChange(index, 'university', e.target.value, 'education')}
             />
@@ -219,9 +201,7 @@ const EditablePreview: React.FC<PropTypes> = ({ resumeData, setResumeData }) => 
               id={`duration${index + 1}`}
               label="Duration"
               value={edu.duration}
-              InputLabelProps={{
-                shrink: true,
-              }}
+              InputLabelProps={{ shrink: true }}
               margin="normal"
               onChange={(e) => handelWorkExperienceChange(index, 'duration', e.target.value, 'education')}
             />
@@ -229,9 +209,7 @@ const EditablePreview: React.FC<PropTypes> = ({ resumeData, setResumeData }) => 
               id={`location${index + 1}`}
               label="Location"
               value={edu.location}
-              InputLabelProps={{
-                shrink: true,
-              }}
+              InputLabelProps={{ shrink: true }}
               margin="normal"
               onChange={(e) => handelWorkExperienceChange(index, 'location', e.target.value, 'education')}
             />
@@ -240,13 +218,7 @@ const EditablePreview: React.FC<PropTypes> = ({ resumeData, setResumeData }) => 
       </div>
 
       <div>
-        <Typography
-          style={{
-            color: '#635BFF',
-          }}
-          variant="subtitle1"
-          gutterBottom
-        >
+        <Typography style={{ color: '#635BFF' }} variant="subtitle1" gutterBottom>
           Work Experience
         </Typography>
         {resumeData.workExperience.map((exp, index) => (
@@ -259,9 +231,7 @@ const EditablePreview: React.FC<PropTypes> = ({ resumeData, setResumeData }) => 
               id={`jobPosition${index + 1}`}
               label="Job Position"
               value={exp.jobPosition}
-              InputLabelProps={{
-                shrink: true,
-              }}
+              InputLabelProps={{ shrink: true }}
               margin="normal"
               onChange={(e) => handelWorkExperienceChange(index, 'jobPosition', e.target.value, 'workExperience')}
             />
@@ -269,9 +239,7 @@ const EditablePreview: React.FC<PropTypes> = ({ resumeData, setResumeData }) => 
               id={`company${index + 1}`}
               label="Company"
               value={exp.company}
-              InputLabelProps={{
-                shrink: true,
-              }}
+              InputLabelProps={{ shrink: true }}
               margin="normal"
               onChange={(e) => handelWorkExperienceChange(index, 'company', e.target.value, 'workExperience')}
             />
@@ -280,9 +248,7 @@ const EditablePreview: React.FC<PropTypes> = ({ resumeData, setResumeData }) => 
               id={`location${index + 1}`}
               label="Location"
               value={exp.location}
-              InputLabelProps={{
-                shrink: true,
-              }}
+              InputLabelProps={{ shrink: true }}
               margin="normal"
               onChange={(e) => handelWorkExperienceChange(index, 'location', e.target.value, 'workExperience')}
             />
@@ -291,25 +257,12 @@ const EditablePreview: React.FC<PropTypes> = ({ resumeData, setResumeData }) => 
               id={`duration${index + 1}`}
               label="Duration"
               value={exp.duration}
-              InputLabelProps={{
-                shrink: true,
-              }}
+              InputLabelProps={{ shrink: true }}
               margin="normal"
               onChange={(e) => handelWorkExperienceChange(index, 'duration', e.target.value, 'workExperience')}
             />
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-              }}
-            >
-              <Typography
-                style={{
-                  color: '#635BFF',
-                }}
-                variant="subtitle1"
-                gutterBottom
-              >
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <Typography style={{ color: '#635BFF' }} variant="subtitle1" gutterBottom>
                 Responsiblities
               </Typography>
               <IconButton onClick={() => addResponsibility(index)} aria-label="add" color="primary">
@@ -317,13 +270,7 @@ const EditablePreview: React.FC<PropTypes> = ({ resumeData, setResumeData }) => 
               </IconButton>
             </div>
             {exp.responsibilities.map((resp, respIndex) => (
-              <div
-                key={respIndex}
-                style={{
-                  display: 'flex',
-                  alignContent: 'center',
-                }}
-              >
+              <div key={respIndex} style={{ display: 'flex', alignContent: 'center' }}>
                 <StyledTextareaAutosize
                   value={resp}
                   onChange={(e) => handelWorkExOnResponsiblity(e.target.value, index, respIndex)}
@@ -358,19 +305,8 @@ const EditablePreview: React.FC<PropTypes> = ({ resumeData, setResumeData }) => 
 
             {exp.achievements && exp.achievements.length > 0 && (
               <div>
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                  }}
-                >
-                  <Typography
-                    style={{
-                      color: '#635BFF',
-                    }}
-                    variant="subtitle1"
-                    gutterBottom
-                  >
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <Typography style={{ color: '#635BFF' }} variant="subtitle1" gutterBottom>
                     Achievements
                   </Typography>
                   <IconButton onClick={() => addAchievements(index)} aria-label="add" color="primary">

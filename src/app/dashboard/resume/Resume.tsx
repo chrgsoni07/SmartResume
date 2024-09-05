@@ -6,6 +6,8 @@ export type Resume = {
   location: string;
   careerObjective: string;
   education: Education[];
+  linkedIn: string;
+  github: string;
   skills?: string[];
   skillsCategory?: SkillsCategory;
   jobTitle: string;

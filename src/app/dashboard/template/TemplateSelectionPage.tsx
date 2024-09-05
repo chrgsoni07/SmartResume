@@ -98,24 +98,19 @@ interface TemplateRendererProps {
 }
 
 const TemplateRenderer: React.FC<TemplateRendererProps> = ({ resumeData, templateType }) => {
-  if (templateType === 0) {
-    return <div>Please select template to preview resume...</div>;
+  if (templateType === 1) {
+    return <ResumeTemplate1 resume={resumeData} orientation="portrait" />;
   }
 
-  const renderTemplate = () => {
-    switch (templateType) {
-      case 1:
-        return <ResumeTemplate1 resume={resumeData} orientation="portrait" />;
-      case 2:
-        return <ResumeTemplate2 resume={resumeData} />;
-      case 3:
-        return <ResumeTemplate3 resume={resumeData} />;
-      default:
-        return <div>Please select template to preview & download resume...</div>;
-    }
-  };
+  if (templateType === 2) {
+    return <ResumeTemplate2 resume={resumeData} />;
+  }
 
-  return renderTemplate();
+  if (templateType === 3) {
+    return <ResumeTemplate3 resume={resumeData} />;
+  }
+
+  return <div>Please select template to preview resume...</div>;
 };
 
 export default TemplateSelectionPage;

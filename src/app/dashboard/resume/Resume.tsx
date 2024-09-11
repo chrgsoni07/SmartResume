@@ -14,6 +14,7 @@ export type Resume = {
   projects: Projects[];
   workExperience: WorkExperience[];
   suggestions: Suggestion[];
+  estimatedATSScore: number;
 };
 
 type SkillsCategory = Record<string, string[]>;
@@ -39,6 +40,7 @@ export type Projects = {
   description: string;
   technologies: string[];
 };
+
 export type Suggestion = {
   originalText: string;
   suggestedText: string;

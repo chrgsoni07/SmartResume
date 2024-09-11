@@ -1,12 +1,10 @@
-// FileUpload.tsx
 'use client';
 
 import { useState, type ChangeEvent, type FC, type FormEvent } from 'react';
 import { Box, Button, CircularProgress, Grid, TextField } from '@mui/material';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-import { saveData } from '../service/api';
+import { saveData, uploadFileToExtract } from '../service/api';
 import EditablePreview from './EditablePreview';
 import { type Resume } from './Resume';
 
@@ -31,11 +29,7 @@ const FileUpload: FC = () => {
       const formData = new FormData();
       formData.append('file', selectedFile);
 
-      const response = await axios.post('http://localhost:8080/api/0.1/resume/upload-resume', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+      const response = await uploadFileToExtract(formData);
 
       setResumeData(response.data);
 

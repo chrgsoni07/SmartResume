@@ -88,6 +88,8 @@ const ResumeTemplate1: React.FC<ResumeProps> = (props) => (
           jobTitle={props.resume?.jobTitle!}
           email={props.resume?.email!}
           phoneNo={props.resume?.phone!}
+          linkedIn={props.resume?.linkedIn!}
+          github={props.resume?.github!}
         />
         <CareerObjective careerObjective={props.resume?.careerObjective} />
         <View style={styles.container}>

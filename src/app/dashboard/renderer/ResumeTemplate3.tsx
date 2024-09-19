@@ -1,5 +1,5 @@
 import React from 'react';
-import { Document, Font, Page, PDFViewer, StyleSheet, Text, View } from '@react-pdf/renderer';
+import { Document, Font, Link, Page, PDFViewer, StyleSheet, Text, View } from '@react-pdf/renderer';
 
 import { type Resume } from '../resume/Resume';
 import List, { Item } from './List';
@@ -20,6 +20,16 @@ const ResumeTemplate3 = ({ resume }: { resume: Resume }) => (
           <Text style={styles.contact}>
             {resume.jobTitle} | {resume.email} | {resume.phone}
           </Text>
+          {resume.linkedIn && resume.linkedIn.trim() !== '' && (
+            <Link style={styles.text} src={resume.linkedIn}>
+              LinkedIn
+            </Link>
+          )}
+          {resume.github && resume.github.trim() !== '' && (
+            <Link style={styles.text} src={resume.github}>
+              GitHub
+            </Link>
+          )}
           {/* <Text style={styles.address}>{resume.location}</Text> */}
         </View>
 
@@ -68,7 +78,7 @@ const ResumeTemplate3 = ({ resume }: { resume: Resume }) => (
             {/* Skills Section */}
             <View style={styles.section}>
               <Text style={styles.sectionTitle}>Skills</Text>
-              <Text style={styles.skills}>{resume.skills.join(', ')}</Text>
+              <Text style={styles.skills}>{resume.skills?.join(', ')}</Text>
             </View>
           </View>
         </View>

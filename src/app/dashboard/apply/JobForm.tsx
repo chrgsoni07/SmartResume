@@ -1,23 +1,8 @@
 import React, { useState } from 'react';
-import {
-  Button,
-  Chip,
-  Container,
-  Divider,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { Button, Chip, Container, Divider, TextField, Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
-import EditablePreview from '../resume/EditablePreview';
-import { type Resume } from '../resume/Resume';
-import { fetchJobURL, getAllResumeByUserId, getBoostedResume } from '../service/api';
+import { fetchJobURL } from '../service/api';
 import { type JobDetail } from './JobDetail';
 
 interface RowData {
@@ -28,24 +13,12 @@ interface RowData {
 
 const JobForm = () => {
   const [jobDetail, setJobDetail] = useState<JobDetail>({ jobDescription: '', jobTitle: '', jobUrl: '' });
-  const [updatedResume, setUpdatedResume] = useState<Resume>();
+  const navigate = useNavigate();
 
   const [errors, setErrors] = useState({
     jobTitle: '',
     jobDescription: '',
   });
-
-  const [allResume, setAllResume] = useState<Resume[]>([]);
-
-  const handleSelect = async (row: Resume) => {
-    console.log('Selected Row', row);
-
-    const newResume = await getBoostedResume(jobDetail, row.id);
-
-    setUpdatedResume(newResume);
-  };
-
-  const handleRedirect = () => {};
 
   const handleFetch = async () => {
     try {
@@ -80,12 +53,9 @@ const JobForm = () => {
     }
 
     setErrors(newErrors);
-
     if (hasErrors) return;
 
-    let allResume = await getAllResumeByUserId();
-    console.log(allResume);
-    setAllResume(allResume);
+    navigate('/dashboard/apply/update-resume', { state: { jobDetail: jobDetail } });
   };
 
   return (
@@ -135,32 +105,6 @@ const JobForm = () => {
           Submit
         </Button>
       </form>
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>ID</TableCell>
-              <TableCell>Job Title</TableCell>
-              <TableCell>Actions</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {allResume.map((resume) => (
-              <TableRow key={resume.id}>
-                <TableCell>{resume.id}</TableCell>
-                <TableCell>{resume.jobTitle}</TableCell>
-                <TableCell>
-                  <Button variant="contained" color="primary" onClick={() => handleSelect(resume)}>
-                    Select
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-
-      {updatedResume && <EditablePreview resumeData={updatedResume} setResumeData={setUpdatedResume} />}
     </Container>
   );
 };

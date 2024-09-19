@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
+import { PropTypes } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import { PDFViewer } from '@react-pdf/renderer';
 
@@ -9,7 +10,7 @@ import { Resume } from '../resume/Resume';
 import { fetchData } from '../service/api';
 import ShowAllResume from './ShowAllResume';
 
-const Page(): React.JSX.Element {
+const Page: FC = () => {
   const [resumeData, setResumeData] = React.useState<Resume | undefined>();
   const [selectedRow, setSelectedRow] = useState<Resume | null>(null);
 
@@ -35,17 +36,9 @@ const Page(): React.JSX.Element {
       <PDFDownloadLink document={<ResumePDF />} fileName="resume.pdf">
         {({ loading }) => (loading ? 'Generating PDF...' : 'Download Resume')}
       </PDFDownloadLink> */}
-      <Stack>
-        <Stack spacing={3}>
-          <ShowAllResume onRowSelect={handleRowSelection} />
-        </Stack>
-
-        <PDFViewer width="100%" height="600">
-          <App resumeData={resumeData} />
-        </PDFViewer>
-      </Stack>
+      <Stack></Stack>
     </div>
   );
-}
+};
 
 export default Page;

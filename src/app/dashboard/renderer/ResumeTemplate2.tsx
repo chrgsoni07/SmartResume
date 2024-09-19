@@ -1,6 +1,6 @@
 // src/Resume.js
 import React from 'react';
-import { Document, Font, Page, PDFViewer, StyleSheet, Text, View } from '@react-pdf/renderer';
+import { Document, Font, Link, Page, PDFViewer, StyleSheet, Text, View } from '@react-pdf/renderer';
 
 import { type Resume } from '../resume/Resume';
 import List, { Item } from './List';
@@ -18,7 +18,14 @@ const ResumeTemplate2 = ({ resume }: { resume: Resume }) => (
         {/* Header Section */}
         <View style={styles.header}>
           <Text style={styles.name}>{resume.name}</Text>
-          <Text style={styles.contact}>{` ${resume.jobTitle} | ${resume.email} | ${resume.phone} `}</Text>
+          <Text style={styles.contact}>{` ${resume.jobTitle} | ${resume.email} | ${resume.phone}`}</Text>
+          <Link style={styles.text} src={resume.linkedIn}>
+            LinkedIn
+          </Link>
+          <Link style={styles.text} src={resume.github}>
+            GitHub
+          </Link>
+
           {/* <Text style={styles.address}>{resume.location}</Text> */}
         </View>
 
@@ -50,10 +57,7 @@ const ResumeTemplate2 = ({ resume }: { resume: Resume }) => (
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Education</Text>
           {resume.education.map((edu) => (
-            <Text
-              style={styles.education}
-              key={edu.university}
-            >{`${edu.degree} from ${edu.university} ${edu.location} | ${edu.duration}`}</Text>
+            <Text style={styles.education} key={edu.university}>{`${edu.degree} from ${edu.university} ${edu.location} | ${edu.duration}`}</Text>
           ))}
         </View>
         {/* Skills Section */}

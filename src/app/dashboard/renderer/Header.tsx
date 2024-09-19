@@ -50,11 +50,15 @@ const Header = ({
   jobTitle,
   email,
   phoneNo,
+  linkedIn,
+  github,
 }: {
   uname: string;
   jobTitle: string;
   email: string;
   phoneNo: string;
+  linkedIn: string;
+  github: string;
 }) => {
   return (
     <View style={styles.container}>
@@ -67,9 +71,15 @@ const Header = ({
           {email}
         </Link>
         <Text style={styles.mobile}>{phoneNo}</Text>
+        <Link style={styles.mobile} src={linkedIn}>
+          LinkedIn
+        </Link>
+        <Link style={styles.mobile} src={github}>
+          GitHub
+        </Link>
       </View>
     </View>
   );
-}
+};
 
 export default Header;

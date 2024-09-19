@@ -13,14 +13,12 @@ const Page: FC = () => {
   return (
     <Stack spacing={3}>
       <Toaster />
-      <Stack direction="row" spacing={3}>
-        <Router>
-          <Routes>
-            <Route path="/dashboard/apply" element={<JobForm />} />
-            <Route path="/dashboard/apply/update-resume" element={<UpdatedResume />} />
-          </Routes>
-        </Router>
-      </Stack>
+      <Router>
+        <Routes>
+          <Route path="/dashboard/apply" element={<JobForm />} />
+          <Route path="/dashboard/apply/update-resume" element={<UpdatedResume />} />
+        </Routes>
+      </Router>
     </Stack>
   );
 };

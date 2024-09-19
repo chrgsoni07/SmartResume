@@ -72,7 +72,7 @@ const UpdatedResume: FC = () => {
           </Table>
         </TableContainer>
       </div>
-      <div>{updatedResume && <EditablePreview resumeData={updatedResume} setResumeData={setUpdatedResume} />}</div>
+      {updatedResume && <EditablePreview resumeData={updatedResume} setResumeData={setUpdatedResume} />}
     </>
   );
 };

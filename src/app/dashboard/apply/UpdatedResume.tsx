@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { useEffect, useState, type FC, type FormEvent } from 'react';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {
   Accordion,
@@ -50,6 +50,12 @@ const UpdatedResume: FC = () => {
     setUpdatedResume(newResume);
 
     openSecondAccordion();
+  };
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    console.log('handleSubmit method for apply for new job ', updatedResume);
   };
 
   useEffect(() => {
@@ -108,7 +114,14 @@ const UpdatedResume: FC = () => {
         <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel2bh-content" id="panel2bh-header" sx={accordionStyle}>
           <Typography>Details</Typography>
         </AccordionSummary>
-        <AccordionDetails>{updatedResume && <EditablePreview resumeData={updatedResume} setResumeData={setUpdatedResume} />}</AccordionDetails>
+        <AccordionDetails>
+          <form onSubmit={handleSubmit}>
+            {updatedResume && <EditablePreview resumeData={updatedResume} setResumeData={setUpdatedResume} />}
+            <Button type="submit" variant="contained" color="primary">
+              Save
+            </Button>
+          </form>
+        </AccordionDetails>
       </Accordion>
     </>
   );

@@ -2,16 +2,22 @@
 
 import { useState, type ChangeEvent, type FC, type FormEvent } from 'react';
 import { Box, Button, CircularProgress, Grid, TextField } from '@mui/material';
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 import { saveData, uploadFileToExtract } from '../service/api';
 import EditablePreview from './EditablePreview';
 import { type Resume } from './Resume';
 
+const getPokemon = () => axios.get('https://pokeapi.co/api/v2/pokemon/ditto').then((response) => response.data);
+
 const FileUpload: FC = () => {
   const [selectedFile, setSelectedFile] = useState<File>();
   const [isUploading, setIsUploading] = useState(false);
   const [resumeData, setResumeData] = useState<Resume>();
+  const { data } = useQuery({ queryKey: ['pokemon'], queryFn: getPokemon });
+  console.log({ data });
 
   const navigate = useNavigate();
 

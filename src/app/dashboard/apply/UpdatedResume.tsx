@@ -5,6 +5,7 @@ import {
   AccordionDetails,
   AccordionSummary,
   Button,
+  Grid,
   Paper,
   Table,
   TableBody,
@@ -12,13 +13,16 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  TextField,
   Typography,
 } from '@mui/material';
+import toast from 'react-hot-toast';
 import { useLocation } from 'react-router-dom';
 
 import EditablePreview from '../resume/EditablePreview';
 import { type Resume } from '../resume/Resume';
-import { getAllResumeByUserId, getBoostedResume } from '../service/api';
+import { ResumeFit } from '../resume/ResumeFit';
+import { checkFitOfResume, getAllResumeByUserId, getBoostedResume } from '../service/api';
 import { JobDetail } from './JobDetail';
 
 type PropTypes = {
@@ -28,9 +32,11 @@ type PropTypes = {
 const UpdatedResume: FC = () => {
   const [allResume, setAllResume] = useState<Resume[]>([]);
   const [updatedResume, setUpdatedResume] = useState<Resume>();
+  const [resumeFit, setResumeFit] = useState<ResumeFit>();
   const location = useLocation();
 
-  const [openAccordion, setOpenAccordion] = useState(0); // 0 for first accordion, 1 for second
+  // 0 for first, 1 for second
+  const [openAccordion, setOpenAccordion] = useState(0);
 
   const handleAccordionChange = (accordionIndex: number) => {
     setOpenAccordion(openAccordion === accordionIndex ? -1 : accordionIndex);
@@ -38,16 +44,20 @@ const UpdatedResume: FC = () => {
 
   const openSecondAccordion = () => {
     setOpenAccordion(1);
+    setOpenAccordion(2);
   };
 
   const handleSelect = async (row: Resume) => {
     const jobDetail = location.state.jobDetail;
 
-    console.log('Selected Row', row);
+    toast.success('Resume got selected please wait');
 
-    const newResume = await getBoostedResume(jobDetail, row.id);
+    const responseDTO = await checkFitOfResume(jobDetail, row.id);
 
-    setUpdatedResume(newResume);
+    console.log('Response DTO', responseDTO);
+
+    setUpdatedResume(responseDTO.resume);
+    setResumeFit(responseDTO.resumeFit);
 
     openSecondAccordion();
   };
@@ -77,39 +87,73 @@ const UpdatedResume: FC = () => {
 
   return (
     <>
-      <div>
-        <Accordion expanded={openAccordion === 0} onChange={() => handleAccordionChange(0)} sx={accordionStyle}>
-          <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1-content" id="panel1-header">
-            <Typography>Select a Resume</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <TableContainer component={Paper}>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>ID</TableCell>
-                    <TableCell>Job Title</TableCell>
-                    <TableCell>Actions</TableCell>
+      <Accordion expanded={openAccordion === 0} onChange={() => handleAccordionChange(0)} sx={accordionStyle}>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1-content" id="panel1-header">
+          <Typography>Select a Resume</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <TableContainer component={Paper}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>ID</TableCell>
+                  <TableCell>Job Title</TableCell>
+                  <TableCell>Actions</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {allResume.map((resume) => (
+                  <TableRow key={resume.id}>
+                    <TableCell>{resume.id}</TableCell>
+                    <TableCell>{resume.jobTitle}</TableCell>
+                    <TableCell>
+                      <Button variant="contained" color="primary" onClick={() => handleSelect(resume)}>
+                        Select
+                      </Button>
+                    </TableCell>
                   </TableRow>
-                </TableHead>
-                <TableBody>
-                  {allResume.map((resume) => (
-                    <TableRow key={resume.id}>
-                      <TableCell>{resume.id}</TableCell>
-                      <TableCell>{resume.jobTitle}</TableCell>
-                      <TableCell>
-                        <Button variant="contained" color="primary" onClick={() => handleSelect(resume)}>
-                          Select
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </AccordionDetails>
-        </Accordion>
-      </div>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </AccordionDetails>
+      </Accordion>
+
+      <Accordion expanded={openAccordion === 2} onChange={() => handleAccordionChange(1)}>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel3bh-content" id="panel3bh-header" sx={accordionStyle}>
+          <Typography>Fit</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Grid container spacing={2}>
+            <Grid item xs={6}>
+              <TextField label="ATS Score" variant="outlined" InputLabelProps={{ shrink: true }} fullWidth value={resumeFit?.ats_score} />
+            </Grid>
+
+            <Grid item xs={6}>
+              <TextField
+                label="Domain Relevance"
+                variant="outlined"
+                InputLabelProps={{ shrink: true }}
+                fullWidth
+                value={resumeFit?.domainRelevance}
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <TextField
+                label="Feedback"
+                variant="outlined"
+                InputLabelProps={{ shrink: true }}
+                fullWidth
+                multiline
+                rows={3}
+                value={resumeFit?.feedback}
+              />
+            </Grid>
+          </Grid>
+        </AccordionDetails>
+      </Accordion>
+
       <Accordion expanded={openAccordion === 1} onChange={() => handleAccordionChange(1)}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel2bh-content" id="panel2bh-header" sx={accordionStyle}>
           <Typography>Details</Typography>

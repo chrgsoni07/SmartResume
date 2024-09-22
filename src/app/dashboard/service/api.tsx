@@ -3,6 +3,7 @@ import toast from 'react-hot-toast';
 
 import { type JobDetail } from '../apply/JobDetail';
 import { type Resume } from '../resume/Resume';
+import { ResumeDTO } from '../resume/ResumeDTO';
 
 const BASE_URL = 'http://localhost:8080/api/0.1';
 const BASE_URL_RESUME = `${BASE_URL}/resume`;
@@ -105,7 +106,28 @@ export const getBoostedResume = async (jobDetails: JobDetail, resumeId: string) 
       throw new Error('Network response was not ok');
     }
     const result = (await response.json()) as Resume;
-    toast.success('Resume updated successfully!');
+    return result;
+  } catch (error) {
+    toast.error(`Error: ${(error as Error).message}`);
+    throw error;
+  }
+};
+
+export const checkFitOfResume = async (jobDetails: JobDetail, resumeId: string) => {
+  const saveDataURL = `${BASE_URL_RESUME}/check-fit/${resumeId}`;
+  try {
+    const response = await fetch(saveDataURL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(jobDetails),
+    });
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    const result = (await response.json()) as ResumeDTO;
+    toast.success('got the resume changes successfully!');
     return result;
   } catch (error) {
     toast.error(`Error: ${(error as Error).message}`);

@@ -26,7 +26,6 @@ const JobForm = () => {
 
       console.log('job details comming from backend  ', jobDetailResponse);
 
-      // Assuming the response contains JSON with 'title' and 'description'
       setJobDetail({ ...jobDetail, jobTitle: jobDetailResponse.jobTitle, jobDescription: jobDetailResponse.jobDescription });
     } catch (error) {
       console.error('Error fetching job details:', error);

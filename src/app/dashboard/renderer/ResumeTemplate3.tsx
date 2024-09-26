@@ -14,23 +14,19 @@ const ResumeTemplate3 = ({ resume }: { resume: Resume }) => (
   <PDFViewer width="100%" height="600">
     <Document keywords="resume, ATS, multinational componay" title="Resume">
       <Page size="A4" style={styles.page}>
-        {/* Header Section */}
         <View style={styles.header}>
           <Text style={styles.name}>{resume.name}</Text>
           <Text style={styles.contact}>
             {resume.jobTitle} | {resume.email} | {resume.phone}
           </Text>
-          {resume.linkedIn && resume.linkedIn.trim() !== '' && (
-            <Link style={styles.text} src={resume.linkedIn}>
-              LinkedIn
-            </Link>
-          )}
-          {resume.github && resume.github.trim() !== '' && (
-            <Link style={styles.text} src={resume.github}>
-              GitHub
-            </Link>
-          )}
-          {/* <Text style={styles.address}>{resume.location}</Text> */}
+
+          <Link style={styles.text} src={resume.linkedIn}>
+            LinkedIn
+          </Link>
+
+          <Link style={styles.text} src={resume.github}>
+            GitHub
+          </Link>
         </View>
 
         <View style={styles.content}>

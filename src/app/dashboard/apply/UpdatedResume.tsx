@@ -1,4 +1,4 @@
-import React, { useEffect, useState, type FC, type FormEvent } from 'react';
+import React, { useState, type FC, type FormEvent } from 'react';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {
   Accordion,
@@ -16,27 +16,30 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
+import { useQuery } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import { useLocation } from 'react-router-dom';
 
 import EditablePreview from '../resume/EditablePreview';
 import { type Resume } from '../resume/Resume';
 import { ResumeFit } from '../resume/ResumeFit';
-import { checkFitOfResume, getAllResumeByUserId, getBoostedResume } from '../service/api';
-import { JobDetail } from './JobDetail';
-
-type PropTypes = {
-  jobDetail: JobDetail;
-};
+import { assessResumeFit, getSavedResumeByUserId } from '../service/api';
 
 const UpdatedResume: FC = () => {
-  const [allResume, setAllResume] = useState<Resume[]>([]);
   const [updatedResume, setUpdatedResume] = useState<Resume>();
   const [resumeFit, setResumeFit] = useState<ResumeFit>();
-  const location = useLocation();
-
-  // 0 for first, 1 for second
   const [openAccordion, setOpenAccordion] = useState(0);
+
+  const {
+    isLoading,
+    error,
+    data: allResume,
+  } = useQuery({ queryKey: ['getSavedResume'], queryFn: () => getSavedResumeByUserId(), refetchOnWindowFocus: false });
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+
+  const location = useLocation();
 
   const handleAccordionChange = (accordionIndex: number) => {
     setOpenAccordion(openAccordion === accordionIndex ? -1 : accordionIndex);
@@ -52,7 +55,7 @@ const UpdatedResume: FC = () => {
 
     toast.success('Resume got selected please wait');
 
-    const responseDTO = await checkFitOfResume(jobDetail, row.id);
+    const responseDTO = await assessResumeFit({ jobDetail, resumeId: row.id });
 
     console.log('Response DTO', responseDTO);
 
@@ -67,17 +70,6 @@ const UpdatedResume: FC = () => {
 
     console.log('handleSubmit method for apply for new job ', updatedResume);
   };
-
-  useEffect(() => {
-    console.log('value for new page', location.state.jobDetail);
-
-    const fetchAllSavedResumeOfUser = async () => {
-      const resumes = await getAllResumeByUserId();
-      setAllResume(resumes);
-    };
-
-    fetchAllSavedResumeOfUser();
-  }, []);
 
   const accordionStyle = {
     bgcolor: 'rgba(0, 0, 0, 0.1)',
@@ -102,7 +94,7 @@ const UpdatedResume: FC = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {allResume.map((resume) => (
+                {allResume.map((resume: Resume) => (
                   <TableRow key={resume.id}>
                     <TableCell>{resume.id}</TableCell>
                     <TableCell>{resume.jobTitle}</TableCell>
@@ -119,7 +111,7 @@ const UpdatedResume: FC = () => {
         </AccordionDetails>
       </Accordion>
 
-      <Accordion expanded={openAccordion === 2} onChange={() => handleAccordionChange(1)}>
+      <Accordion expanded={openAccordion === 2} onChange={() => handleAccordionChange(2)}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel3bh-content" id="panel3bh-header" sx={accordionStyle}>
           <Typography>Fit</Typography>
         </AccordionSummary>

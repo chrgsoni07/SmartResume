@@ -2,11 +2,11 @@
 
 import { useState, type ChangeEvent, type FC, type FormEvent } from 'react';
 import { Box, Button, CircularProgress, Grid, TextField } from '@mui/material';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-import { saveData, uploadFileToExtract } from '../service/api';
+import { extractDataFromFile, getResumeById, saveResume } from '../service/api';
 import EditablePreview from './EditablePreview';
 import { type Resume } from './Resume';
 
@@ -16,8 +16,22 @@ const FileUpload: FC = () => {
   const [selectedFile, setSelectedFile] = useState<File>();
   const [isUploading, setIsUploading] = useState(false);
   const [resumeData, setResumeData] = useState<Resume>();
-  const { data } = useQuery({ queryKey: ['pokemon'], queryFn: getPokemon });
-  console.log({ data });
+
+  //const { data } = useQuery({ queryKey: ['pokemon'], queryFn: getPokemon });
+  //const { isLoading, error, data } = useQuery({ queryKey: ['oneResume'], queryFn: () => getResumeById('66d88b0e4f923d777f2753e1') });
+  const {
+    data: responseData,
+    mutate: postCall,
+    error: postError,
+  } = useMutation({
+    mutationFn: (rData: FormData): Promise<Resume> => {
+      return extractDataFromFile(rData);
+    },
+    onSuccess(data) {
+      console.log('file upload', responseData);
+      setResumeData(data);
+    },
+  });
 
   const navigate = useNavigate();
 
@@ -30,29 +44,19 @@ const FileUpload: FC = () => {
   const handleUpload = async (): Promise<void> => {
     if (!selectedFile) return;
 
-    setIsUploading(true);
-    try {
-      const formData = new FormData();
-      formData.append('file', selectedFile);
+    const formData = new FormData();
 
-      const response = await uploadFileToExtract(formData);
+    formData.append('file', selectedFile);
 
-      setResumeData(response.data);
-
-      if (response.data.success) {
-        console.log(response.data);
-      }
-    } catch (error) {
-      console.error('Error uploading file: ', error);
-    } finally {
-      setIsUploading(false);
-    }
+    postCall(formData);
   };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
     console.log('Form data to be submit', resumeData);
-    const result = await saveData(resumeData);
+
+    const result = await saveResume(resumeData);
 
     navigate('/dashboard/template', { state: { id: result.id } });
   };

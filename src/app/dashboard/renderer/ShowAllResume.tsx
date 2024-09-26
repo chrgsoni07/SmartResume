@@ -3,7 +3,7 @@ import { Box, Button } from '@mui/material';
 import { DataGrid, type GridRenderCellParams } from '@mui/x-data-grid';
 
 import { type Resume } from '../resume/Resume';
-import { getAllResume } from '../service/api';
+import { getSavedResumeByUserId } from '../service/api';
 
 const ShowAllResume = ({ onRowSelect }) => {
   const [allResume, setAllResume] = React.useState<Resume[]>([]);
@@ -38,7 +38,7 @@ const ShowAllResume = ({ onRowSelect }) => {
   ];
 
   async function handleFatchData(): Promise<void> {
-    const fatchedPromise = getAllResume();
+    const fatchedPromise = getSavedResumeByUserId();
     console.log('fetchedData => ', fatchedPromise);
     setAllResume(await fatchedPromise);
   }

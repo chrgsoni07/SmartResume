@@ -2,13 +2,14 @@
 import React, { useState } from 'react';
 import { Button, Card, CardMedia, Container, Dialog, DialogContent, Grid } from '@mui/material';
 import { Font } from '@react-pdf/renderer';
+import { useQuery } from '@tanstack/react-query';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import ResumeTemplate1 from '../renderer/ResumeTempate1';
 import ResumeTemplate2 from '../renderer/ResumeTemplate2';
 import ResumeTemplate3 from '../renderer/ResumeTemplate3';
 import { type Resume } from '../resume/Resume';
-import { fetchData } from '../service/api';
+import { getResumeById } from '../service/api';
 
 const templates = [
   { id: 1, image: '/assets/template1.jpg' },
@@ -23,12 +24,19 @@ Font.register({
 });
 
 const TemplateSelectionPage: React.FC = () => {
-  const [resumeData, setResumeData] = useState<Resume | undefined>();
   const [open, setOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState('');
   const location = useLocation();
   const [templateType, setTemplateType] = useState(0);
   const navigate = useNavigate();
+  const resumeID = location.state.id;
+
+  const {
+    isLoading,
+    error,
+    data,
+    refetch: getResumeByIDRQ,
+  } = useQuery({ queryKey: ['oneResume', resumeID], queryFn: () => getResumeById(resumeID), enabled: false });
 
   const handleSelect = async (templateId: number) => {
     console.log('show the resume in template format ', templateId);
@@ -38,17 +46,14 @@ const TemplateSelectionPage: React.FC = () => {
 
     setTemplateType(templateId);
 
-    if (!resumeData) {
-      const resumeId = location.state.id;
-      await updateResumeState(resumeId);
+    if (!data) {
+      try {
+        await getResumeByIDRQ();
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
-
-  async function updateResumeState(resumeId: string) {
-    const receivedResumeData = await fetchData(resumeId);
-    console.log('Data from db ', receivedResumeData);
-    setResumeData(receivedResumeData);
-  }
 
   const handleClickOpen = (image: string) => {
     setSelectedImage(image);
@@ -87,7 +92,7 @@ const TemplateSelectionPage: React.FC = () => {
           </Grid>
         ))}
       </Grid>
-      {resumeData && <TemplateRenderer resumeData={resumeData} templateType={templateType} />}
+      {data && <TemplateRenderer resumeData={data} templateType={templateType} />}
     </Container>
   );
 };

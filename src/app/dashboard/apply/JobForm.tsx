@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, Chip, Container, Divider, TextField, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
-import { fetchJobURL } from '../service/api';
+import { getJobDetailsFromURL } from '../service/api';
 import { type JobDetail } from './JobDetail';
 
 interface RowData {
@@ -21,15 +21,11 @@ const JobForm = () => {
   });
 
   const handleFetch = async () => {
-    try {
-      const jobDetailResponse = await fetchJobURL(jobDetail.jobUrl);
+    const jobDetailResponse = await getJobDetailsFromURL(jobDetail.jobUrl);
 
-      console.log('job details comming from backend  ', jobDetailResponse);
+    console.log('job details comming from backend  ', jobDetailResponse);
 
-      setJobDetail({ ...jobDetail, jobTitle: jobDetailResponse.jobTitle, jobDescription: jobDetailResponse.jobDescription });
-    } catch (error) {
-      console.error('Error fetching job details:', error);
-    }
+    setJobDetail({ ...jobDetail, jobTitle: jobDetailResponse.jobTitle, jobDescription: jobDetailResponse.jobDescription });
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {

@@ -16,6 +16,8 @@ const EditablePreview: React.FC<PropTypes> = ({ resumeData, setResumeData }) => 
   const [anchorEl, setAnchorEl] = useState<HTMLElement>();
   const suggestionArray = resumeData.suggestions;
 
+  console.log('editable preview', resumeData);
+
   const handleApplySuggestion = () => {
     if (!(hoveredSuggestion && resumeData.workExperience)) {
       return;

@@ -2,22 +2,18 @@
 
 import { useState, type ChangeEvent, type FC, type FormEvent } from 'react';
 import { Box, Button, CircularProgress, Grid, TextField } from '@mui/material';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import axios from 'axios';
+import { useMutation } from '@tanstack/react-query';
+import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
-import { extractDataFromFile, getResumeById, saveResume } from '../service/api';
+import { extractDataFromFile, saveResume } from '../service/api';
 import EditablePreview from './EditablePreview';
 import { type Resume } from './Resume';
-
-const getPokemon = () => axios.get('https://pokeapi.co/api/v2/pokemon/ditto').then((response) => response.data);
 
 const FileUpload: FC = () => {
   const [selectedFile, setSelectedFile] = useState<File>();
   const [resumeData, setResumeData] = useState<Resume>();
 
-  //const { data } = useQuery({ queryKey: ['pokemon'], queryFn: getPokemon });
-  //const { isLoading, error, data } = useQuery({ queryKey: ['oneResume'], queryFn: () => getResumeById('66d88b0e4f923d777f2753e1') });
   const {
     data: responseData,
     mutate: postCall,
@@ -28,7 +24,25 @@ const FileUpload: FC = () => {
       return extractDataFromFile(rData);
     },
     onSuccess(data) {
+      toast.success('Resume uploaded successfully');
       setResumeData(data);
+    },
+  });
+
+  const { data: savedResume, mutate: postSave } = useMutation({
+    mutationFn: (rData: Resume): Promise<Resume> => {
+      return saveResume(rData);
+    },
+    onSuccess(data) {
+      toast.success('Resume saved successfully !');
+      if (data.id) {
+        navigate('/dashboard/template', { state: { id: data.id } });
+      } else {
+        console.error('Saved resume ID is undefined');
+      }
+    },
+    onError(error) {
+      toast.error(error.message);
     },
   });
 
@@ -53,9 +67,9 @@ const FileUpload: FC = () => {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const result = await saveResume(resumeData);
+    if (!resumeData) return;
 
-    navigate('/dashboard/template', { state: { id: result.id } });
+    postSave(resumeData);
   };
 
   return (

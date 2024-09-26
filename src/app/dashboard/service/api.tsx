@@ -69,7 +69,7 @@ export const updateResumeForJob = async ({ jobDetail, resumeId }: { jobDetail: J
   return response.data;
 };
 
-export const saveResume = async (data?: Resume) => {
+export const saveResume = async (data: Resume) => {
   const saveDataURL = `${BASE_URL_RESUME}/${USER_ID}`;
 
   const response = await axios.post(saveDataURL, data, { headers: { 'Content-Type': 'application/json' } });

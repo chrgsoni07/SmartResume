@@ -14,7 +14,6 @@ const getPokemon = () => axios.get('https://pokeapi.co/api/v2/pokemon/ditto').th
 
 const FileUpload: FC = () => {
   const [selectedFile, setSelectedFile] = useState<File>();
-  const [isUploading, setIsUploading] = useState(false);
   const [resumeData, setResumeData] = useState<Resume>();
 
   //const { data } = useQuery({ queryKey: ['pokemon'], queryFn: getPokemon });
@@ -23,12 +22,12 @@ const FileUpload: FC = () => {
     data: responseData,
     mutate: postCall,
     error: postError,
+    isPending,
   } = useMutation({
     mutationFn: (rData: FormData): Promise<Resume> => {
       return extractDataFromFile(rData);
     },
     onSuccess(data) {
-      console.log('file upload', responseData);
       setResumeData(data);
     },
   });
@@ -54,59 +53,64 @@ const FileUpload: FC = () => {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    console.log('Form data to be submit', resumeData);
-
     const result = await saveResume(resumeData);
 
     navigate('/dashboard/template', { state: { id: result.id } });
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <Grid container spacing={2} alignItems="center">
-        <Grid item xs={12} container alignItems="center">
-          <input id="file-upload" type="file" onChange={handleFileChange} style={{ display: 'none' }} />
-          <label htmlFor="file-upload">
-            <TextField
-              variant="outlined"
-              fullWidth
-              InputProps={{
-                readOnly: true,
-                startAdornment: (
-                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <Button variant="contained" component="span" color="primary">
-                      Browse
-                    </Button>
-                  </Box>
-                ),
-              }}
-              value={selectedFile ? selectedFile.name : ''}
-              placeholder="No file selected"
-              sx={{ marginRight: 2 }}
-            />
-          </label>
+    <Box position="relative" display="flex">
+      {isPending && (
+        <Box position="absolute" top="50%" left="50%" style={{ transform: 'translate(-50%, -50%)' }}>
+          <CircularProgress />
+        </Box>
+      )}
+      <form onSubmit={handleSubmit}>
+        <Grid container spacing={2} alignItems="center">
+          <Grid item xs={12} container alignItems="center">
+            <input id="file-upload" type="file" onChange={handleFileChange} style={{ display: 'none' }} />
+            <label htmlFor="file-upload">
+              <TextField
+                variant="outlined"
+                fullWidth
+                InputProps={{
+                  readOnly: true,
+                  startAdornment: (
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                      <Button variant="contained" component="span" color="primary">
+                        Browse
+                      </Button>
+                    </Box>
+                  ),
+                }}
+                value={selectedFile ? selectedFile.name : ''}
+                placeholder="No file selected"
+                sx={{ marginRight: 2 }}
+              />
+            </label>
 
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={handleUpload}
-            disabled={!selectedFile || isUploading}
-            startIcon={isUploading ? <CircularProgress size={24} color="inherit" /> : null}
-            sx={{ textTransform: 'none' }}
-          >
-            {isUploading ? 'Uploading...' : 'Upload'}
-          </Button>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={handleUpload}
+              disabled={!selectedFile || isPending}
+              startIcon={isPending ? <CircularProgress size={24} color="inherit" /> : null}
+              sx={{ textTransform: 'none' }}
+            >
+              {isPending ? 'Uploading...' : 'Upload'}
+            </Button>
+          </Grid>
+
+          {resumeData && <EditablePreview resumeData={resumeData} setResumeData={setResumeData} />}
+
+          <Grid item xs={12}>
+            <Button type="submit" variant="contained" color="primary" disabled={!resumeData}>
+              Save
+            </Button>
+          </Grid>
         </Grid>
-
-        {resumeData && <EditablePreview resumeData={resumeData} setResumeData={setResumeData} />}
-
-        <Grid item xs={12}>
-          <Button type="submit" variant="contained" color="primary">
-            Save
-          </Button>
-        </Grid>
-      </Grid>
-    </form>
+      </form>
+    </Box>
   );
 };
 

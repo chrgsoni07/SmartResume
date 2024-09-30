@@ -16,19 +16,38 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import EditablePreview from '../resume/EditablePreview';
 import { type Resume } from '../resume/Resume';
-import { ResumeFit } from '../resume/ResumeFit';
-import { assessResumeFit, getSavedResumeByUserId } from '../service/api';
+import { ResumeEvalResult, SuggestedImprovement } from '../resume/ResumeEvalResult';
+import { assessResumeFit, getSavedResumeByUserId, saveJobSpecificResume, saveResume } from '../service/api';
 
 const UpdatedResume: FC = () => {
   const [updatedResume, setUpdatedResume] = useState<Resume>();
-  const [resumeFit, setResumeFit] = useState<ResumeFit>();
+  const [resumeEvalResult, setResumeEvalResult] = useState<ResumeEvalResult>();
   const [openAccordion, setOpenAccordion] = useState(0);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const { data: savedResume, mutate: postSave } = useMutation({
+    mutationFn: (rData: Resume): Promise<Resume> => {
+      return saveJobSpecificResume(rData);
+    },
+    onSuccess(data) {
+      toast.success('updated resume saved successfully !');
+      if (data.id) {
+        navigate('/dashboard/template', { state: { id: data.id } });
+      } else {
+        console.error('Saved resume ID is undefined');
+      }
+    },
+    onError(error) {
+      toast.error(error.message);
+    },
+  });
 
   const {
     isLoading,
@@ -38,8 +57,6 @@ const UpdatedResume: FC = () => {
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
-
-  const location = useLocation();
 
   const handleAccordionChange = (accordionIndex: number) => {
     setOpenAccordion(openAccordion === accordionIndex ? -1 : accordionIndex);
@@ -60,7 +77,8 @@ const UpdatedResume: FC = () => {
     console.log('Response DTO', responseDTO);
 
     setUpdatedResume(responseDTO.resume);
-    setResumeFit(responseDTO.resumeFit);
+
+    setResumeEvalResult(responseDTO.resumeEvalResult);
 
     openSecondAccordion();
   };
@@ -68,7 +86,15 @@ const UpdatedResume: FC = () => {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    console.log('handleSubmit method for apply for new job ', updatedResume);
+    if (!updatedResume) return;
+
+    postSave(updatedResume);
+  };
+
+  const showAdditionalSuggestions = (suggestedImpv?: SuggestedImprovement[]) => {
+    if (!suggestedImpv || suggestedImpv.length === 0 || suggestedImpv === null) return '';
+
+    return suggestedImpv.map((e) => `• ${e.suggestedText}`).join('\n');
   };
 
   const accordionStyle = {
@@ -113,12 +139,12 @@ const UpdatedResume: FC = () => {
 
       <Accordion expanded={openAccordion === 2} onChange={() => handleAccordionChange(2)}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel3bh-content" id="panel3bh-header" sx={accordionStyle}>
-          <Typography>Fit</Typography>
+          <Typography>Resume evaluation result</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Grid container spacing={2}>
             <Grid item xs={6}>
-              <TextField label="ATS Score" variant="outlined" InputLabelProps={{ shrink: true }} fullWidth value={resumeFit?.ats_score} />
+              <TextField label="ATS Score" variant="outlined" InputLabelProps={{ shrink: true }} fullWidth value={resumeEvalResult?.ats_score} />
             </Grid>
 
             <Grid item xs={6}>
@@ -127,7 +153,7 @@ const UpdatedResume: FC = () => {
                 variant="outlined"
                 InputLabelProps={{ shrink: true }}
                 fullWidth
-                value={resumeFit?.domainRelevance}
+                value={resumeEvalResult?.domainRelevance}
               />
             </Grid>
 
@@ -139,9 +165,23 @@ const UpdatedResume: FC = () => {
                 fullWidth
                 multiline
                 rows={3}
-                value={resumeFit?.feedback}
+                value={resumeEvalResult?.feedback}
               />
             </Grid>
+
+            {resumeEvalResult?.suggestedImprovements && resumeEvalResult.suggestedImprovements.length > 0 && (
+              <Grid item xs={12}>
+                <TextField
+                  label="Suggestions"
+                  variant="outlined"
+                  InputLabelProps={{ shrink: true }}
+                  fullWidth
+                  multiline
+                  rows={3}
+                  value={showAdditionalSuggestions(resumeEvalResult?.suggestedImprovements)}
+                />
+              </Grid>
+            )}
           </Grid>
         </AccordionDetails>
       </Accordion>

@@ -6,6 +6,7 @@ import { Toaster } from 'react-hot-toast';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 
 import FileUpload from '../resume/FileUpload';
+import TemplateSelectionPage from '../template/TemplateSelectionPage';
 import JobForm from './JobForm';
 import UpdatedResume from './UpdatedResume';
 
@@ -17,6 +18,7 @@ const Page: FC = () => {
         <Routes>
           <Route path="/dashboard/apply" element={<JobForm />} />
           <Route path="/dashboard/apply/update-resume" element={<UpdatedResume />} />
+          <Route path="/dashboard/template" element={<TemplateSelectionPage />} />
         </Routes>
       </Router>
     </Stack>

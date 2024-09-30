@@ -15,6 +15,7 @@ export type Resume = {
   workExperience: WorkExperience[];
   suggestions: Suggestion[];
   estimatedATSScore: number;
+  metadata: Metadata;
 };
 
 type SkillsCategory = Record<string, string[]>;
@@ -44,4 +45,11 @@ export type Projects = {
 export type Suggestion = {
   originalText: string;
   suggestedText: string;
+};
+
+export type Metadata = {
+  createdAt: Date;
+  updatedAt: Date;
+  baseResumeId: string;
+  isActive: boolean;
 };

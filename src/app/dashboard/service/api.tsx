@@ -35,9 +35,9 @@ export const getSavedResumeByUserId = async () => {
 };
 
 export const assessResumeFit = async ({ jobDetail, resumeId }: { jobDetail: JobDetail; resumeId: string }) => {
-  const saveDataURL = `${BASE_URL_RESUME}/check-fit/${resumeId}`;
+  const saveDataURL = `${BASE_URL_RESUME}/assess-fit/${resumeId}`;
 
-  const response = await axios.post(saveDataURL, { body: JSON.stringify(jobDetail) });
+  const response = await axios.post(saveDataURL, jobDetail, { headers: { 'Content-Type': 'application/json' } });
 
   return response.data;
 };
@@ -61,16 +61,16 @@ export const extractDataFromFile = async (formData: FormData) => {
   return (await response).data;
 };
 
-export const updateResumeForJob = async ({ jobDetail, resumeId }: { jobDetail: JobDetail; resumeId: string }) => {
-  const saveDataURL = `${BASE_URL_RESUME}/update_for_job/${resumeId}`;
+export const saveResume = async (data: Resume) => {
+  const saveDataURL = `${BASE_URL_RESUME}/${USER_ID}`;
 
-  const response = await axios.post(saveDataURL, jobDetail, { headers: { 'Content-Type': 'application/json' } });
+  const response = await axios.post(saveDataURL, data, { headers: { 'Content-Type': 'application/json' } });
 
   return response.data;
 };
 
-export const saveResume = async (data: Resume) => {
-  const saveDataURL = `${BASE_URL_RESUME}/${USER_ID}`;
+export const saveJobSpecificResume = async (data: Resume) => {
+  const saveDataURL = `${BASE_URL_RESUME}/job-specific/${USER_ID}`;
 
   const response = await axios.post(saveDataURL, data, { headers: { 'Content-Type': 'application/json' } });
 

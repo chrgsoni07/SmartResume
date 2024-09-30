@@ -31,6 +31,9 @@ const TemplateSelectionPage: React.FC = () => {
   const navigate = useNavigate();
   const resumeID = location.state.id;
 
+  //const { data } = useQuery({ queryKey: ['pokemon'], queryFn: getPokemon });
+  //const { isLoading, error, data } = useQuery({ queryKey: ['oneResume'], queryFn: () => getResumeById('66d88b0e4f923d777f2753e1') });
+
   const {
     isLoading,
     error,
@@ -40,6 +43,7 @@ const TemplateSelectionPage: React.FC = () => {
 
   const handleSelect = async (templateId: number) => {
     console.log('show the resume in template format ', templateId);
+
     if (!location.state.id) {
       navigate('/dashboard/resume');
     }

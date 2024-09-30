@@ -1,7 +1,7 @@
 import { Resume } from './Resume';
-import { ResumeFit } from './ResumeFit';
+import { ResumeEvalResult } from './ResumeEvalResult';
 
 export type ResumeDTO = {
-  resumeFit: ResumeFit;
+  resumeEvalResult: ResumeEvalResult;
   resume: Resume;
 };

@@ -1,4 +1,4 @@
-export type ResumeFit = {
+export type ResumeEvalResult = {
   jobTitle: string;
   domainRelevance: string;
   ats_score: number;
@@ -9,5 +9,5 @@ export type ResumeFit = {
 
 export type SuggestedImprovement = {
   originalText: string;
-  suggestedChange: string;
+  suggestedText: string;
 };

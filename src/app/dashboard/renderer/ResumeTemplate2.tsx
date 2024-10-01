@@ -1,11 +1,10 @@
-// src/Resume.js
 import React from 'react';
-import { Document, Font, Link, Page, PDFViewer, StyleSheet, Text, View } from '@react-pdf/renderer';
+import { Document, Font, Image, Link, Page, PDFViewer, StyleSheet, Text, View } from '@react-pdf/renderer';
 
 import { type Resume } from '../resume/Resume';
 import List, { Item } from './List';
 
-// Ensure Helvetica font is loaded for consistency
+// Ensure Lato font is loaded for consistency
 Font.register({
   family: 'Lato',
   src: `https://fonts.gstatic.com/s/lato/v16/S6uyw4BMUTPHjx4wWw.ttf`,
@@ -13,20 +12,38 @@ Font.register({
 
 const ResumeTemplate2 = ({ resume }: { resume: Resume }) => (
   <PDFViewer width="100%" height="600">
-    <Document keywords="resume, ATS, multinational componay" title="Resume">
+    <Document keywords="resume, ATS, multinational company" title="Resume">
       <Page size="A4" style={styles.page}>
         {/* Header Section */}
         <View style={styles.header}>
           <Text style={styles.name}>{resume.name}</Text>
-          <Text style={styles.contact}>{` ${resume.jobTitle} | ${resume.email} | ${resume.phone}`}</Text>
-          <Link style={styles.text} src={resume.linkedIn}>
-            LinkedIn
-          </Link>
-          <Link style={styles.text} src={resume.github}>
-            GitHub
-          </Link>
+          <Text style={styles.jobTitleHeader}>{resume.jobTitle}</Text>
+          <View style={styles.contactRow}>
+            <Text style={styles.contact}>
+              <Image src={{ uri: '/assets/Icons/envelope.png', method: 'GET', headers: { 'Cache-Control': 'no-cache' }, body: '' }} />
+              {resume.email}
+            </Text>
 
-          {/* <Text style={styles.address}>{resume.location}</Text> */}
+            <Text style={styles.contact}>
+              <Image src={{ uri: '/assets/Icons/phone.png', method: 'GET', headers: { 'Cache-Control': 'no-cache' }, body: '' }} />
+              {resume.phone}
+            </Text>
+
+            <Text style={styles.contact}>
+              <Image src={{ uri: '/assets/Icons/map-pin.png', method: 'GET', headers: { 'Cache-Control': 'no-cache' }, body: '' }} />
+              {resume.location}
+            </Text>
+
+            <View style={styles.links}>
+              <Link style={styles.link} src={resume.linkedIn}>
+                LinkedIn
+              </Link>
+
+              <Link style={styles.link} src={resume.github}>
+                GitHub
+              </Link>
+            </View>
+          </View>
         </View>
 
         {/* Professional Summary Section */}
@@ -57,18 +74,22 @@ const ResumeTemplate2 = ({ resume }: { resume: Resume }) => (
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Education</Text>
           {resume.education.map((edu) => (
-            <Text style={styles.education} key={edu.university}>{`${edu.degree} from ${edu.university} ${edu.location} | ${edu.duration}`}</Text>
+            <Text style={styles.education} key={edu.university}>
+              {`${edu.degree} from ${edu.university} ${edu.location} | ${edu.duration}`}
+            </Text>
           ))}
         </View>
+
         {/* Skills Section */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Skills</Text>
-          <Text style={styles.skills}>{resume.skills?.join(' , ')}</Text>
+          <Text style={styles.skills}>{resume.skills?.join(', ')}</Text>
         </View>
       </Page>
     </Document>
   </PDFViewer>
 );
+
 const styles = StyleSheet.create({
   page: {
     padding: 20,
@@ -83,14 +104,27 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 15,
     fontWeight: 'bold',
-    paddingBottom: 10,
+    paddingBottom: 5,
+  },
+  jobTitle: {
+    fontSize: 12,
+    marginBottom: 5,
+  },
+  contactRow: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   contact: {
     fontSize: 10,
-    marginBottom: 5,
+    marginRight: 10,
   },
-  address: {
+  links: {
+    flexDirection: 'row',
+  },
+  link: {
     fontSize: 10,
+    marginLeft: 5,
   },
   section: {
     marginBottom: 10,
@@ -105,14 +139,14 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 10,
     lineHeight: 1.6,
-    textAlign: 'justify', // Justify text
+    textAlign: 'justify',
   },
   job: {
     marginBottom: 10,
     paddingBottom: 10,
     borderBottom: '1px solid #E0E0E0',
   },
-  jobTitle: {
+  jobTitleHeader: {
     fontSize: 12,
     fontWeight: 'bold',
   },
@@ -121,24 +155,13 @@ const styles = StyleSheet.create({
     color: '#BDC3C7',
     marginBottom: 5,
   },
-  jobDescription: {
-    fontSize: 10,
-    lineHeight: 1.6,
-    textAlign: 'justify', // Justify text
-  },
-  bulletPoint: {
-    fontSize: 10,
-    lineHeight: 1.6,
-    textAlign: 'justify', // Justify text
-    marginBottom: 5,
-  },
   education: {
     fontSize: 10,
-    textAlign: 'justify', // Justify text
+    textAlign: 'justify',
   },
   skills: {
     fontSize: 10,
-    textAlign: 'justify', // Justify text
+    textAlign: 'justify',
   },
 });
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from '@react-pdf/renderer';
+import { Image, StyleSheet, Text, View } from '@react-pdf/renderer';
 
 import { type WorkExperience } from '../resume/Resume';
 import List, { Item } from './List';
@@ -76,10 +76,16 @@ const ExperienceEntry: React.FC<ExperienceEntryProps> = ({ company, details, pos
       <View style={styles.headerContainer}>
         <View style={styles.leftColumn}>
           <Text style={styles.title}>{title}</Text>
-          <Text style={styles.title}>{location}</Text>
+          <Text style={styles.title}>
+            <Image src={{ uri: '/assets/Icons/map-pin.png', method: 'GET', headers: { 'Cache-Control': 'no-cache' }, body: '' }} />
+            {location}
+          </Text>
         </View>
         <View style={styles.rightColumn}>
-          <Text style={styles.date}>{date}</Text>
+          <Text style={styles.date}>
+            <Image src={{ uri: '/assets/Icons/calendar-dots.png', method: 'GET', headers: { 'Cache-Control': 'no-cache' }, body: '' }} />
+            {date}
+          </Text>
         </View>
       </View>
       <List>
@@ -133,10 +139,7 @@ const experienceData: ExperienceData[] = [
   {
     company: 'Tatooine Moisture Refinery',
     date: 'A long time ago...',
-    details: [
-      'Replaced damaged power converters',
-      'Performed menial labor throughout the farm in order to ensure its continued operation',
-    ],
+    details: ['Replaced damaged power converters', 'Performed menial labor throughout the farm in order to ensure its continued operation'],
     position: 'Moisture Farmer',
   },
 ];
@@ -160,7 +163,7 @@ const Experience = ({ workExperience }: { workExperience?: WorkExperience[] }) =
       ))}
     </View>
   );
-}
+};
 
 // function Experience({ workExperience }: { workExperience?: WorkExperience[] }) {
 //   return (

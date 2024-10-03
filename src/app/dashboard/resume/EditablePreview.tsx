@@ -71,6 +71,8 @@ const EditablePreview: React.FC<PropTypes> = ({ resumeData, setResumeData }) => 
 
   function addAchievements(expIndex: number): void {
     if (!resumeData.workExperience[expIndex].achievements) {
+      console.log('no achievements found under experience found');
+      resumeData.workExperience[expIndex].achievements = []; //
       return;
     }
     handelWorkExOnAchievements('', expIndex, resumeData.workExperience[expIndex].achievements.length);
@@ -196,32 +198,32 @@ const EditablePreview: React.FC<PropTypes> = ({ resumeData, setResumeData }) => 
       </Grid>
 
       <Grid container spacing={1}>
-      <Grid item xs={12}>
-        {resumeData.skills ? (
-          <MuiChipsInput 
-            value={resumeData.skills} 
-            onChange={handelSkillChange} 
-            label="Skills" 
-            margin="normal" 
-            fullWidth // Ensure it takes full width
-          />
-        ) : (
-          <>
-            {resumeData.skillsCategory &&
-              Object.entries(resumeData.skillsCategory).map(([category, skillList]) => (
-                <MuiChipsInput 
-                  key={category} 
-                  value={skillList} 
-                  onChange={handelSkillChange} 
-                  label={category} 
-                  margin="normal" 
-                  fullWidth // Ensure it takes full width
-                />
-              ))}
-          </>
-        )}
+        <Grid item xs={12}>
+          {resumeData.skills ? (
+            <MuiChipsInput
+              value={resumeData.skills}
+              onChange={handelSkillChange}
+              label="Skills"
+              margin="normal"
+              fullWidth // Ensure it takes full width
+            />
+          ) : (
+            <>
+              {resumeData.skillsCategory &&
+                Object.entries(resumeData.skillsCategory).map(([category, skillList]) => (
+                  <MuiChipsInput
+                    key={category}
+                    value={skillList}
+                    onChange={handelSkillChange}
+                    label={category}
+                    margin="normal"
+                    fullWidth // Ensure it takes full width
+                  />
+                ))}
+            </>
+          )}
+        </Grid>
       </Grid>
-    </Grid>
 
       <Grid container spacing={1}>
         <Grid item xs={12}>
@@ -394,21 +396,20 @@ const EditablePreview: React.FC<PropTypes> = ({ resumeData, setResumeData }) => 
               </PopoverContent>
             </Popover>
 
+            <Grid container alignItems="center" spacing={1}>
+              <Grid item>
+                <Typography style={{ color: '#635BFF' }} variant="subtitle1" gutterBottom>
+                  Achievements
+                </Typography>
+              </Grid>
+              <Grid item>
+                <IconButton onClick={() => addAchievements(index)} aria-label="add" color="primary">
+                  +
+                </IconButton>
+              </Grid>
+            </Grid>
             {exp.achievements && exp.achievements.length > 0 && (
               <div>
-                <Grid container alignItems="center" spacing={1}>
-                  <Grid item>
-                    <Typography style={{ color: '#635BFF' }} variant="subtitle1" gutterBottom>
-                      Achievements
-                    </Typography>
-                  </Grid>
-                  <Grid item>
-                    <IconButton onClick={() => addAchievements(index)} aria-label="add" color="primary">
-                      +
-                    </IconButton>
-                  </Grid>
-                </Grid>
-
                 {exp.achievements.map((ach, achIndex) => (
                   <Grid container alignItems="center" key={achIndex}>
                     <Grid item xs>

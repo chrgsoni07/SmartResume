@@ -1,5 +1,5 @@
 // TemplateSelectionPage.tsx
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Card, CardMedia, Container, Dialog, DialogContent, Grid } from '@mui/material';
 import { Font } from '@react-pdf/renderer';
 import { useQuery } from '@tanstack/react-query';
@@ -29,10 +29,13 @@ const TemplateSelectionPage: React.FC = () => {
   const location = useLocation();
   const [templateType, setTemplateType] = useState(0);
   const navigate = useNavigate();
-  const resumeID = location.state.id;
+  const resumeID = location.state?.id;
 
-  //const { data } = useQuery({ queryKey: ['pokemon'], queryFn: getPokemon });
-  //const { isLoading, error, data } = useQuery({ queryKey: ['oneResume'], queryFn: () => getResumeById('66d88b0e4f923d777f2753e1') });
+  useEffect(() => {
+    if (resumeID === null || resumeID === undefined) {
+      navigate('/dashboard/resume');
+    }
+  }, [resumeID, navigate]);
 
   const {
     isLoading,

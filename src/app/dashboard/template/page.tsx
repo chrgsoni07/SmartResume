@@ -5,6 +5,7 @@ import Stack from '@mui/material/Stack';
 import { Toaster } from 'react-hot-toast';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 
+import FileUpload from '../resume/FileUpload';
 import TemplateSelectionPage from './TemplateSelectionPage';
 
 export default function Page(): React.JSX.Element {
@@ -16,7 +17,7 @@ export default function Page(): React.JSX.Element {
           <Router>
             <Routes>
               <Route path="/dashboard/template" element={<TemplateSelectionPage />} />
-              {/* <Route path="dashboard/template/:id" element={<TemplateDetailsPage />} /> */}
+              <Route path="/dashboard/resume" element={<FileUpload />} />
             </Routes>
           </Router>
         </Stack>

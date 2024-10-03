@@ -92,130 +92,196 @@ const EditablePreview: React.FC<PropTypes> = ({ resumeData, setResumeData }) => 
         Details
       </Typography>
 
-      <div>
-        <TextField
-          id="name"
-          label="Name"
-          value={resumeData.name}
-          InputLabelProps={{ shrink: true }}
-          onChange={(e) => setResumeData({ ...resumeData, name: e.target.value })}
-          margin="normal"
-        />
+      <Grid container spacing={1}>
+        <Grid item xs={12} sm={4}>
+          <TextField
+            id="name"
+            label="Name"
+            value={resumeData.name}
+            InputLabelProps={{ shrink: true }}
+            onChange={(e) => setResumeData({ ...resumeData, name: e.target.value })}
+            fullWidth
+            margin="normal"
+          />
+        </Grid>
 
-        <TextField
-          id="email"
-          label="Email"
-          value={resumeData.email}
-          InputLabelProps={{ shrink: true }}
-          type="email"
-          onChange={(e) => setResumeData({ ...resumeData, email: e.target.value })}
-          margin="normal"
-        />
+        <Grid item xs={12} sm={4}>
+          <TextField
+            id="email"
+            label="Email"
+            value={resumeData.email}
+            InputLabelProps={{ shrink: true }}
+            type="email"
+            onChange={(e) => setResumeData({ ...resumeData, email: e.target.value })}
+            fullWidth
+            margin="normal"
+          />
+        </Grid>
 
-        <TextField
-          id="phone"
-          label="Phone"
-          value={resumeData.phone}
-          InputLabelProps={{ shrink: true }}
-          onChange={(e) => setResumeData({ ...resumeData, phone: e.target.value })}
-          margin="normal"
-        />
+        <Grid item xs={12} sm={4}>
+          <TextField
+            id="jobTitle"
+            label="Job Title"
+            value={resumeData.jobTitle}
+            InputLabelProps={{ shrink: true }}
+            onChange={(e) => setResumeData({ ...resumeData, jobTitle: e.target.value })}
+            fullWidth
+            margin="normal"
+          />
+        </Grid>
 
-        <TextField
-          id="location"
-          label="Location/Place"
-          value={resumeData.location}
-          InputLabelProps={{ shrink: true }}
-          onChange={(e) => setResumeData({ ...resumeData, location: e.target.value })}
-          margin="normal"
-        />
-      </div>
-      <div>
-        <TextField
-          id="linkedin"
-          label="Linkedin Profile"
-          value={resumeData.linkedIn}
-          InputLabelProps={{ shrink: true }}
-          onChange={(e) => setResumeData({ ...resumeData, linkedIn: e.target.value })}
-          margin="normal"
-        />
+        <Grid item xs={12} sm={3}>
+          <TextField
+            id="linkedin"
+            label="LinkedIn Profile"
+            value={resumeData.linkedIn}
+            InputLabelProps={{ shrink: true }}
+            onChange={(e) => setResumeData({ ...resumeData, linkedIn: e.target.value })}
+            fullWidth
+            margin="normal"
+          />
+        </Grid>
 
-        <TextField
-          id="github"
-          label="GitHub Profile"
-          value={resumeData.github}
-          InputLabelProps={{ shrink: true }}
-          onChange={(e) => setResumeData({ ...resumeData, github: e.target.value })}
-          margin="normal"
-        />
-      </div>
+        <Grid item xs={12} sm={3}>
+          <TextField
+            id="github"
+            label="GitHub Profile"
+            value={resumeData.github}
+            InputLabelProps={{ shrink: true }}
+            onChange={(e) => setResumeData({ ...resumeData, github: e.target.value })}
+            fullWidth
+            margin="normal"
+          />
+        </Grid>
 
-      <div>
-        <TextField
-          id="careerObjective"
-          label="Carrer Objective"
-          value={resumeData.careerObjective}
-          InputLabelProps={{ shrink: true }}
-          multiline
-          rows={4}
-          fullWidth
-          onChange={(e) => setResumeData({ ...resumeData, careerObjective: e.target.value })}
-          margin="normal"
-        />
-      </div>
+        <Grid item xs={12} sm={3}>
+          <TextField
+            id="phone"
+            label="Phone"
+            value={resumeData.phone}
+            InputLabelProps={{ shrink: true }}
+            onChange={(e) => setResumeData({ ...resumeData, phone: e.target.value })}
+            fullWidth
+            margin="normal"
+          />
+        </Grid>
 
-      {resumeData.skills ? (
-        <MuiChipsInput value={resumeData.skills} onChange={handelSkillChange} label="Skills" margin="normal" />
-      ) : (
-        <>
-          {resumeData.skillsCategory &&
-            Object.entries(resumeData.skillsCategory).map(([category, skillList]) => (
-              <MuiChipsInput key={category} value={skillList} onChange={handelSkillChange} label={category} margin="normal" />
-            ))}
-        </>
-      )}
+        <Grid item xs={12} sm={3}>
+          <TextField
+            id="location"
+            label="Location/Place"
+            value={resumeData.location}
+            InputLabelProps={{ shrink: true }}
+            onChange={(e) => setResumeData({ ...resumeData, location: e.target.value })}
+            fullWidth
+            margin="normal"
+          />
+        </Grid>
+      </Grid>
 
-      <div>
-        <Typography style={{ color: '#635BFF' }} variant="subtitle1" gutterBottom>
-          Education
-        </Typography>
+      <Grid container spacing={1}>
+        <Grid item xs={12} sm={12}>
+          <TextField
+            id="careerObjective"
+            label="Carrer Objective"
+            value={resumeData.careerObjective}
+            InputLabelProps={{ shrink: true }}
+            multiline
+            rows={4}
+            fullWidth
+            onChange={(e) => setResumeData({ ...resumeData, careerObjective: e.target.value })}
+            margin="normal"
+          />
+        </Grid>
+      </Grid>
+
+      <Grid container spacing={1}>
+      <Grid item xs={12}>
+        {resumeData.skills ? (
+          <MuiChipsInput 
+            value={resumeData.skills} 
+            onChange={handelSkillChange} 
+            label="Skills" 
+            margin="normal" 
+            fullWidth // Ensure it takes full width
+          />
+        ) : (
+          <>
+            {resumeData.skillsCategory &&
+              Object.entries(resumeData.skillsCategory).map(([category, skillList]) => (
+                <MuiChipsInput 
+                  key={category} 
+                  value={skillList} 
+                  onChange={handelSkillChange} 
+                  label={category} 
+                  margin="normal" 
+                  fullWidth // Ensure it takes full width
+                />
+              ))}
+          </>
+        )}
+      </Grid>
+    </Grid>
+
+      <Grid container spacing={1}>
+        <Grid item xs={12}>
+          <Typography style={{ color: '#635BFF' }} variant="subtitle1" gutterBottom>
+            Education
+          </Typography>
+        </Grid>
+
         {resumeData.education.map((edu, index) => (
-          <div key={edu.degree}>
-            <TextField
-              id={`degree${index + 1}`}
-              label="Degree"
-              value={edu.degree}
-              InputLabelProps={{ shrink: true }}
-              margin="normal"
-              onChange={(e) => handelWorkExperienceChange(index, 'degree', e.target.value, 'education')}
-            />
-            <TextField
-              id={`university${index + 1}`}
-              label="University"
-              value={edu.university}
-              InputLabelProps={{ shrink: true }}
-              margin="normal"
-              onChange={(e) => handelWorkExperienceChange(index, 'university', e.target.value, 'education')}
-            />
-            <TextField
-              id={`duration${index + 1}`}
-              label="Duration"
-              value={edu.duration}
-              InputLabelProps={{ shrink: true }}
-              margin="normal"
-              onChange={(e) => handelWorkExperienceChange(index, 'duration', e.target.value, 'education')}
-            />
-            <TextField
-              id={`location${index + 1}`}
-              label="Location"
-              value={edu.location}
-              InputLabelProps={{ shrink: true }}
-              margin="normal"
-              onChange={(e) => handelWorkExperienceChange(index, 'location', e.target.value, 'education')}
-            />
-          </div>
+          <Grid container spacing={1} item xs={12} key={edu.degree}>
+            <Grid item xs={12} sm={3}>
+              <TextField
+                id={`degree${index + 1}`}
+                label="Degree"
+                value={edu.degree}
+                InputLabelProps={{ shrink: true }}
+                margin="normal"
+                onChange={(e) => handelWorkExperienceChange(index, 'degree', e.target.value, 'education')}
+                fullWidth
+              />
+            </Grid>
+
+            <Grid item xs={12} sm={3}>
+              <TextField
+                id={`university${index + 1}`}
+                label="University"
+                value={edu.university}
+                InputLabelProps={{ shrink: true }}
+                margin="normal"
+                onChange={(e) => handelWorkExperienceChange(index, 'university', e.target.value, 'education')}
+                fullWidth
+              />
+            </Grid>
+
+            <Grid item xs={12} sm={3}>
+              <TextField
+                id={`duration${index + 1}`}
+                label="Duration"
+                value={edu.duration}
+                InputLabelProps={{ shrink: true }}
+                margin="normal"
+                onChange={(e) => handelWorkExperienceChange(index, 'duration', e.target.value, 'education')}
+                fullWidth
+              />
+            </Grid>
+
+            <Grid item xs={12} sm={3}>
+              <TextField
+                id={`location${index + 1}`}
+                label="Location"
+                value={edu.location}
+                InputLabelProps={{ shrink: true }}
+                margin="normal"
+                onChange={(e) => handelWorkExperienceChange(index, 'location', e.target.value, 'education')}
+                fullWidth
+              />
+            </Grid>
+          </Grid>
         ))}
-      </div>
+      </Grid>
 
       <div>
         <Typography style={{ color: '#635BFF' }} variant="subtitle1" gutterBottom>
@@ -227,60 +293,85 @@ const EditablePreview: React.FC<PropTypes> = ({ resumeData, setResumeData }) => 
               <Chip label={`${exp.company} | ${exp.jobPosition}`} size="small" />
             </Divider>
 
-            <TextField
-              id={`jobPosition${index + 1}`}
-              label="Job Position"
-              value={exp.jobPosition}
-              InputLabelProps={{ shrink: true }}
-              margin="normal"
-              onChange={(e) => handelWorkExperienceChange(index, 'jobPosition', e.target.value, 'workExperience')}
-            />
-            <TextField
-              id={`company${index + 1}`}
-              label="Company"
-              value={exp.company}
-              InputLabelProps={{ shrink: true }}
-              margin="normal"
-              onChange={(e) => handelWorkExperienceChange(index, 'company', e.target.value, 'workExperience')}
-            />
-
-            <TextField
-              id={`location${index + 1}`}
-              label="Location"
-              value={exp.location}
-              InputLabelProps={{ shrink: true }}
-              margin="normal"
-              onChange={(e) => handelWorkExperienceChange(index, 'location', e.target.value, 'workExperience')}
-            />
-
-            <TextField
-              id={`duration${index + 1}`}
-              label="Duration"
-              value={exp.duration}
-              InputLabelProps={{ shrink: true }}
-              margin="normal"
-              onChange={(e) => handelWorkExperienceChange(index, 'duration', e.target.value, 'workExperience')}
-            />
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <Typography style={{ color: '#635BFF' }} variant="subtitle1" gutterBottom>
-                Responsiblities
-              </Typography>
-              <IconButton onClick={() => addResponsibility(index)} aria-label="add" color="primary">
-                +
-              </IconButton>
-            </div>
-            {exp.responsibilities.map((resp, respIndex) => (
-              <div key={respIndex} style={{ display: 'flex', alignContent: 'center' }}>
-                <StyledTextareaAutosize
-                  value={resp}
-                  onChange={(e) => handelWorkExOnResponsiblity(e.target.value, index, respIndex)}
-                  onMouseEnter={(e) => handleResponsibilityHover(resp, e)}
-                  customColor={isMatchingSuggestion(resp) ? 'orange' : ''}
+            <Grid container spacing={1}>
+              <Grid item xs={12} sm={3}>
+                <TextField
+                  id={`jobPosition${index + 1}`}
+                  label="Job Position"
+                  value={exp.jobPosition}
+                  InputLabelProps={{ shrink: true }}
+                  margin="normal"
+                  onChange={(e) => handelWorkExperienceChange(index, 'jobPosition', e.target.value, 'workExperience')}
+                  fullWidth
                 />
-                <IconButton onClick={() => removeResponsibility(index, respIndex)} aria-label="delete">
-                  <DeleteIcon />
+              </Grid>
+
+              <Grid item xs={12} sm={3}>
+                <TextField
+                  id={`company${index + 1}`}
+                  label="Company"
+                  value={exp.company}
+                  InputLabelProps={{ shrink: true }}
+                  margin="normal"
+                  onChange={(e) => handelWorkExperienceChange(index, 'company', e.target.value, 'workExperience')}
+                  fullWidth
+                />
+              </Grid>
+
+              <Grid item xs={12} sm={3}>
+                <TextField
+                  id={`location${index + 1}`}
+                  label="Location"
+                  value={exp.location}
+                  InputLabelProps={{ shrink: true }}
+                  margin="normal"
+                  onChange={(e) => handelWorkExperienceChange(index, 'location', e.target.value, 'workExperience')}
+                  fullWidth
+                />
+              </Grid>
+
+              <Grid item xs={12} sm={3}>
+                <TextField
+                  id={`duration${index + 1}`}
+                  label="Duration"
+                  value={exp.duration}
+                  InputLabelProps={{ shrink: true }}
+                  margin="normal"
+                  onChange={(e) => handelWorkExperienceChange(index, 'duration', e.target.value, 'workExperience')}
+                  fullWidth
+                />
+              </Grid>
+            </Grid>
+
+            <Grid container alignItems="center" spacing={1}>
+              <Grid item>
+                <Typography style={{ color: '#635BFF' }} variant="subtitle1" gutterBottom>
+                  Responsibilities
+                </Typography>
+              </Grid>
+              <Grid item>
+                <IconButton onClick={() => addResponsibility(index)} aria-label="add" color="primary">
+                  +
                 </IconButton>
-              </div>
+              </Grid>
+            </Grid>
+
+            {exp.responsibilities.map((resp, respIndex) => (
+              <Grid container alignItems="center" key={respIndex}>
+                <Grid item xs>
+                  <StyledTextareaAutosize
+                    value={resp}
+                    onChange={(e) => handelWorkExOnResponsiblity(e.target.value, index, respIndex)}
+                    onMouseEnter={(e) => handleResponsibilityHover(resp, e)}
+                    customColor={isMatchingSuggestion(resp) ? 'orange' : ''}
+                  />
+                </Grid>
+                <Grid item>
+                  <IconButton onClick={() => removeResponsibility(index, respIndex)} aria-label="delete">
+                    <DeleteIcon />
+                  </IconButton>
+                </Grid>
+              </Grid>
             ))}
 
             <Popover
@@ -305,27 +396,30 @@ const EditablePreview: React.FC<PropTypes> = ({ resumeData, setResumeData }) => 
 
             {exp.achievements && exp.achievements.length > 0 && (
               <div>
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                  <Typography style={{ color: '#635BFF' }} variant="subtitle1" gutterBottom>
-                    Achievements
-                  </Typography>
-                  <IconButton onClick={() => addAchievements(index)} aria-label="add" color="primary">
-                    +
-                  </IconButton>
-                </div>
-                {exp.achievements.map((ach, achIndex) => (
-                  <div
-                    key={achIndex}
-                    style={{
-                      display: 'flex',
-                      alignContent: 'center',
-                    }}
-                  >
-                    <StyledTextareaAutosize value={ach} />
-                    <IconButton onClick={() => removeAchivements(index, achIndex)} aria-label="delete">
-                      <DeleteIcon />
+                <Grid container alignItems="center" spacing={1}>
+                  <Grid item>
+                    <Typography style={{ color: '#635BFF' }} variant="subtitle1" gutterBottom>
+                      Achievements
+                    </Typography>
+                  </Grid>
+                  <Grid item>
+                    <IconButton onClick={() => addAchievements(index)} aria-label="add" color="primary">
+                      +
                     </IconButton>
-                  </div>
+                  </Grid>
+                </Grid>
+
+                {exp.achievements.map((ach, achIndex) => (
+                  <Grid container alignItems="center" key={achIndex}>
+                    <Grid item xs>
+                      <StyledTextareaAutosize value={ach} />
+                    </Grid>
+                    <Grid item>
+                      <IconButton onClick={() => removeAchivements(index, achIndex)} aria-label="delete">
+                        <DeleteIcon />
+                      </IconButton>
+                    </Grid>
+                  </Grid>
                 ))}
               </div>
             )}

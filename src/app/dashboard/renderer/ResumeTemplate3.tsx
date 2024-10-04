@@ -54,30 +54,32 @@ const ResumeTemplate3 = ({ resume }: { resume: Resume }) => (
             {/* Contact Information Section */}
             <View style={styles.section}>
               <Text style={styles.sectionTitle}>Contact</Text>
-              <Text style={styles.text}>
-                <Image src={{ uri: '/assets/Icons/envelope.png', method: 'GET', headers: { 'Cache-Control': 'no-cache' }, body: '' }} />
-                {resume.email}
-              </Text>
+              <View>
+                <Text style={styles.contact}>
+                  {/* <Image src={{ uri: '/assets/Icons/envelope.png', method: 'GET', headers: { 'Cache-Control': 'no-cache' }, body: '' }} /> */}
+                  <Text style={styles.contactText}>{resume.email}</Text>
+                </Text>
 
-              <Text style={styles.text}>
-                <Image src={{ uri: '/assets/Icons/phone.png', method: 'GET', headers: { 'Cache-Control': 'no-cache' }, body: '' }} />
-                {resume.phone}
-              </Text>
+                <Text style={styles.contact}>
+                  {/* <Image src={{ uri: '/assets/Icons/phone.png', method: 'GET', headers: { 'Cache-Control': 'no-cache' }, body: '' }} /> */}
+                  <Text style={styles.contactText}>{resume.phone}</Text>
+                </Text>
 
-              <Text style={styles.text}>
-                <Image src={{ uri: '/assets/Icons/map-pin.png', method: 'GET', headers: { 'Cache-Control': 'no-cache' }, body: '' }} />
-                {resume.location}
-              </Text>
+                <Text style={styles.contact}>
+                  {/* <Image src={{ uri: '/assets/Icons/map-pin.png', method: 'GET', headers: { 'Cache-Control': 'no-cache' }, body: '' }} /> */}
+                  <Text style={styles.contactText}>{resume.location}</Text>
+                </Text>
 
-              <Text style={styles.text}>
-                <Image src={{ uri: '/assets/Icons/linkedin-logo.png', method: 'GET', headers: { 'Cache-Control': 'no-cache' }, body: '' }} />
-                {resume.linkedIn}
-              </Text>
+                <Text style={styles.contact}>
+                  {/* <Image src={{ uri: '/assets/Icons/linkedin-logo.png', method: 'GET', headers: { 'Cache-Control': 'no-cache' }, body: '' }} /> */}
+                  <Text style={styles.contactText}>{resume.linkedIn}</Text>
+                </Text>
 
-              <Text style={styles.text}>
-                <Image src={{ uri: '/assets/Icons/github-logo.png', method: 'GET', headers: { 'Cache-Control': 'no-cache' }, body: '' }} />
-                {resume.github}
-              </Text>
+                <Text style={styles.contact}>
+                  {/* <Image src={{ uri: '/assets/Icons/github-logo.png', method: 'GET', headers: { 'Cache-Control': 'no-cache' }, body: '' }} /> */}
+                  <Text style={styles.contactText}>{resume.github}</Text>
+                </Text>
+              </View>
             </View>
 
             {/* Education Section */}
@@ -135,9 +137,15 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   contact: {
-    fontSize: 12,
-    color: '#555',
-    marginBottom: 10,
+    fontSize: 10, // Smaller font size for contact details
+    lineHeight: 1.5,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  contactText: {
+    marginLeft: 5, // Space between icon and text
+    flexWrap: 'wrap', // Allow text to wrap
+    maxWidth: '90%', // Limit width of text
   },
   content: {
     flexDirection: 'row',
@@ -151,6 +159,7 @@ const styles = StyleSheet.create({
     width: '30%',
     paddingLeft: 15,
     borderLeft: '1px solid #3f51b5',
+    flexShrink: 0, // Prevent shrinking if the content overflows
   },
   section: {
     marginBottom: 15,
@@ -163,9 +172,10 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   text: {
-    fontSize: 11,
-    lineHeight: 1.5,
-    textAlign: 'justify',
+    fontSize: 10, // Smaller font size for all details
+    lineHeight: 1.5, // Adjust line height
+    textAlign: 'left', // Left alignment for better readability
+    marginBottom: 10, // Add margin for spacing
   },
   job: {
     marginBottom: 15,
@@ -173,7 +183,7 @@ const styles = StyleSheet.create({
     borderBottom: '1px solid #E0E0E0',
   },
   jobDates: {
-    fontSize: 11,
+    fontSize: 10, // Consistent smaller font size
     color: '#888',
     marginBottom: 5,
   },
@@ -181,12 +191,12 @@ const styles = StyleSheet.create({
     marginBottom: 10, // Add space between education entries
   },
   education: {
-    fontSize: 11,
-    textAlign: 'justify',
+    fontSize: 10, // Consistent smaller font size
+    textAlign: 'left', // Change to left for better readability
   },
   skills: {
-    fontSize: 11,
-    textAlign: 'justify',
+    fontSize: 10, // Consistent smaller font size
+    textAlign: 'left', // Change to left for better readability
   },
 });
 

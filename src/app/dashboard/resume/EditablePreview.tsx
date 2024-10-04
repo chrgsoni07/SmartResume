@@ -71,7 +71,6 @@ const EditablePreview: React.FC<PropTypes> = ({ resumeData, setResumeData }) => 
 
   function addAchievements(expIndex: number): void {
     if (!resumeData.workExperience[expIndex].achievements) {
-      console.log('no achievements found under experience found');
       resumeData.workExperience[expIndex].achievements = []; //
       return;
     }

@@ -1,4 +1,3 @@
-import { headers } from 'next/headers';
 import axios from 'axios';
 
 import { type JobDetail } from '../apply/JobDetail';
@@ -43,7 +42,6 @@ export const assessResumeFit = async ({ jobDetail, resumeId }: { jobDetail: JobD
 };
 
 export const getJobDetailsFromURL = async (url: string) => {
-  // Construct the URL with query parameters
   const fetchDataURL = `${BASE_URL_JOB_DETAIL}/details?url=${url}`;
 
   const response = await axios.get(fetchDataURL);

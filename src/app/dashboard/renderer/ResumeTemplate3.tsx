@@ -47,6 +47,24 @@ const ResumeTemplate3 = ({ resume }: { resume: Resume }) => (
                 </View>
               ))}
             </View>
+
+            {/* Project Section */}
+            {resume.projects && resume.projects.length > 0 && (
+              <View style={styles.section}>
+                <Text style={styles.sectionTitle}>Project</Text>
+                {resume.projects.map((project, index) => (
+                  <View style={styles.job} key={index}>
+                    <Text style={styles.jobTitle}>{project.name}</Text>
+                    <Text style={styles.jobDates}>{project.year}</Text>
+                    <List>
+                      {project.details.map((resp, idx) => (
+                        <Item key={idx}>{resp}</Item>
+                      ))}
+                    </List>
+                  </View>
+                ))}
+              </View>
+            )}
           </View>
 
           {/* Right Side */}

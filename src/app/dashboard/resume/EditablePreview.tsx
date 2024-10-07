@@ -452,6 +452,23 @@ const EditablePreview: React.FC<PropTypes> = ({ resumeData, setResumeData }) => 
                 fullWidth
               />
             </Grid>
+
+            <Grid item xs={12} sm={4}>
+              <TextField
+                id={`projectYear${index + 1}`}
+                label="Project Year"
+                value={project.year}
+                InputLabelProps={{ shrink: true }}
+                margin="normal"
+                onChange={(e) => {
+                  const updatedProjects = [...resumeData.projects];
+                  updatedProjects[index].year = e.target.value;
+                  setResumeData({ ...resumeData, projects: updatedProjects });
+                }}
+                fullWidth
+              />
+            </Grid>
+
             <Grid item xs={12} sm={4}>
               <TextField
                 id={`projectDescription${index + 1}`}
@@ -465,21 +482,6 @@ const EditablePreview: React.FC<PropTypes> = ({ resumeData, setResumeData }) => 
                 onChange={(e) => {
                   const updatedProjects = [...resumeData.projects];
                   updatedProjects[index].description = e.target.value;
-                  setResumeData({ ...resumeData, projects: updatedProjects });
-                }}
-                fullWidth
-              />
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <TextField
-                id={`projectYear${index + 1}`}
-                label="Project Year"
-                value={project.year}
-                InputLabelProps={{ shrink: true }}
-                margin="normal"
-                onChange={(e) => {
-                  const updatedProjects = [...resumeData.projects];
-                  updatedProjects[index].year = e.target.value;
                   setResumeData({ ...resumeData, projects: updatedProjects });
                 }}
                 fullWidth

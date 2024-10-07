@@ -8,6 +8,7 @@ import Title from './Title';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: 'row',
     paddingTop: 10,
     paddingLeft: 5,
     '@media max-width: 400': {
@@ -17,6 +18,7 @@ const styles = StyleSheet.create({
   },
   entryContainer: {
     marginBottom: 10,
+    textAlign: 'justify',
   },
   date: {
     fontSize: 11,
@@ -33,7 +35,6 @@ const styles = StyleSheet.create({
   },
   bulletPoint: {
     fontSize: 10,
-    textAlign: 'justify',
   },
   details: {
     fontSize: 10,
@@ -58,6 +59,34 @@ const styles = StyleSheet.create({
     color: 'black',
     textDecoration: 'none',
     fontFamily: 'Lato Bold',
+  },
+  projectContainer: {
+    flex: 1,
+    paddingTop: 10,
+    paddingLeft: 5,
+    '@media max-width: 400': {
+      paddingTop: 10,
+      paddingLeft: 0,
+    },
+  },
+  projectTitle: {
+    fontSize: 18,
+    marginBottom: 5,
+    fontFamily: 'Lato Bold',
+  },
+  project: {
+    marginBottom: 10,
+  },
+  projectName: {
+    fontSize: 14,
+    fontWeight: 'bold',
+  },
+  projectDescription: {
+    fontSize: 12,
+  },
+  projectTech: {
+    fontSize: 12,
+    fontStyle: 'italic',
   },
 });
 
@@ -91,7 +120,7 @@ const Project = ({ project }: { project?: Projects[] }) => {
   }
   return (
     <View style={styles.container}>
-      <Title>Experience</Title>
+      <Title>Project</Title>
       {project.map(({ name, description, technologies }) => (
         <ProjectEntry name={name} description={description} technologies={technologies} key={name} />
       ))}

@@ -97,7 +97,7 @@ const ResumeTemplate1: React.FC<ResumeProps> = (props) => (
             <Education education={props.resume?.education} />
             <Skills skills={props.resume?.skills} />
           </View>
-          <Experience workExperience={props.resume?.workExperience} />
+          <Experience workExperience={props.resume?.workExperience} projects={props.resume?.projects} />
         </View>
       </Page>
     </Document>

@@ -7,6 +7,7 @@ const BASE_URL = 'http://localhost:8080/api/0.1';
 const BASE_URL_RESUME = `${BASE_URL}/resume`;
 const BASE_URL_JOB_DETAIL = `${BASE_URL}/job`;
 const BASE_URL_FILE = `${BASE_URL}/files`;
+const BASE_URL_API_GATEWAY = 'http://localhost:8443';
 
 const USER_ID = 'uid112233';
 
@@ -16,6 +17,15 @@ const apiClient = axios.create({
     'Content-type': 'application/json',
   },
 });
+
+export const API_NEW = {
+  login: `${BASE_URL_API_GATEWAY}/login`,
+  signUp: `${BASE_URL_API_GATEWAY}/signup`,
+  refreshToken: `${BASE_URL_API_GATEWAY}/refresh`,
+  logout: `${BASE_URL_API_GATEWAY}/logout`,
+  guestAuthentication: `${BASE_URL_API_GATEWAY}/authenticate/guest`,
+  confirmEmail: `${BASE_URL_API_GATEWAY}/api/0.1/authentication/confirm-email`,
+};
 
 export const getResumeById = async (id: string) => {
   const fetchDataURL = `${BASE_URL_RESUME}/${id}`;
@@ -59,10 +69,15 @@ export const extractDataFromFile = async (formData: FormData) => {
   return (await response).data;
 };
 
-export const saveResume = async (data: Resume) => {
-  const saveDataURL = `${BASE_URL_RESUME}/${USER_ID}`;
+export const saveResume = async (data: Resume, token: string) => {
+  const saveDataURL = `${BASE_URL_RESUME}`;
 
-  const response = await axios.post(saveDataURL, data, { headers: { 'Content-Type': 'application/json' } });
+  const response = await axios.post(saveDataURL, data, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
   return response.data;
 };

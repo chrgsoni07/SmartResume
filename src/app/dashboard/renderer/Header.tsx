@@ -81,11 +81,12 @@ const Header = ({
           <Image src={{ uri: '/assets/Icons/linkedin-logo.png', method: 'GET', headers: { 'Cache-Control': 'no-cache' }, body: '' }} />
           {linkedIn}
         </Text>
-
-        <Text style={styles.mobile}>
-          <Image src={{ uri: '/assets/Icons/github-logo.png', method: 'GET', headers: { 'Cache-Control': 'no-cache' }, body: '' }} />
-          {github}
-        </Text>
+        {github && (
+          <Text style={styles.mobile}>
+            <Image src={{ uri: '/assets/Icons/github-logo.png', method: 'GET', headers: { 'Cache-Control': 'no-cache' }, body: '' }} />
+            {github}
+          </Text>
+        )}
       </View>
     </View>
   );

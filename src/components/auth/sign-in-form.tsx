@@ -3,6 +3,7 @@
 import * as React from 'react';
 import RouterLink from 'next/link';
 import { useRouter } from 'next/navigation';
+import useAuthentication from '@/app/dashboard/service/Authentication';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Alert from '@mui/material/Alert';
 import Button from '@mui/material/Button';
@@ -23,6 +24,8 @@ import { paths } from '@/paths';
 import { authClient } from '@/lib/auth/client';
 import { useUser } from '@/hooks/use-user';
 
+import { UserSignIn } from './model/UserSignIn';
+
 const schema = zod.object({
   email: zod.string().min(1, { message: 'Email is required' }).email(),
   password: zod.string().min(1, { message: 'Password is required' }),
@@ -42,6 +45,7 @@ export const SignInForm = (): React.JSX.Element => {
   const [showPassword, setShowPassword] = React.useState<boolean>();
 
   const [isPending, setIsPending] = React.useState<boolean>(false);
+  const { login, isLoggedIn } = useAuthentication();
 
   const styles = {
     centerText: {
@@ -68,22 +72,19 @@ export const SignInForm = (): React.JSX.Element => {
     async (values: Values): Promise<void> => {
       setIsPending(true);
 
-      const { error } = await authClient.signInWithPassword(values);
+      const userSignIn: UserSignIn = { email: values.email, password: values.password };
 
-      if (error) {
-        setError('root', { type: 'server', message: error });
+      try {
+        await login(userSignIn);
+        await checkSession?.();
+        router.refresh();
+      } catch (err) {
+        setError('root', { type: 'server', message: 'Login failec' });
+      } finally {
         setIsPending(false);
-        return;
       }
-
-      // Refresh the auth state
-      await checkSession?.();
-
-      // UserProvider, for this case, will not refresh the router
-      // After refresh, GuestGuard will handle the redirect
-      router.refresh();
     },
-    [checkSession, router, setError]
+    [checkSession, router, setError, login]
   );
 
   return (
@@ -159,8 +160,8 @@ export const SignInForm = (): React.JSX.Element => {
           <GoogleLoginButton onClick={() => alert('Google login')}>
             <span>Sign up using Google</span>
           </GoogleLoginButton>
-          <LinkedInLoginButton onClick={() => alert('Linkedin login')} >
-          <span>Sign up using LinkedIn</span>
+          <LinkedInLoginButton onClick={() => alert('Linkedin login')}>
+            <span>Sign up using LinkedIn</span>
           </LinkedInLoginButton>
         </Stack>
       </form>
@@ -178,4 +179,4 @@ export const SignInForm = (): React.JSX.Element => {
           */}
     </Stack>
   );
-}
+};

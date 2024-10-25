@@ -38,10 +38,11 @@ const ResumeTemplate2 = ({ resume }: { resume: Resume }) => (
               <Link style={styles.link} src={resume.linkedIn}>
                 LinkedIn
               </Link>
-
-              <Link style={styles.link} src={resume.github}>
-                GitHub
-              </Link>
+              {resume.github && (
+                <Link style={styles.link} src={resume.github}>
+                  GitHub
+                </Link>
+              )}
             </View>
           </View>
         </View>

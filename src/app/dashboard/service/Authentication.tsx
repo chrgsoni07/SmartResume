@@ -25,10 +25,10 @@ const useAuthentication = () => {
       const response = await axios.post(API_NEW.login, userSignIn, {
         withCredentials: true,
       });
-
-      parseAuthResponse(response);
+      return parseAuthResponse(response); // Ensure this function returns relevant data
     } catch (error) {
       console.error('Login failed', error);
+      throw error; // Rethrow the error to handle it in the calling function
     }
   };
 
@@ -46,13 +46,30 @@ const useAuthentication = () => {
       email: authResponse.data.email,
     };
 
-    localStorage.setItem('currentUser', JSON.stringify(updatedUserInfo));
-    setCurrentUser(updatedUserInfo);
+    if (authResponse.data) {
+      localStorage.setItem('custom-auth-token', JSON.stringify(updatedUserInfo));
+      //    localStorage.setItem('currentUser', JSON.stringify(updatedUserInfo));
+    }
+    return authResponse;
   };
 
   const signUp = async (user: UserSignUp) => {
-    return await axios.post(API_NEW.signUp, user);
+    try {
+      const response = await axios.post(API_NEW.signUp, user);
+      const token = generateToken();
+      localStorage.setItem('custom-auth-token', token);
+      console.log('resposne', response);
+    } catch (error) {
+      console.error('Login failed', error);
+      throw error; // Rethrow the error to handle it in the calling function
+    }
   };
+
+  function generateToken(): string {
+    const arr = new Uint8Array(12);
+    window.crypto.getRandomValues(arr);
+    return Array.from(arr, (v) => v.toString(16).padStart(2, '0')).join('');
+  }
 
   const isLoggedIn = () => {
     return Cookie.check('AuthToken');

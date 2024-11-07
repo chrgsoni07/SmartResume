@@ -57,9 +57,9 @@ class AuthClient {
     // Make API request
 
     // We do not handle the API, so we'll check if the credentials match with the hardcoded ones.
-   // if (email !== 'sofia@devias.io' || password !== 'Secret1') {
-   //   return { error: 'Invalid credentials' };
-   // }
+    // if (email !== 'sofia@devias.io' || password !== 'Secret1') {
+    //   return { error: 'Invalid credentials' };
+    // }
 
     if (email !== 'chrgsoni07@gmail.com' || password !== 'Secret1') {
       return { error: 'Invalid credentials' };
@@ -85,6 +85,8 @@ class AuthClient {
     // We do not handle the API, so just check if we have a token in localStorage.
     const token = localStorage.getItem('custom-auth-token');
 
+    console.log('token', token);
+    console.log('data', user);
     if (!token) {
       return { data: null };
     }

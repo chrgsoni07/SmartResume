@@ -42,7 +42,7 @@ const TemplateSelectionPage: React.FC = () => {
     error,
     data,
     refetch: getResumeByIDRQ,
-  } = useQuery({ queryKey: ['oneResume', resumeID], queryFn: () => getResumeById(resumeID), enabled: false });
+  } = useQuery({ queryKey: ['oneResume', resumeID], queryFn: () => getResumeById(resumeID, getJWTToken()), enabled: false });
 
   const handleSelect = async (templateId: number) => {
     console.log('show the resume in template format ', templateId);
@@ -60,6 +60,15 @@ const TemplateSelectionPage: React.FC = () => {
         console.log(error);
       }
     }
+  };
+
+  const getJWTToken = () => {
+    const tokenString = localStorage.getItem('custom-auth-token');
+    if (tokenString) {
+      const tokenObject = JSON.parse(tokenString);
+      return tokenObject.authToken;
+    }
+    return null;
   };
 
   const handleClickOpen = (image: string) => {

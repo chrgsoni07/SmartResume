@@ -30,6 +30,9 @@ export const UserProvider = ({ children }: UserProviderProps): React.JSX.Element
     try {
       const { data, error } = await authClient.getUser();
 
+      console.log('data', data);
+      console.log('error', error);
+
       if (error) {
         logger.error(error);
         setState((prev) => ({ ...prev, user: null, error: 'Something went wrong', isLoading: false }));
@@ -52,6 +55,6 @@ export const UserProvider = ({ children }: UserProviderProps): React.JSX.Element
   }, []);
 
   return <UserContext.Provider value={{ ...state, checkSession }}>{children}</UserContext.Provider>;
-}
+};
 
 export const UserConsumer = UserContext.Consumer;

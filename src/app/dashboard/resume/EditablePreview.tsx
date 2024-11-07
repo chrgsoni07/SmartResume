@@ -435,92 +435,94 @@ const EditablePreview: React.FC<PropTypes> = ({ resumeData, setResumeData }) => 
           </Typography>
         </Grid>
 
-        {resumeData.projects.map((project, index) => (
-          <Grid container spacing={1} item xs={12} key={index}>
-            <Grid item xs={12} sm={4}>
-              <TextField
-                id={`projectName${index + 1}`}
-                label="Project Name"
-                value={project.name}
-                InputLabelProps={{ shrink: true }}
-                margin="normal"
-                onChange={(e) => {
-                  const updatedProjects = [...resumeData.projects];
-                  updatedProjects[index].name = e.target.value;
-                  setResumeData({ ...resumeData, projects: updatedProjects });
-                }}
-                fullWidth
-              />
-            </Grid>
-
-            <Grid item xs={12} sm={4}>
-              <TextField
-                id={`projectYear${index + 1}`}
-                label="Project Year"
-                value={project.year}
-                InputLabelProps={{ shrink: true }}
-                margin="normal"
-                onChange={(e) => {
-                  const updatedProjects = [...resumeData.projects];
-                  updatedProjects[index].year = e.target.value;
-                  setResumeData({ ...resumeData, projects: updatedProjects });
-                }}
-                fullWidth
-              />
-            </Grid>
-
-            <Grid item xs={12} sm={4}>
-              <TextField
-                id={`projectDescription${index + 1}`}
-                label="Description"
-                value={project.description}
-                InputLabelProps={{ shrink: true }}
-                margin="normal"
-                multiline
-                minRows={2}
-                maxRows={4}
-                onChange={(e) => {
-                  const updatedProjects = [...resumeData.projects];
-                  updatedProjects[index].description = e.target.value;
-                  setResumeData({ ...resumeData, projects: updatedProjects });
-                }}
-                fullWidth
-              />
-            </Grid>
-
-            <Grid item xs={12}>
-              <Grid container alignItems="center" spacing={1}>
-                <Grid item>
-                  <Typography style={{ color: '#635BFF' }} variant="subtitle1" gutterBottom>
-                    Details
-                  </Typography>
-                </Grid>
-                <Grid item>
-                  <IconButton onClick={() => addAchievements(index)} aria-label="add" color="primary">
-                    +
-                  </IconButton>
-                </Grid>
+        {resumeData.projects &&
+          resumeData.projects.length > 0 &&
+          resumeData.projects.map((project, index) => (
+            <Grid container spacing={1} item xs={12} key={index}>
+              <Grid item xs={12} sm={4}>
+                <TextField
+                  id={`projectName${index + 1}`}
+                  label="Project Name"
+                  value={project.name}
+                  InputLabelProps={{ shrink: true }}
+                  margin="normal"
+                  onChange={(e) => {
+                    const updatedProjects = [...resumeData.projects];
+                    updatedProjects[index].name = e.target.value;
+                    setResumeData({ ...resumeData, projects: updatedProjects });
+                  }}
+                  fullWidth
+                />
               </Grid>
 
-              {project.details && project.details.length > 0 && (
-                <div>
-                  {project.details.map((prj, prjIndex) => (
-                    <Grid container alignItems="center" key={prjIndex} spacing={1}>
-                      <Grid item xs>
-                        <StyledTextareaAutosize value={prj} style={{ width: '100%', resize: 'vertical' }} />
+              <Grid item xs={12} sm={4}>
+                <TextField
+                  id={`projectYear${index + 1}`}
+                  label="Project Year"
+                  value={project.year}
+                  InputLabelProps={{ shrink: true }}
+                  margin="normal"
+                  onChange={(e) => {
+                    const updatedProjects = [...resumeData.projects];
+                    updatedProjects[index].year = e.target.value;
+                    setResumeData({ ...resumeData, projects: updatedProjects });
+                  }}
+                  fullWidth
+                />
+              </Grid>
+
+              <Grid item xs={12} sm={4}>
+                <TextField
+                  id={`projectDescription${index + 1}`}
+                  label="Description"
+                  value={project.description}
+                  InputLabelProps={{ shrink: true }}
+                  margin="normal"
+                  multiline
+                  minRows={2}
+                  maxRows={4}
+                  onChange={(e) => {
+                    const updatedProjects = [...resumeData.projects];
+                    updatedProjects[index].description = e.target.value;
+                    setResumeData({ ...resumeData, projects: updatedProjects });
+                  }}
+                  fullWidth
+                />
+              </Grid>
+
+              <Grid item xs={12}>
+                <Grid container alignItems="center" spacing={1}>
+                  <Grid item>
+                    <Typography style={{ color: '#635BFF' }} variant="subtitle1" gutterBottom>
+                      Details
+                    </Typography>
+                  </Grid>
+                  <Grid item>
+                    <IconButton onClick={() => addAchievements(index)} aria-label="add" color="primary">
+                      +
+                    </IconButton>
+                  </Grid>
+                </Grid>
+
+                {project.details && project.details.length > 0 && (
+                  <div>
+                    {project.details.map((prj, prjIndex) => (
+                      <Grid container alignItems="center" key={prjIndex} spacing={1}>
+                        <Grid item xs>
+                          <StyledTextareaAutosize value={prj} style={{ width: '100%', resize: 'vertical' }} />
+                        </Grid>
+                        <Grid item>
+                          <IconButton onClick={() => removeAchivements(index, prjIndex)} aria-label="delete">
+                            <DeleteIcon />
+                          </IconButton>
+                        </Grid>
                       </Grid>
-                      <Grid item>
-                        <IconButton onClick={() => removeAchivements(index, prjIndex)} aria-label="delete">
-                          <DeleteIcon />
-                        </IconButton>
-                      </Grid>
-                    </Grid>
-                  ))}
-                </div>
-              )}
+                    ))}
+                  </div>
+                )}
+              </Grid>
             </Grid>
-          </Grid>
-        ))}
+          ))}
       </Grid>
     </Grid>
   );

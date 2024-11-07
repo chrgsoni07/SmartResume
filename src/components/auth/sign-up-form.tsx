@@ -3,6 +3,7 @@
 import * as React from 'react';
 import RouterLink from 'next/link';
 import { useRouter } from 'next/navigation';
+import useAuthentication from '@/app/dashboard/service/Authentication';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Alert from '@mui/material/Alert';
 import Button from '@mui/material/Button';
@@ -19,8 +20,9 @@ import { Controller, useForm } from 'react-hook-form';
 import { z as zod } from 'zod';
 
 import { paths } from '@/paths';
-import { authClient } from '@/lib/auth/client';
 import { useUser } from '@/hooks/use-user';
+
+import { UserSignUp } from './model/UserSignUp';
 
 const schema = zod.object({
   firstName: zod.string().min(1, { message: 'First name is required' }),
@@ -38,6 +40,7 @@ export const SignUpForm = (): React.JSX.Element => {
   const router = useRouter();
 
   const { checkSession } = useUser();
+  const { signUp } = useAuthentication();
 
   const [isPending, setIsPending] = React.useState<boolean>(false);
 
@@ -48,24 +51,49 @@ export const SignUpForm = (): React.JSX.Element => {
     formState: { errors },
   } = useForm<Values>({ defaultValues, resolver: zodResolver(schema) });
 
+  // const onSubmit = React.useCallback(
+  //   async (values: Values): Promise<void> => {
+  //     setIsPending(true);
+
+  //     const { error } = await authClient.signUp(values);
+
+  //     if (error) {
+  //       setError('root', { type: 'server', message: error });
+  //       setIsPending(false);
+  //       return;
+  //     }
+
+  //     // Refresh the auth state
+  //     await checkSession?.();
+
+  //     // UserProvider, for this case, will not refresh the router
+  //     // After refresh, GuestGuard will handle the redirect
+  //     router.refresh();
+  //   },
+  //   [checkSession, router, setError]
+  // );
+
   const onSubmit = React.useCallback(
     async (values: Values): Promise<void> => {
       setIsPending(true);
 
-      const { error } = await authClient.signUp(values);
+      const userSignUp: UserSignUp = {
+        firstName: values.firstName,
+        lastName: values.lastName,
+        email: values.email,
+        password: values.password,
+        repeatPassword: values.password,
+      };
 
-      if (error) {
-        setError('root', { type: 'server', message: error });
+      try {
+        await signUp(userSignUp);
+        await checkSession?.();
+        router.refresh();
+      } catch (err) {
+        setError('root', { type: 'server', message: 'Sign up failed' });
         setIsPending(false);
         return;
       }
-
-      // Refresh the auth state
-      await checkSession?.();
-
-      // UserProvider, for this case, will not refresh the router
-      // After refresh, GuestGuard will handle the redirect
-      router.refresh();
     },
     [checkSession, router, setError]
   );
@@ -150,7 +178,7 @@ export const SignUpForm = (): React.JSX.Element => {
           </Button>
         </Stack>
       </form>
-    {/*  <Alert color="warning">Created users are not persisted</Alert> */}
+      {/*  <Alert color="warning">Created users are not persisted</Alert> */}
     </Stack>
   );
-}
+};

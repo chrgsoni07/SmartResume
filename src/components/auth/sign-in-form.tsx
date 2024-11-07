@@ -16,6 +16,7 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { Eye as EyeIcon } from '@phosphor-icons/react/dist/ssr/Eye';
 import { EyeSlash as EyeSlashIcon } from '@phosphor-icons/react/dist/ssr/EyeSlash';
+import { AxiosResponse } from 'axios';
 import { Controller, useForm } from 'react-hook-form';
 import { GoogleLoginButton, LinkedInLoginButton } from 'react-social-login-buttons';
 import { z as zod } from 'zod';
@@ -35,7 +36,7 @@ type Values = zod.infer<typeof schema>;
 
 //const defaultValues = { email: 'sofia@devias.io', password: 'Secret1' } satisfies Values;
 
-const defaultValues = { email: 'chrgsoni07@gmail.com', password: 'Secret1' } satisfies Values;
+const defaultValues = { email: 'john.dow@example.com', password: 'SecurePassword12345' } satisfies Values;
 
 export const SignInForm = (): React.JSX.Element => {
   const router = useRouter();
@@ -45,7 +46,7 @@ export const SignInForm = (): React.JSX.Element => {
   const [showPassword, setShowPassword] = React.useState<boolean>();
 
   const [isPending, setIsPending] = React.useState<boolean>(false);
-  const { login, isLoggedIn } = useAuthentication();
+  const { login } = useAuthentication();
 
   const styles = {
     centerText: {
@@ -71,20 +72,26 @@ export const SignInForm = (): React.JSX.Element => {
   const onSubmit = React.useCallback(
     async (values: Values): Promise<void> => {
       setIsPending(true);
-
       const userSignIn: UserSignIn = { email: values.email, password: values.password };
 
       try {
-        await login(userSignIn);
-        await checkSession?.();
-        router.refresh();
+        const response: AxiosResponse = await login(userSignIn);
+        if (response.status === 200) {
+          setIsPending(true);
+          await checkSession?.();
+          router.refresh();
+          router.push('/dashboard');
+        } else {
+          setError('root', { type: 'server', message: response.data || 'Login failed' });
+        }
       } catch (err) {
-        setError('root', { type: 'server', message: 'Login failec' });
+        console.error('Login error:', err);
+        setError('root', { type: 'server', message: 'Login failed' });
       } finally {
         setIsPending(false);
       }
     },
-    [checkSession, router, setError, login]
+    [checkSession, router, setError]
   );
 
   return (

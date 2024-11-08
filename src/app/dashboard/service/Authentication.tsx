@@ -6,7 +6,7 @@ import { UserSignIn } from '@/components/auth/model/UserSignIn';
 import { UserSignUp } from '@/components/auth/model/UserSignUp';
 import { Cookie } from '@/components/auth/util/Cookie';
 
-import { API_NEW } from './api';
+import { Authentication_API } from './api';
 
 const defaultLoginUserInfo: LoginUserInfo = {
   authToken: '',
@@ -22,7 +22,7 @@ const useAuthentication = () => {
 
   const login = async (userSignIn: UserSignIn) => {
     try {
-      const response = await axios.post(API_NEW.login, userSignIn, {
+      const response = await axios.post(Authentication_API.login, userSignIn, {
         withCredentials: true,
       });
       return parseAuthResponse(response); // Ensure this function returns relevant data
@@ -55,7 +55,7 @@ const useAuthentication = () => {
 
   const signUp = async (user: UserSignUp) => {
     try {
-      const response = await axios.post(API_NEW.signUp, user);
+      const response = await axios.post(Authentication_API.signUp, user);
       const token = generateToken();
       localStorage.setItem('custom-auth-token', token);
       console.log('resposne', response);
@@ -83,7 +83,7 @@ const useAuthentication = () => {
     Cookie.delete('RefreshToken');
     localStorage.removeItem('currentUser');
 
-    return await axios.post(API_NEW.logout, {
+    return await axios.post(Authentication_API.logout, {
       token: authToken,
       refreshToken: refreshToken,
     });
@@ -94,7 +94,7 @@ const useAuthentication = () => {
     params.append('email', email);
     params.append('guestUserToken', guestUserToken);
 
-    return await axios.get(API_NEW.guestAuthentication, {
+    return await axios.get(Authentication_API.guestAuthentication, {
       params: params,
       withCredentials: true,
     });
@@ -104,7 +104,7 @@ const useAuthentication = () => {
     const params = new URLSearchParams();
     params.set('email', email);
 
-    return await axios.get(API_NEW.confirmEmail, { params: params });
+    return await axios.get(Authentication_API.confirmEmail, { params: params });
   };
 
   return {

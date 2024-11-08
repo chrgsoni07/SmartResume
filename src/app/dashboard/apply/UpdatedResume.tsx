@@ -23,7 +23,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import EditablePreview from '../resume/EditablePreview';
 import { type Resume } from '../resume/Resume';
 import { ResumeEvalResult, SuggestedImprovement } from '../resume/ResumeEvalResult';
-import { assessResumeFit, getSavedResumeByUserId, saveJobSpecificResume, saveResume } from '../service/api';
+import { assessResumeFit, getAllResumeOfUser, saveJobSpecificResume, saveResume } from '../service/api';
 
 const UpdatedResume: FC = () => {
   const [updatedResume, setUpdatedResume] = useState<Resume>();
@@ -53,7 +53,7 @@ const UpdatedResume: FC = () => {
     isLoading,
     error,
     data: allResume,
-  } = useQuery({ queryKey: ['getSavedResume'], queryFn: () => getSavedResumeByUserId(), refetchOnWindowFocus: false });
+  } = useQuery({ queryKey: ['getSavedResume'], queryFn: () => getAllResumeOfUser(), refetchOnWindowFocus: false });
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;

@@ -29,18 +29,9 @@ const FileUpload: FC = () => {
     },
   });
 
-  const getJWTToken = () => {
-    const tokenString = localStorage.getItem('custom-auth-token');
-    if (tokenString) {
-      const tokenObject = JSON.parse(tokenString);
-      return tokenObject.authToken;
-    }
-    return null;
-  };
-
   const { data: savedResume, mutate: postSave } = useMutation({
     mutationFn: (rData: Resume): Promise<Resume> => {
-      return saveResume(rData, getJWTToken());
+      return saveResume(rData);
     },
     onSuccess(data) {
       toast.success('Resume saved successfully !');

@@ -54,13 +54,6 @@ class AuthClient {
   async signInWithPassword(params: SignInWithPasswordParams): Promise<{ error?: string }> {
     const { email, password } = params;
 
-    // Make API request
-
-    // We do not handle the API, so we'll check if the credentials match with the hardcoded ones.
-    // if (email !== 'sofia@devias.io' || password !== 'Secret1') {
-    //   return { error: 'Invalid credentials' };
-    // }
-
     if (email !== 'chrgsoni07@gmail.com' || password !== 'Secret1') {
       return { error: 'Invalid credentials' };
     }

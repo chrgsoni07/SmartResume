@@ -5,7 +5,6 @@ import Stack from '@mui/material/Stack';
 import { Toaster } from 'react-hot-toast';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 
-import JobForm from '../apply/JobForm';
 import TemplateSelectionPage from '../template/TemplateSelectionPage';
 import FileUpload from './FileUpload';
 

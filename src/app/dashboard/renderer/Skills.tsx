@@ -61,33 +61,16 @@ const Skills = ({ skills }: { skills?: string[] }) => {
         <Text style={styles.skills}>{skills.join(', ')}</Text>;
       </View>
     );
-  } return (
-      <View>
-        <Title>Skills</Title>
-        <List>
-          {skills.map((skill, index) => (
-            <Item key={index}>{skill}</Item>
-          ))}
-        </List>
-      </View>
-    );
-}
-
-// // Skills component
-// function Skills({ skills }: { skills?: String[] }) {
-//   return (
-//     <View>
-//       <Title>Skills</Title>
-//       <SkillEntry
-//         name="Combat Abilities"
-//         skills={[
-//           'Completed Jedi Master training and built a lightsaber from scratch in order to do battle against the Empire',
-//           'Defeated the Rancor and rescued Princess Leia from Jabba the Hutt',
-//           'Competent fighter pilot as well as an excellent shot with nearly any weapon',
-//         ]}
-//       />
-//     </View>
-//   );
-// }
-
+  }
+  return (
+    <View>
+      <Title>Skills</Title>
+      <List>
+        {skills.map((skill, index) => (
+          <Item key={index}>{skill}</Item>
+        ))}
+      </List>
+    </View>
+  );
+};
 export default Skills;

@@ -4,7 +4,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { Chip, Divider, Grid, IconButton, Popover, TextareaAutosize, TextField, Typography } from '@mui/material';
 import { MuiChipsInput } from 'mui-chips-input';
 
-import { type Resume, type Suggestion } from './Resume';
+import Certifications from '../renderer/Certifications';
+import { Projects, type Resume, type Suggestion } from './Resume';
 
 type PropTypes = {
   resumeData: Resume;
@@ -54,8 +55,18 @@ const EditablePreview: React.FC<PropTypes> = ({ resumeData, setResumeData }) => 
     setResumeData({ ...resumeData, workExperience: copyWorkExperience });
   };
 
+  const handelProjectsDetails = (newValue: string, prjIndex: number, detailIndex: number) => {
+    const copyProjects = [...resumeData.projects];
+    copyProjects[prjIndex].details[detailIndex] = newValue;
+    setResumeData({ ...resumeData, projects: copyProjects });
+  };
+
   const handelSkillChange = (e: any) => {
     setResumeData({ ...resumeData, skills: e });
+  };
+
+  const handelCertificationChange = (e: any) => {
+    setResumeData({ ...resumeData, certifications: e });
   };
 
   function removeResponsibility(expIndex: number, respIndex: number): void {
@@ -77,12 +88,43 @@ const EditablePreview: React.FC<PropTypes> = ({ resumeData, setResumeData }) => 
     handelWorkExOnAchievements('', expIndex, resumeData.workExperience[expIndex].achievements.length);
   }
 
+  function addProjectDetail(prjIndex: number): void {
+    if (!resumeData.projects[prjIndex].details) {
+      resumeData.projects[prjIndex].details = []; //
+      return;
+    }
+    handelProjectsDetails('', prjIndex, resumeData.projects[prjIndex].details.length);
+  }
+
+  const addProject = () => {
+    const newProject: Projects = {
+      name: '',
+      year: '',
+      description: '',
+      details: [],
+      technologies: [],
+    };
+
+    const updatedResumeData = { ...resumeData };
+    if (updatedResumeData.projects) updatedResumeData.projects.push(newProject);
+    else updatedResumeData.projects = [newProject];
+    setResumeData(updatedResumeData);
+  };
+
   function removeAchivements(index: number, achIndex: number): void {
     const filterdAch = resumeData.workExperience[index].achievements.filter((_, i) => i !== achIndex);
     const updateResumeData = { ...resumeData };
     updateResumeData.workExperience[index].achievements = filterdAch;
     setResumeData(updateResumeData);
   }
+
+  function removeProjectDetails(index: number, detailIndex: number): void {
+    const filterdDetails = resumeData.projects[index].details.filter((_, i) => i !== detailIndex);
+    const updateResumeData = { ...resumeData };
+    updateResumeData.projects[index].details = filterdDetails;
+    setResumeData(updateResumeData);
+  }
+
   const isMatchingSuggestion = (responsibility: string) => {
     return suggestionArray.find((suggestion) => suggestion.originalText === responsibility);
   };
@@ -221,6 +263,20 @@ const EditablePreview: React.FC<PropTypes> = ({ resumeData, setResumeData }) => 
                 ))}
             </>
           )}
+        </Grid>
+      </Grid>
+
+      <Grid container spacing={1}>
+        <Grid item xs={12}>
+          {resumeData.certifications ? (
+            <MuiChipsInput
+              value={resumeData.certifications} // Should use certifications here
+              onChange={handelCertificationChange}
+              label="Certifications"
+              margin="normal"
+              fullWidth
+            />
+          ) : null}{' '}
         </Grid>
       </Grid>
 
@@ -428,11 +484,16 @@ const EditablePreview: React.FC<PropTypes> = ({ resumeData, setResumeData }) => 
       </div>
 
       {/* Projects Section */}
-      <Grid container spacing={1}>
-        <Grid item xs={12}>
+      <Grid container spacing={1} alignItems="center">
+        <Grid item>
           <Typography style={{ color: '#635BFF' }} variant="subtitle1" gutterBottom>
             Projects
           </Typography>
+        </Grid>
+        <Grid item>
+          <IconButton onClick={() => addProject()} aria-label="add" color="primary">
+            +
+          </IconButton>
         </Grid>
 
         {resumeData.projects &&
@@ -498,7 +559,7 @@ const EditablePreview: React.FC<PropTypes> = ({ resumeData, setResumeData }) => 
                     </Typography>
                   </Grid>
                   <Grid item>
-                    <IconButton onClick={() => addAchievements(index)} aria-label="add" color="primary">
+                    <IconButton onClick={() => addProjectDetail(index)} aria-label="add" color="primary">
                       +
                     </IconButton>
                   </Grid>
@@ -512,7 +573,7 @@ const EditablePreview: React.FC<PropTypes> = ({ resumeData, setResumeData }) => 
                           <StyledTextareaAutosize value={prj} style={{ width: '100%', resize: 'vertical' }} />
                         </Grid>
                         <Grid item>
-                          <IconButton onClick={() => removeAchivements(index, prjIndex)} aria-label="delete">
+                          <IconButton onClick={() => removeProjectDetails(index, prjIndex)} aria-label="delete">
                             <DeleteIcon />
                           </IconButton>
                         </Grid>

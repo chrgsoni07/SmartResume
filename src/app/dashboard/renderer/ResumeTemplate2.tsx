@@ -67,6 +67,18 @@ const ResumeTemplate2 = ({ resume }: { resume: Resume }) => (
                   <Item key={index}>{resp}</Item>
                 ))}
               </List>
+
+              {/* Experience Section achievements */}
+              {exp.achievements?.length > 0 && (
+                <>
+                  <Text style={styles.jobTitle}>Achievements</Text>
+                  <List>
+                    {exp.achievements.map((achi, index) => (
+                      <Item key={index}>{achi}</Item>
+                    ))}
+                  </List>
+                </>
+              )}
             </View>
           ))}
         </View>
@@ -105,6 +117,14 @@ const ResumeTemplate2 = ({ resume }: { resume: Resume }) => (
           <Text style={styles.sectionTitle}>Skills</Text>
           <Text style={styles.skills}>{resume.skills?.join(', ')}</Text>
         </View>
+
+        {/* Certifications Section */}
+        {resume.certifications && resume.certifications.length > 0 && (
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Certifications</Text>
+            <Text style={styles.skills}>{resume.certifications?.join(', ')}</Text>
+          </View>
+        )}
       </Page>
     </Document>
   </PDFViewer>

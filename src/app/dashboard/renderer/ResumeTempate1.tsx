@@ -3,6 +3,7 @@ import { Document, Font, Page, PDFViewer, StyleSheet, View, type PageProps } fro
 
 import { type Resume } from '../resume/Resume';
 import CareerObjective from './CareerObjective';
+import Certifications from './Certifications';
 import Education from './Education';
 import Experience from './Experience';
 import Header from './Header';
@@ -81,7 +82,7 @@ const styles = StyleSheet.create({
 // Resume component
 const ResumeTemplate1: React.FC<ResumeProps> = (props) => (
   <PDFViewer width="100%" height="600">
-    <Document keywords="resume, ATS, multinational componay" title="Resume">
+    <Document keywords="resume, ATS, multinational company" title="Resume">
       <Page {...props} style={styles.page}>
         <Header
           uname={props.resume?.name!}
@@ -96,6 +97,7 @@ const ResumeTemplate1: React.FC<ResumeProps> = (props) => (
           <View style={styles.leftColumn}>
             <Education education={props.resume?.education} />
             <Skills skills={props.resume?.skills} />
+            <Certifications certifications={props.resume?.certifications} />
           </View>
           <Experience workExperience={props.resume?.workExperience} projects={props.resume?.projects} />
         </View>

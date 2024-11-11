@@ -59,14 +59,21 @@ const styles = StyleSheet.create({
     textDecoration: 'none',
     fontFamily: 'Lato Bold',
   },
+  achi: {
+    fontSize: 10,
+    color: 'black',
+    textDecoration: 'none',
+    fontFamily: 'Lato Bold',
+  },
 });
 
 interface ExperienceEntryProps {
   company: string;
-  details: string[];
+  responsibilities: string[]; // roles responsiblities
   position: string;
   date: string;
   location: string;
+  achievements: string[];
 }
 
 interface ProjectEntryProps {
@@ -77,7 +84,7 @@ interface ProjectEntryProps {
   technology: string[];
 }
 
-const ExperienceEntry: React.FC<ExperienceEntryProps> = ({ company, details, position, date, location }) => {
+const ExperienceEntry: React.FC<ExperienceEntryProps> = ({ company, responsibilities: details, achievements, position, date, location }) => {
   const title = `${company} | ${position}`;
   return (
     <View style={styles.entryContainer}>
@@ -101,6 +108,17 @@ const ExperienceEntry: React.FC<ExperienceEntryProps> = ({ company, details, pos
           <Item key={index}>{detail}</Item>
         ))}
       </List>
+
+      {achievements?.length > 0 && (
+        <>
+          <Text style={styles.achi}>Achievements</Text>
+          <List>
+            {achievements.map((achi, index) => (
+              <Item key={index}>{achi}</Item>
+            ))}
+          </List>
+        </>
+      )}
     </View>
   );
 };
@@ -134,11 +152,12 @@ const Experience = ({ workExperience, projects }: { workExperience?: WorkExperie
   return (
     <View style={styles.container}>
       <Title>Experience</Title>
-      {workExperience.map(({ company, duration, responsibilities, jobPosition, location }) => (
+      {workExperience.map(({ company, duration, responsibilities, achievements, jobPosition, location }) => (
         <ExperienceEntry
           company={company}
           date={duration}
-          details={responsibilities}
+          responsibilities={responsibilities}
+          achievements={achievements}
           key={company + jobPosition}
           position={jobPosition}
           location={location}

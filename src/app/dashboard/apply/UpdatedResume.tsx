@@ -17,6 +17,7 @@ import {
   Typography,
 } from '@mui/material';
 import { useMutation, useQuery } from '@tanstack/react-query';
+import moment from 'moment';
 import toast from 'react-hot-toast';
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -115,6 +116,7 @@ const UpdatedResume: FC = () => {
               <TableHead>
                 <TableRow>
                   <TableCell>ID</TableCell>
+                  <TableCell>Created at</TableCell>
                   <TableCell>Job Title</TableCell>
                   <TableCell>Actions</TableCell>
                 </TableRow>
@@ -123,6 +125,8 @@ const UpdatedResume: FC = () => {
                 {allResume.map((resume: Resume) => (
                   <TableRow key={resume.id}>
                     <TableCell>{resume.id}</TableCell>
+                    {/* <TableCell>{moment(resume.metadata.createdAt).format('MM/DD/YYYY HH:mm:ss')}</TableCell> */}
+                    <TableCell>{moment(resume.metadata.createdAt).format('DD-MMM-YYYY HH:mm:ss')}</TableCell>
                     <TableCell>{resume.jobTitle}</TableCell>
                     <TableCell>
                       <Button variant="contained" color="primary" onClick={() => handleSelect(resume)}>

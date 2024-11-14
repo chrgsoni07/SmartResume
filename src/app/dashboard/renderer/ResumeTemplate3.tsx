@@ -110,7 +110,6 @@ const ResumeTemplate3 = ({ resume }: { resume: Resume }) => (
                 </Text>
               </View>
             </View>
-
             {/* Education Section */}
             <View style={styles.section}>
               <Text style={styles.sectionTitle}>Education</Text>
@@ -129,20 +128,27 @@ const ResumeTemplate3 = ({ resume }: { resume: Resume }) => (
                 </View>
               ))}
             </View>
-
             {/* Skills Section */}
             <View style={styles.section}>
               <Text style={styles.sectionTitle}>Skills</Text>
               <Text style={styles.skills}>{resume.skills?.join(', ')}</Text>
             </View>
-
             {/* Certifications Section */}
             {resume.certifications && resume.certifications.length > 0 && (
               <View style={styles.section}>
                 <Text style={styles.sectionTitle}>Certifications</Text>
-                <Text style={styles.skills}>{resume.certifications?.join(', ')}</Text>
+
+                {resume.certifications.length > 6 ? (
+                  <Text style={styles.skills}>{resume.certifications.join(', ')}</Text> // Join certifications with commas
+                ) : (
+                  <List>
+                    {resume.certifications.map((cert, index) => (
+                      <Item key={index}>{cert}</Item> // List item for each certification
+                    ))}
+                  </List>
+                )}
               </View>
-            )}
+            )}{' '}
           </View>
         </View>
       </Page>

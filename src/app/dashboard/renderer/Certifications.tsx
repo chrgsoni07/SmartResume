@@ -6,8 +6,8 @@ import List, { Item } from './List';
 import Title from './Title';
 
 const Certifications = ({ certifications }: { certifications?: string[] }) => {
-  if (!certifications) {
-    return <p />;
+  if (!certifications || certifications.length === 0) {
+    return null; // If no certifications, return nothing
   }
   return (
     <View>

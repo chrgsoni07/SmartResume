@@ -23,8 +23,6 @@ const JobForm = () => {
   const handleFetch = async () => {
     const jobDetailResponse = await getJobDetailsFromURL(jobDetail.jobUrl);
 
-    console.log('job details comming from backend  ', jobDetailResponse);
-
     setJobDetail({ ...jobDetail, jobTitle: jobDetailResponse.jobTitle, jobDescription: jobDetailResponse.jobDescription });
   };
 
@@ -55,9 +53,9 @@ const JobForm = () => {
 
   return (
     <Container>
-      <Typography variant="h4">Job Form</Typography>
+      <Typography variant="h4">Provide job title and description</Typography>
       <form onSubmit={handleSubmit}>
-        <TextField
+        {/* <TextField
           label="Job Link"
           variant="outlined"
           fullWidth
@@ -71,7 +69,7 @@ const JobForm = () => {
 
         <Divider>
           <Chip label="or" size="medium" />
-        </Divider>
+        </Divider> */}
 
         <TextField
           label="Job Title"

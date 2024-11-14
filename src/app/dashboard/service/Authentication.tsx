@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import axios, { AxiosResponse } from 'axios';
+import toast from 'react-hot-toast';
 
 import { LoginUserInfo } from '@/components/auth/model/LoginUserInfo';
 import { UserSignIn } from '@/components/auth/model/UserSignIn';
@@ -56,8 +57,10 @@ const useAuthentication = () => {
   const signUp = async (user: UserSignUp) => {
     try {
       const response = await axios.post(Authentication_API.signUp, user);
-      const token = generateToken();
-      localStorage.setItem('custom-auth-token', token);
+      // const token = generateToken();
+      //localStorage.setItem('custom-auth-token', token);
+      alert('User sign-up successfully');
+      toast.success('User sign up success');
       console.log('resposne', response);
     } catch (error) {
       console.error('Login failed', error);
